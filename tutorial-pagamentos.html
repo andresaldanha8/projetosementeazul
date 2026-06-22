@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Como Funciona - Controle de Pagamentos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .tutorial-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .tutorial-header {
+            background: linear-gradient(135deg, #00CFFD 0%, #0066CC 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .tutorial-header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+
+        .step-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #28a745;
+        }
+
+        .step-card h2 {
+            color: #28a745;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .example-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .example-table th {
+            background: #00CFFD;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .example-table td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .example-table tr:hover {
+            background: #e9ecef;
+        }
+
+        .status-pendente {
+            background: #fff3cd;
+            color: #856404;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-confirmado {
+            background: #d4edda;
+            color: #155724;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .workflow-box {
+            background: #e8f4f8;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border-left: 4px solid #00CFFD;
+        }
+
+        .workflow-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px 0;
+        }
+
+        .workflow-step .number {
+            background: #00CFFD;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .highlight-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .highlight-box h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #00CFFD;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 30px;
+        }
+
+        .back-link:hover {
+            color: #0066CC;
+        }
+
+        @media (max-width: 768px) {
+            .tutorial-container {
+                padding: 10px;
+            }
+            
+            .tutorial-header {
+                padding: 30px 20px;
+            }
+            
+            .tutorial-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .step-card {
+                padding: 20px;
+            }
+            
+            .example-table {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="tutorial-container">
+        <div class="tutorial-header">
+            <h1>📊 Como Funciona o Controle de Pagamentos</h1>
+            <p>Entenda como gerenciar inscrições e pagamentos pelo Painel Administrativo do Projeto Semente Azul</p>
+        </div>
+
+        <div class="step-card">
+            <h2>🎯 Visão Geral do Sistema</h2>
+            <p>O controle de inscrições e pagamentos agora é feito totalmente pelo painel administrativo do site, de forma centralizada e segura.</p>
+            <ul>
+                <li><strong>Inscrições:</strong> Todos os participantes se inscrevem pelo site e os dados ficam disponíveis no painel.</li>
+                <li><strong>Pagamentos:</strong> A confirmação de pagamento é feita manualmente pelo administrador, após receber o comprovante do participante.</li>
+                <li><strong>Status em tempo real:</strong> O painel mostra quem está com pagamento pendente ou confirmado.</li>
+            </ul>
+        </div>
+
+        <div class="step-card">
+            <h2>� Como Confirmar um Pagamento</h2>
+            <ol>
+                <li>Receba o comprovante do participante (PIX, transferência ou dinheiro).</li>
+                <li>No painel, clique em <strong>Confirmar Pagamento</strong>.</li>
+                <li>Preencha os dados do participante e do pagamento conforme o comprovante.</li>
+                <li>Salve a confirmação. O status do participante será atualizado automaticamente.</li>
+            </ol>
+        </div>
+
+        <div class="step-card">
+            <h2>🔍 Como Consultar o Status</h2>
+            <ul>
+                <li><strong>Pagamentos Confirmados:</strong> Participantes que já tiveram o pagamento registrado pelo painel.</li>
+                <li><strong>Pagamentos Pendentes:</strong> Inscrições que ainda não tiveram confirmação de pagamento.</li>
+                <li>Use os filtros e a busca para localizar rapidamente qualquer inscrição.</li>
+            </ul>
+        </div>
+
+        <div class="step-card">
+            <h2>📤 Exportar Dados</h2>
+            <p>Você pode exportar todas as inscrições e pagamentos em formato CSV para análise ou geração de relatórios no Excel:</p>
+            <ol>
+                <li>No painel, clique em <strong>Exportar CSV</strong>.</li>
+                <li>Abra o arquivo no Excel ou Google Sheets para manipular os dados.</li>
+            </ol>
+        </div>
+
+        <div class="step-card">
+            <h2>✅ Vantagens do Novo Sistema</h2>
+            <ul>
+                <li>Centralização de todas as informações em um único painel.</li>
+                <li>Controle manual e seguro dos pagamentos.</li>
+                <li>Exportação fácil para planilhas.</li>
+                <li>Visualização rápida de pendências e confirmações.</li>
+                <li>Sem dependência de serviços externos.</li>
+            </ul>
+        </div>
+
+    <a href="admin.html" class="back-link">← Voltar ao Painel Administrativo</a>
+    </div>
+</body>
+</html>

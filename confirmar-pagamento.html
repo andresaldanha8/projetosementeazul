@@ -1,0 +1,363 @@
+
+<html lang="pt-BR"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Pagamento - 1º Autismo Run</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #00CFFD 0%, #0066CC 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .confirmation-container {
+            max-width: 700px;
+            width: 100%;
+            margin: 32px auto;
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            animation: slideUp 0.6s ease-out;
+            padding: 0 32px;
+            box-sizing: border-box;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .confirmation-header {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: #fff;
+            padding: 36px 24px 24px 24px;
+            text-align: center;
+        }
+
+        .confirmation-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .confirmation-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .confirmation-form {
+            padding: 36px 24px 24px 24px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 1rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 14px;
+            border: 1.5px solid #d0d7e2;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #28a745;
+            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+        }
+
+        .form-group.required label::after {
+            content: " *";
+            color: #e74c3c;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .info-box {
+            background: #e8f4f8;
+            border-radius: 12px;
+            padding: 18px 18px 18px 24px;
+            margin: 18px 0 28px 0;
+            border-left: 4px solid #00CFFD;
+        }
+
+        .info-box h3 {
+            color: #00CFFD;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .info-box p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .btn-confirmar {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn-confirmar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-voltar {
+            display: inline-block;
+            margin-top: 20px;
+            color: #00CFFD;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .btn-voltar:hover {
+            color: #0066CC;
+        }
+
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #c3e6cb;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .confirmation-container {
+                margin: 10px;
+            }
+            
+            .confirmation-header,
+            .confirmation-form {
+                padding: 30px 20px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            
+            .confirmation-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="confirmation-container">
+        <div class="confirmation-header">
+            <h1>💳 Confirmar Pagamento</h1>
+            <p>Registrar confirmação de pagamento de inscrição</p>
+        </div>
+        
+        <div class="confirmation-form">
+            <div class="success-message" id="successMessage">
+                ✅ <strong>Pagamento confirmado com sucesso!</strong><br>
+                O status da inscrição foi atualizado no sistema.
+            </div>
+
+            <div class="info-box">
+                <h3>📋 Instruções</h3>
+                <p>Use este formulário para confirmar pagamentos recebidos. Certifique-se de que o nome e telefone correspondem exatamente aos dados da inscrição original. Para inscrições do Futebol de Areia, inclua também o nome da equipe.</p>
+                <p><strong>Valores por modalidade:</strong></p>
+                <ul style="margin-top: 10px; margin-left: 20px;">
+                    <li>Futebol de Areia: R$ 100,00 por equipe</li>
+                    <li>Torneio de Pênaltis: R$ 50,00 por pessoa</li>
+                    <li>Beach Tennis: R$ 80,00 por pessoa</li>
+                </ul>
+            </div>
+            
+            <form id='confirmationForm' method='post' name='confirmacao-pagamento'>
+                <input type="hidden" name="form-name" value="confirmacao-pagamento">
+                <input type="hidden" name="status" value="PAGO">
+                <input type="hidden" name="tipo-acao" value="Confirmação de Pagamento">
+                <input type="hidden" name="data-confirmacao" id="dataConfirmacao" value="01/10/2025, 22:21:11">
+                
+                <div class="form-row">
+                    <div class="form-group required">
+                        <label for="nome">Nome Completo do Responsável</label>
+                        <input type="text" id="nome" name="nome" required="" placeholder="Nome exato da inscrição">
+                    </div>
+                    
+                    <div class="form-group required">
+                        <label for="telefone">Telefone/WhatsApp</label>
+                        <input type="tel" id="telefone" name="telefone" required="" placeholder="(xx) xxxxx-xxxx">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="nomeEquipe">Nome da Equipe (Para Futebol de Areia)</label>
+                    <input type="text" id="nomeEquipe" name="nomeEquipe" placeholder="Nome da equipe (se aplicável)">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group required">
+                        <label for="valor-pago">Valor Pago</label>
+                        <select id="valor-pago" name="valor-pago" required="">
+                            <option value="">Selecione o valor</option>
+                            <option value="R$ 100,00">R$ 100,00 (Futebol de Areia)</option>
+                            <option value="R$ 80,00">R$ 80,00 (Beach Tennis)</option>
+                            <option value="R$ 50,00">R$ 50,00 (Pênaltis)</option>
+                            <option value="Outro">Outro valor</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group required">
+                        <label for="forma-pagamento">Forma de Pagamento</label>
+                        <select id="forma-pagamento" name="forma-pagamento" required="">
+                            <option value="">Selecione</option>
+                            <option value="PIX">PIX</option>
+                            <option value="Transferência">Transferência Bancária</option>
+                            <option value="Dinheiro">Dinheiro</option>
+                            <option value="Cartão">Cartão</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group required">
+                    <label for="modalidade">Modalidade</label>
+                    <select id="modalidade" name="modalidade" required>
+                        <option value="">Selecione a modalidade</option>
+                        <option value="Futebol de Areia">Futebol de Areia</option>
+                        <option value="Beach Tennis">Beach Tennis</option>
+                        <option value="Pênaltis">Torneio de Pênaltis</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="comprovante-info">Informações do Comprovante</label>
+                    <textarea id="comprovante-info" name="comprovante-info" rows="3" placeholder="Ex: PIX recebido em 25/09 às 14:30"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="observacoes">Observações Administrativas</label>
+                    <textarea id="observacoes" name="observacoes" rows="3" placeholder="Qualquer observação adicional sobre o pagamento"></textarea>
+                </div>
+                
+                <button type="submit" class="btn-confirmar">
+                    ✅ Confirmar Pagamento
+                </button>
+            </form>
+            
+            <a class='btn-voltar' href='https://projetosementeazul.netlify.app/admin-netlify'>← Voltar ao Painel Administrativo</a>
+        </div>
+    </div>
+
+    <script>
+        // Definir data/hora atual
+        document.getElementById('dataConfirmacao').value = new Date().toLocaleString('pt-BR');
+        
+        // Máscara para telefone
+        document.getElementById('telefone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+            value = value.replace(/(\d)(\d{4})$/, '$1-$2');
+            e.target.value = value;
+        });
+        
+        // Atualizar campos baseado na modalidade
+        document.getElementById('modalidade').addEventListener('change', function(e) {
+            const nomeEquipeField = document.getElementById('nomeEquipe');
+            const valorPago = document.getElementById('valor-pago');
+            
+            if (e.target.value === 'Futebol de Areia') {
+                nomeEquipeField.required = true;
+                nomeEquipeField.parentElement.classList.add('required');
+                valorPago.value = 'R$ 100,00';
+            } else if (e.target.value === 'Beach Tennis') {
+                nomeEquipeField.required = false;
+                nomeEquipeField.parentElement.classList.remove('required');
+                valorPago.value = 'R$ 80,00';
+            } else if (e.target.value === 'Pênaltis') {
+                nomeEquipeField.required = false;
+                nomeEquipeField.parentElement.classList.remove('required');
+                valorPago.value = 'R$ 50,00';
+            }
+        });
+
+        // Submissão do formulário
+        document.getElementById('confirmationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('Formulário submetido');
+            
+            const submitBtn = document.querySelector('.btn-confirmar');
+            submitBtn.innerHTML = '⏳ Confirmando pagamento...';
+            submitBtn.disabled = true;
+
+            // Capturar todos os dados do formulário
+            const formData = new FormData(this);
+            formData.append('status', 'PAGO');
+            formData.append('data_confirmacao', new Date().toLocaleString('pt-BR'));
+
+            // Log dos dados para debug
+            console.log('Dados sendo enviados:', Object.fromEntries(formData));
+
+            // Enviar para o Netlify
+            fetch('/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Pagamento confirmado com sucesso!');
+                    window.location.href = 'dashboard-inscricoes.html';
+                } else {
+                    throw new Error('Erro ao enviar confirmação');
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Ocorreu um erro ao processar o pagamento. Por favor, tente novamente.');
+                submitBtn.innerHTML = '✅ Confirmar Pagamento';
+                submitBtn.disabled = false;
+            });
+        });
+    </script>
+
+</body></html>

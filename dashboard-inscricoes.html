@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Inscrições - 1º Autismo Run</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #00CFFD 0%, #0066CC 100%);
+            color: white;
+            padding: 25px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s ease;
+            border-left: 5px solid;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .total-card {
+            border-left-color: #3498db;
+        }
+
+        .paid-card {
+            border-left-color: #27ae60;
+        }
+
+        .pending-card {
+            border-left-color: #f39c12;
+        }
+
+        .revenue-card {
+            border-left-color: #9b59b6;
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            opacity: 0.8;
+        }
+
+        .stat-content {
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #27ae60;
+        }
+
+        .pending-card .stat-value {
+            color: #f39c12;
+        }
+
+        .stat-progress {
+            background: #ecf0f1;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            transition: width 0.8s ease;
+        }
+
+        .actions-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .actions-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .actions-search {
+            flex: 1;
+            min-width: 280px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 15px;
+            border: 2px solid #e1e8f0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #00CFFD;
+            box-shadow: 0 0 0 3px rgba(0, 207, 253, 0.1);
+        }
+
+        .search-select {
+            padding: 10px 15px;
+            border: 2px solid #e1e8f0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background-color: white;
+            min-width: 150px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .search-select:focus {
+            outline: none;
+            border-color: #00CFFD;
+            box-shadow: 0 0 0 3px rgba(0, 207, 253, 0.1);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-atualizar {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-atualizar:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+
+        .btn-exportar {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .btn-exportar:hover {
+            background: #138496;
+            transform: translateY(-1px);
+        }
+
+        .btn-pagamento {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-pagamento:hover {
+            background: #e0a800;
+            transform: translateY(-1px);
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .table thead {
+            background: linear-gradient(135deg, #00CFFD 0%, #0066CC 100%);
+        }
+
+        .table th {
+            color: white;
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .table td {
+            padding: 18px 15px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        /* Larguras específicas para cada coluna */
+        .table th:nth-child(1), .table td:nth-child(1) { width: 20%; min-width: 180px; } /* Nome Completo */
+        .table th:nth-child(2), .table td:nth-child(2) { width: 10%; min-width: 120px; } /* Telefone */
+        .table th:nth-child(3), .table td:nth-child(3) { width: 15%; min-width: 160px; } /* Email */
+        .table th:nth-child(4), .table td:nth-child(4) { width: 6%; min-width: 60px; text-align: center; } /* Idade */
+        .table th:nth-child(5), .table td:nth-child(5) { width: 12%; min-width: 120px; } /* Nome do Parceiro */
+        .table th:nth-child(6), .table td:nth-child(6) { width: 10%; min-width: 100px; text-align: center; } /* Categoria */
+        .table th:nth-child(7), .table td:nth-child(7) { width: 8%; min-width: 85px; text-align: center; } /* Data */
+        .table th:nth-child(8), .table td:nth-child(8) { width: 7%; min-width: 65px; text-align: center; } /* Horário */
+        .table th:nth-child(9), .table td:nth-child(9) { width: 10%; min-width: 100px; text-align: center; } /* Status Pagamento */
+        .table th:nth-child(10), .table td:nth-child(10) { width: 5%; min-width: 50px; text-align: center; } /* Ações */
+
+        .table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-align: center;
+            display: inline-block;
+            min-width: 80px;
+        }
+
+        .status-pago {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-pendente {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .categoria-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .categoria-iniciante {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .categoria-avancado {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .categoria-intermediario {
+            background: #e8f5e8;
+            color: #388e3c;
+        }
+
+        .categoria-beachtenis {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+
+
+        .data-hora {
+            font-size: 0.85rem;
+            color: #666;
+            white-space: nowrap;
+        }
+
+        .parceiro-nome {
+            font-size: 0.9rem;
+            color: #495057;
+            font-weight: 500;
+        }
+
+        /* Melhor alinhamento para elementos específicos */
+        .table td:nth-child(1) { /* Nome Completo */
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .table td:nth-child(2) { /* Telefone */
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .table td:nth-child(3) { /* Email */
+            font-size: 0.85rem;
+            max-width: 160px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #00CFFD;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            padding: 10px 0;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #0066CC;
+        }
+
+        .btn-excluir {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+        }
+
+        .btn-excluir:hover {
+            background: #c82333;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
+        }
+
+        .btn-excluir:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 1200px) {
+            .table-container {
+                overflow-x: auto;
+            }
+            
+            .table {
+                min-width: 1300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .stats-cards {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                margin-bottom: 20px;
+            }
+            
+            .stat-card {
+                padding: 20px;
+                gap: 15px;
+            }
+            
+            .stat-icon {
+                font-size: 2rem;
+            }
+            
+            .stat-number {
+                font-size: 1.6rem;
+            }
+            
+            .actions-bar {
+                flex-direction: column;
+            }
+            
+            .btn {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-cards {
+                gap: 10px;
+            }
+            
+            .stat-card {
+                padding: 15px;
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .stat-icon {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Estilos para os cards por modalidade */
+        .modalidade-section {
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .modalidade-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            padding-left: 10px;
+            border-left: 4px solid #00CFFD;
+        }
+
+        .modalidade-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        .modalidade-stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            border-left: 3px solid;
+        }
+
+        .modalidade-stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .modalidade-stat-label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .modalidade-stat-number {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .modalidade-stat-value {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 3px;
+        }
+
+        .beach-tennis-card { border-left-color: #ff9800; }
+        .futebolareia-card { border-left-color: #4caf50; }
+        .penalti-card { border-left-color: #2196f3; }
+
+        .beach-tennis-value { color: #ff9800; }
+        .futebolareia-value { color: #4caf50; }
+        .penalti-value { color: #2196f3; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📊 Gerenciador de Inscrições</h1>
+        <p>1º Autismo Run - Painel Principal</p>
+    </div>
+
+    <div class="container">
+        <!-- Cards de estatísticas -->
+        <div class="stats-cards">
+            <div class="stat-card total-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-content">
+                    <div class="stat-number" id="totalInscricoes">0</div>
+                    <div class="stat-label">Total de Inscrições</div>
+                </div>
+            </div>
+            
+            <div class="stat-card paid-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-content">
+                    <div class="stat-number" id="totalPago">0</div>
+                    <div class="stat-label">Pagamentos Confirmados</div>
+                    <div class="stat-value" id="valorRecebido">R$ 0,00</div>
+                </div>
+            </div>
+            
+            <div class="stat-card pending-card">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-content">
+                    <div class="stat-number" id="totalPendente">0</div>
+                    <div class="stat-label">Pagamentos Pendentes</div>
+                    <div class="stat-value" id="valorPendente">R$ 0,00</div>
+                </div>
+            </div>
+            
+            <div class="stat-card revenue-card">
+                <div class="stat-icon">🏆</div>
+                <div class="stat-content">
+                    <div class="stat-number" id="totalPrevisto">R$ 0,00</div>
+                    <div class="stat-label">Receita Total Prevista</div>
+                    <div class="stat-progress">
+                        <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cards por Modalidade -->
+        <div class="modalidade-section">
+            <h3 class="modalidade-title">🎾 Beach Tennis</h3>
+            <div class="modalidade-cards">
+                <div class="modalidade-stat-card beach-tennis-card">
+                    <div class="modalidade-stat-label">Total de Inscrições</div>
+                    <div class="modalidade-stat-number" id="beachtennis-total">0</div>
+                </div>
+                <div class="modalidade-stat-card beach-tennis-card">
+                    <div class="modalidade-stat-label">Pagamentos Confirmados</div>
+                    <div class="modalidade-stat-number" id="beachtennis-confirmados">0</div>
+                    <div class="modalidade-stat-value beach-tennis-value" id="beachtennis-valor-confirmado">R$ 0,00</div>
+                </div>
+                <div class="modalidade-stat-card beach-tennis-card">
+                    <div class="modalidade-stat-label">Pagamentos Pendentes</div>
+                    <div class="modalidade-stat-number" id="beachtennis-pendentes">0</div>
+                    <div class="modalidade-stat-value beach-tennis-value" id="beachtennis-valor-pendente">R$ 0,00</div>
+                </div>
+                <div class="modalidade-stat-card beach-tennis-card">
+                    <div class="modalidade-stat-label">Receita Total Prevista</div>
+                    <div class="modalidade-stat-number" id="beachtennis-receita">R$ 0,00</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modalidade-section">
+            <h3 class="modalidade-title">⚽ Futebol de Areia</h3>
+            <div class="modalidade-cards">
+                <div class="modalidade-stat-card futebolareia-card">
+                    <div class="modalidade-stat-label">Total de Inscrições</div>
+                    <div class="modalidade-stat-number" id="futebolareia-total">0</div>
+                </div>
+                <div class="modalidade-stat-card futebolareia-card">
+                    <div class="modalidade-stat-label">Pagamentos Confirmados</div>
+                    <div class="modalidade-stat-number" id="futebolareia-confirmados">0</div>
+                    <div class="modalidade-stat-value futebolareia-value" id="futebolareia-valor-confirmado">R$ 0,00</div>
+                </div>
+                <div class="modalidade-stat-card futebolareia-card">
+                    <div class="modalidade-stat-label">Pagamentos Pendentes</div>
+                    <div class="modalidade-stat-number" id="futebolareia-pendentes">0</div>
+                    <div class="modalidade-stat-value futebolareia-value" id="futebolareia-valor-pendente">R$ 0,00</div>
+                </div>
+                <div class="modalidade-stat-card futebolareia-card">
+                    <div class="modalidade-stat-label">Receita Total Prevista</div>
+                    <div class="modalidade-stat-number" id="futebolareia-receita">R$ 0,00</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modalidade-section">
+            <h3 class="modalidade-title">⚽ Torneio de Pênaltis</h3>
+            <div class="modalidade-cards">
+                <div class="modalidade-stat-card penalti-card">
+                    <div class="modalidade-stat-label">Total de Inscrições</div>
+                    <div class="modalidade-stat-number" id="penalti-total">0</div>
+                </div>
+                <div class="modalidade-stat-card penalti-card">
+                    <div class="modalidade-stat-label">Pagamentos Confirmados</div>
+                    <div class="modalidade-stat-number" id="penalti-confirmados">0</div>
+                    <div class="modalidade-stat-value penalti-value" id="penalti-valor-confirmado">R$ 0,00</div>
+                </div>
+                <div class="modalidade-stat-card penalti-card">
+                    <div class="modalidade-stat-label">Pagamentos Pendentes</div>
+                    <div class="modalidade-stat-number" id="penalti-pendentes">0</div>
+                    <div class="modalidade-stat-value penalti-value" id="penalti-valor-pendente">R$ 0,00</div>
+                </div>
+                <div class="modalidade-stat-card penalti-card">
+                    <div class="modalidade-stat-label">Receita Total Prevista</div>
+                    <div class="modalidade-stat-number" id="penalti-receita">R$ 0,00</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions-bar">
+            <div class="actions-group">
+                <button class="btn btn-atualizar" id="btnAtualizar">
+                    🔄 Atualizar Dados
+                </button>
+                <button class="btn btn-exportar" id="btnExportar">
+                    📊 Exportar CSV
+                </button>
+                <button class="btn btn-pagamento" id="btnPagamento">
+                    💳 Confirmar Pagamento
+                </button>
+            </div>
+            <div class="actions-search">
+                <input type="text" id="searchNome" placeholder="🔍 Buscar por nome..." class="search-input">
+                <select id="filterModalidade" class="search-select">
+                    <option value="">🎯 Todas Modalidades</option>
+                    <option value="Beach Tennis">🎾 Beach Tennis</option>
+                    <option value="Futebol de Areia">⚽ Futebol de Areia</option>
+                    <option value="Pênaltis">⚽ Pênaltis</option>
+                </select>
+                <select id="filterStatus" class="search-select">
+                    <option value="">💰 Todos Status</option>
+                    <option value="Pago">✅ Pago</option>
+                    <option value="Pendente">⏳ Pendente</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nome Completo</th>
+                        <th>Telefone</th>
+                        <th>Email</th>
+                        <th>Idade</th>
+                        <th>Nome da Equipe</th>
+                        <th>Modalidade</th>
+                        <th>Data</th>
+                        <th>Horário</th>
+                        <th>Status Pagamento</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Os dados serão carregados dinamicamente via API do Netlify -->
+                </tbody>
+            </table>
+        </div>
+
+        <a href="admin.html" class="back-link">
+            ← Voltar para as configurações
+        </a>
+    </div>
+
+    <script>
+
+        // Função para buscar inscrições do backend PHP/MySQL
+        async function buscarInscricoesBackend() {
+            try {
+                const response = await fetch('listar_inscricoes.php');
+                if (!response.ok) {
+                    throw new Error(`Erro na API: ${response.status} - ${response.statusText}`);
+                }
+                const inscricoes = await response.json();
+                return inscricoes;
+            } catch (error) {
+                console.error('Erro ao buscar inscrições:', error);
+                throw error;
+            }
+        }
+
+        // Função para sincronizar status de pagamento com verificação específica por modalidade
+        function sincronizarStatusPagamento(inscricoes, confirmacoes) {
+            // Cache para evitar reprocessamento
+            const statusCache = new Map();
+
+            return inscricoes.map(inscricao => {
+                const data = inscricao.data || {};
+                const nomeInscricao = (data.nome || '').toLowerCase().trim();
+                let telefoneInscricao = (data.telefone || '').replace(/\D/g, '');
+                
+                // Adicionar 55 se o telefone não começar com 55 (formato internacional)
+                if (telefoneInscricao && !telefoneInscricao.startsWith('55')) {
+                    telefoneInscricao = '55' + telefoneInscricao;
+                }
+
+                // Criar chave de cache específica para modalidade e adicionar valor
+                const cacheKey = `${nomeInscricao}:${telefoneInscricao}:${inscricao.modalidade}`;
+                if (statusCache.has(cacheKey)) {
+                    return { ...inscricao, ...statusCache.get(cacheKey) };
+                }
+                
+                // Definir valor baseado na modalidade
+                inscricao.valorInscricao = (() => {
+                    switch(inscricao.modalidade) {
+                        case 'inscricoes-futebolareia':
+                            return 100;
+                        case 'inscricoes-beachtenis':
+                            return 80;
+                        default:
+                            return 50;
+                    }
+                })();
+
+                // Filtrar confirmações específicas para esta modalidade
+                const confirmacoesModalidade = confirmacoes.filter(conf => {
+                    const confData = conf.data || {};
+                    const modalidadeConfirmacao = confData.modalidade || '';
+                    
+                    // Verificar correspondência exata da modalidade
+                    const modalidadeMatch = 
+                        (inscricao.modalidade === 'inscricoes-penalti' && modalidadeConfirmacao === 'Pênaltis') ||
+                        (inscricao.modalidade === 'inscricoes-futebolareia' && modalidadeConfirmacao === 'Futebol de Areia') ||
+                        (inscricao.modalidade === 'inscricoes-beachtenis' && modalidadeConfirmacao === 'Beach Tennis');
+
+                    if (modalidadeMatch) {
+                        console.log(`Confirmação encontrada para ${nomeInscricao} na modalidade ${modalidadeConfirmacao}`);
+                        return true;
+                    }
+                    return false;
+                });
+
+                // Procurar confirmação correspondente apenas entre as confirmações da mesma modalidade
+                const confirmacao = confirmacoesModalidade.find(conf => {
+                    const confData = conf.data || {};
+                    const nomeConfirmacao = (confData.nome || '').toLowerCase().trim();
+                    let telefoneConfirmacao = (confData.telefone || '').replace(/\D/g, '');
+                    
+                    // Adicionar 55 se o telefone não começar com 55
+                    if (telefoneConfirmacao && !telefoneConfirmacao.startsWith('55')) {
+                        telefoneConfirmacao = '55' + telefoneConfirmacao;
+                    }
+                    
+                    // Comparação exata de nomes (apenas removendo acentos)
+                    const nomeMatch = nomeInscricao.normalize('NFD').replace(/[\u0300-\u036f]/g, '') ===
+                                     nomeConfirmacao.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                    
+                    // Comparação completa de telefones
+                    const telefoneMatch = telefoneInscricao === telefoneConfirmacao;
+                    
+                    return nomeMatch && telefoneMatch;
+                });
+
+                // Atualizar status baseado na confirmação
+                if (confirmacao) {
+                    inscricao.statusPagamento = 'Pago';
+                    inscricao.confirmacaoData = confirmacao.data;
+                } else {
+                    inscricao.statusPagamento = data['status-pagamento'] || 'Pendente';
+                }
+
+                return inscricao;
+            });
+        }
+
+        // Função para atualizar cards de estatísticas
+        function atualizarCards(inscricoes) {
+            const totalInscricoes = inscricoes.length;
+            const inscricoesPagas = inscricoes.filter(i => i.status === 'PAGO');
+            const inscricoesPendentes = inscricoes.filter(i => i.status !== 'PAGO');
+            const totalPago = inscricoesPagas.length;
+            const totalPendente = inscricoesPendentes.length;
+
+            // Separar inscrições por modalidade
+            const beachTennis = inscricoes.filter(i => i.modalidade === 'Beach Tennis');
+            const futebolAreia = inscricoes.filter(i => i.modalidade === 'Futebol de Areia');
+            const penalti = inscricoes.filter(i => i.modalidade === 'Pênaltis');
+
+            function somarValores(arr) {
+                return arr.reduce((soma, i) => soma + (parseFloat((i.valor_pago||'').replace('R$', '').replace(',', '.')) || 0), 0);
+            }
+
+            function calcularEstatisticas(modalidadeInscricoes, valorBase) {
+                const pagos = modalidadeInscricoes.filter(i => i.status === 'PAGO');
+                const pendentes = modalidadeInscricoes.filter(i => i.status !== 'PAGO');
+                return {
+                    total: modalidadeInscricoes.length,
+                    confirmados: pagos.length,
+                    pendentes: pendentes.length,
+                    valorConfirmado: somarValores(pagos),
+                    valorPendente: (modalidadeInscricoes.length - pagos.length) * valorBase,
+                    receitaPrevista: modalidadeInscricoes.length * valorBase
+                };
+            }
+
+            const statsBeachTennis = calcularEstatisticas(beachTennis, 80);
+            const statsFutebolAreia = calcularEstatisticas(futebolAreia, 100);
+            const statsPenalti = calcularEstatisticas(penalti, 50);
+
+            function atualizarCardsModalidade(prefix, stats) {
+                document.getElementById(`${prefix}-total`).textContent = stats.total;
+                document.getElementById(`${prefix}-confirmados`).textContent = stats.confirmados;
+                document.getElementById(`${prefix}-pendentes`).textContent = stats.pendentes;
+                document.getElementById(`${prefix}-valor-confirmado`).textContent = 
+                    `R$ ${stats.valorConfirmado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+                document.getElementById(`${prefix}-valor-pendente`).textContent = 
+                    `R$ ${stats.valorPendente.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+                document.getElementById(`${prefix}-receita`).textContent = 
+                    `R$ ${stats.receitaPrevista.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+            }
+
+            atualizarCardsModalidade('beachtennis', statsBeachTennis);
+            atualizarCardsModalidade('futebolareia', statsFutebolAreia);
+            atualizarCardsModalidade('penalti', statsPenalti);
+
+            const valorRecebido = statsBeachTennis.valorConfirmado + statsFutebolAreia.valorConfirmado + statsPenalti.valorConfirmado;
+            const valorPendente = statsBeachTennis.valorPendente + statsFutebolAreia.valorPendente + statsPenalti.valorPendente;
+            const valorTotal = statsBeachTennis.receitaPrevista + statsFutebolAreia.receitaPrevista + statsPenalti.receitaPrevista;
+
+            const percentualPago = totalInscricoes > 0 ? (totalPago / totalInscricoes) * 100 : 0;
+
+            document.getElementById('totalInscricoes').textContent = totalInscricoes;
+            document.getElementById('totalPago').textContent = totalPago;
+            document.getElementById('totalPendente').textContent = totalPendente;
+            document.getElementById('valorRecebido').textContent = `R$ ${valorRecebido.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+            document.getElementById('valorPendente').textContent = `R$ ${valorPendente.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+            document.getElementById('totalPrevisto').textContent = `R$ ${valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+            document.getElementById('progressBar').style.width = `${percentualPago}%`;
+            animarNumeros();
+        }
+        
+        // Função para animar números dos cards
+        function animarNumeros() {
+            const cards = document.querySelectorAll('.stat-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.transform = 'scale(1.02)';
+                    setTimeout(() => {
+                        card.style.transform = 'scale(1)';
+                    }, 200);
+                }, index * 100);
+            });
+        }
+
+        // Variável global para armazenar todas as inscrições
+        let todasInscricoes = [];
+
+        // Função para filtrar inscrições
+        function filtrarInscricoes() {
+            const searchTerm = document.getElementById('searchNome').value.toLowerCase();
+            const modalidade = document.getElementById('filterModalidade').value;
+            const status = document.getElementById('filterStatus').value;
+            
+            let inscricoesFiltradas = todasInscricoes;
+
+            // Filtrar por nome
+            if (searchTerm) {
+                inscricoesFiltradas = inscricoesFiltradas.filter(inscricao => 
+                    (inscricao.data?.nome || '').toLowerCase().includes(searchTerm)
+                );
+            }
+
+            // Filtrar por modalidade
+            if (modalidade) {
+                inscricoesFiltradas = inscricoesFiltradas.filter(inscricao => {
+                    const modalidadeInscricao = (() => {
+                        switch(inscricao.modalidade) {
+                            case 'inscricoes-futebolareia': return 'Futebol de Areia';
+                            case 'inscricoes-beachtenis': return 'Beach Tennis';
+                            case 'inscricoes-penalti': return 'Pênaltis';
+                            default: return '';
+                        }
+                    })();
+                    return modalidadeInscricao === modalidade;
+                });
+            }
+
+            // Filtrar por status
+            if (status) {
+                inscricoesFiltradas = inscricoesFiltradas.filter(inscricao => 
+                    inscricao.statusPagamento === status
+                );
+            }
+
+            // Atualizar tabela com resultados filtrados
+            atualizarTabelaComDados(inscricoesFiltradas);
+        }
+
+        // Função para atualizar a tabela com dados reais
+        function atualizarTabela(inscricoes) {
+            todasInscricoes = inscricoes;
+            const tbody = document.querySelector('.table tbody');
+            tbody.innerHTML = '';
+            if (inscricoes.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="10" style="text-align: center; padding: 40px; color: #666;">
+                            📋 Nenhuma inscrição encontrada ainda.<br>
+                            <small>As inscrições aparecerão aqui após serem enviadas pelo formulário.</small>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            inscricoes.forEach(inscricao => {
+                // Formatar data e horário
+                const dataInscricao = inscricao.data_inscricao || '';
+                const horarioInscricao = inscricao.horario_inscricao || '';
+                const statusPagamento = inscricao.status === 'PAGO' ? 'Pago' : 'Pendente';
+                const statusClass = inscricao.status === 'PAGO' ? 'status-pago' : 'status-pendente';
+                const statusIcon = inscricao.status === 'PAGO' ? '✅' : '⏳';
+                const categoria = (inscricao.categoria || 'Não informado').toUpperCase();
+                let categoriaClass = 'categoria-iniciante';
+                if (categoria.includes('INTERMEDIÁRIO') || categoria.includes('INTERMEDIARIO')) {
+                    categoriaClass = 'categoria-intermediario';
+                } else if (categoria.includes('AVANÇADO') || categoria.includes('AVANCADO')) {
+                    categoriaClass = 'categoria-avancado';
+                }
+                let equipeOuParceiro = '-';
+                if (inscricao.modalidade === 'Beach Tennis') {
+                    equipeOuParceiro = inscricao.nomeDupla || 'Parceiro não informado';
+                } else if (inscricao.modalidade === 'Futebol de Areia') {
+                    equipeOuParceiro = inscricao.nomeEquipe || 'Equipe não informada';
+                }
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${inscricao.nome || 'Nome não informado'}</td>
+                    <td>${inscricao.telefone || 'Não informado'}</td>
+                    <td>${inscricao.email || 'Não informado'}</td>
+                    <td>${inscricao.idade || 'N/A'}</td>
+                    <td class="equipe-nome">${equipeOuParceiro}</td>
+                    <td><span class="categoria-badge ${categoriaClass}">${inscricao.modalidade || '-'}</span></td>
+                    <td class="data-hora">${dataInscricao}</td>
+                    <td class="data-hora">${horarioInscricao}</td>
+                    <td><span class="status-badge ${statusClass}">${statusIcon} ${statusPagamento}</span></td>
+                    <td><button class="btn-excluir" onclick="excluirInscricao(this)" title="Excluir inscrição">🗑️</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+            aplicarEfeitosHover();
+        }
+
+        // Controle para evitar múltiplas requisições
+        let carregandoAtualmente = false;
+
+        // Funcionalidades dos botões
+        document.getElementById('btnAtualizar').addEventListener('click', async function() {
+            if (carregandoAtualmente) return;
+            carregandoAtualmente = true;
+            this.innerHTML = '🔄 Buscando...';
+            this.disabled = true;
+            try {
+                const inscricoes = await buscarInscricoesBackend();
+                atualizarCards(inscricoes);
+                atualizarTabela(inscricoes);
+                this.innerHTML = '🔄 Atualizar Dados';
+                this.disabled = false;
+                const totalPago = inscricoes.filter(i => i.status === 'PAGO').length;
+                const totalPendente = inscricoes.filter(i => i.status !== 'PAGO').length;
+                const valorRecebido = inscricoes.filter(i => i.status === 'PAGO').reduce((soma, i) => soma + parseFloat(i.valor_pago.replace('R$', '').replace(',', '.')) || 0, 0);
+                if (!sessionStorage.getItem('primeiraNotificacao')) {
+                    sessionStorage.setItem('primeiraNotificacao', 'true');
+                    mostrarNotificacao(
+                        `✅ ${inscricoes.length} inscrições sincronizadas!<br>
+                        💰 R$ ${valorRecebido.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} recebidos | ⏳ ${totalPendente} pendentes`,
+                        'success'
+                    );
+                }
+            } catch (error) {
+                this.innerHTML = '🔄 Atualizar Dados';
+                this.disabled = false;
+                console.error('Erro:', error);
+                mostrarNotificacao(`❌ Erro ao carregar inscrições: ${error.message}`, 'error');
+            } finally {
+                carregandoAtualmente = false;
+            }
+        });
+
+// Funções auxiliares para cálculos
+function calcularTotalRecebido(dataRows) {
+    return dataRows.reduce((total, row) => {
+        if (row[4] === 'Pago') {
+            const valor = parseInt(row[5].replace('R$ ', '').replace(',00', ''));
+            return total + valor;
+        }
+        return total;
+    }, 0);
+}
+
+function calcularTotalPendente(dataRows) {
+    return dataRows.reduce((total, row) => {
+        if (row[4] === 'Pendente') {
+            const valor = parseInt(row[5].replace('R$ ', '').replace(',00', ''));
+            return total + valor;
+        }
+        return total;
+    }, 0);
+}
+
+function calcularTotalPrevisto(dataRows) {
+    return dataRows.reduce((total, row) => {
+        const valor = parseInt(row[5].replace('R$ ', '').replace(',00', ''));
+        return total + valor;
+    }, 0);
+}
+
+// Botão de exportação
+document.getElementById('btnExportar').addEventListener('click', function() {
+    this.innerHTML = '📊 Exportando...';
+    this.disabled = true;
+    
+    setTimeout(() => {
+        try {
+            const headers = [
+                'NOME COMPLETO',
+                'MODALIDADE',
+                'CATEGORIA',
+                'IDADE',
+                'STATUS PAGAMENTO',
+                'VALOR',
+                'DATA PAGAMENTO',
+                'MÉTODO PAGAMENTO',
+                'NOME DA EQUIPE/PARCEIRO',
+                'TELEFONE',
+                'EMAIL',
+                'DATA INSCRIÇÃO',
+                'HORÁRIO INSCRIÇÃO'
+            ];
+
+            const dataRows = todasInscricoes.map(inscricao => {
+                const data = inscricao.data || {};
+                
+                const modalidade = (() => {
+                    switch(inscricao.modalidade) {
+                        case 'inscricoes-futebolareia': return '⚽ Futebol de Areia';
+                        case 'inscricoes-beachtenis': return '🎾 Beach Tennis';
+                        case 'inscricoes-penalti': return '⚽ Torneio de Pênaltis';
+                        default: return 'Não especificado';
+                    }
+                })();
+
+                const valor = (() => {
+                    switch(inscricao.modalidade) {
+                        case 'inscricoes-futebolareia': return 'R$ 100,00';
+                        case 'inscricoes-beachtenis': return 'R$ 80,00';
+                        case 'inscricoes-penalti': return 'R$ 50,00';
+                        default: return 'R$ 0,00';
+                    }
+                })();
+
+                return [
+                    data.nome || 'Não informado',
+                    modalidade,
+                    data.categoria || 'Não especificado',
+                    data.idade || 'N/A',
+                    inscricao.statusPagamento || 'Pendente',
+                    valor,
+                    inscricao.confirmacaoData?.dataPagamento || 'Não realizado',
+                    inscricao.confirmacaoData?.metodoPagamento || 'Não informado',
+                    inscricao.modalidade === 'inscricoes-beachtenis' ? 
+                        (data.nomeDupla || 'Sem parceiro') : 
+                        (data.nomeEquipe || 'Sem equipe'),
+                    data.telefone || 'Não informado',
+                    data.email || 'Não informado',
+                    new Date(inscricao.created_at).toLocaleDateString('pt-BR'),
+                    new Date(inscricao.created_at).toLocaleTimeString('pt-BR')
+                ];
+            });
+
+            const totais = [
+                [''],
+                ['📊 RESUMO GERAL DO EVENTO:'],
+                ['Total de Participantes:', dataRows.length],
+                ['Inscrições Confirmadas (Pagas):', dataRows.filter(row => row[4] === 'Pago').length],
+                ['Inscrições Pendentes:', dataRows.filter(row => row[4] === 'Pendente').length],
+                [''],
+                ['📋 INSCRIÇÕES POR MODALIDADE:'],
+                ['🎾 Beach Tennis:', dataRows.filter(row => row[1].includes('Beach Tennis')).length],
+                ['⚽ Futebol de Areia:', dataRows.filter(row => row[1].includes('Futebol de Areia')).length],
+                ['⚽ Torneio de Pênaltis:', dataRows.filter(row => row[1].includes('Pênaltis')).length],
+                [''],
+                ['💰 RESUMO FINANCEIRO:'],
+                ['Total Recebido:', `R$ ${calcularTotalRecebido(dataRows)},00`],
+                ['Total Pendente:', `R$ ${calcularTotalPendente(dataRows)},00`],
+                ['Previsão Total:', `R$ ${calcularTotalPrevisto(dataRows)},00`]
+            ];
+
+            const BOM = '\uFEFF';
+            const csvContent = BOM + [
+                headers.join(','),
+                ...dataRows.map(row => row.map(field => `"${field}"`).join(',')),
+                '',
+                ...totais.map(row => row.join(','))
+            ].join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const fileName = `inscricoes_1_autismo_run_${new Date().toLocaleDateString('pt-BR').replace(/\//g, '-')}.csv`;
+            
+            link.href = URL.createObjectURL(blob);
+            link.download = fileName;
+            link.click();
+
+            this.innerHTML = '📊 Exportar CSV';
+            this.disabled = false;
+            mostrarNotificacao(`✅ Arquivo ${fileName} exportado com sucesso!`, 'success');
+
+        } catch (error) {
+            console.error('Erro na exportação:', error);
+            this.innerHTML = '📊 Exportar CSV';
+            this.disabled = false;
+            mostrarNotificacao('❌ Erro ao exportar dados. Tente novamente.', 'error');
+        }
+    }, 1000);
+});
+
+        document.getElementById('btnPagamento').addEventListener('click', function() {
+            window.location.href = 'confirmar-pagamento.html';
+        });
+
+        // Função para mostrar notificações
+        function mostrarNotificacao(mensagem, tipo = 'success') {
+            const notificacao = document.createElement('div');
+            const bgColor = tipo === 'success' ? '#d4edda' : '#f8d7da';
+            const textColor = tipo === 'success' ? '#155724' : '#721c24';
+            const borderColor = tipo === 'success' ? '#c3e6cb' : '#f5c6cb';
+            
+            notificacao.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${bgColor};
+                color: ${textColor};
+                padding: 15px 20px;
+                border-radius: 8px;
+                border: 1px solid ${borderColor};
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 1000;
+                font-weight: 600;
+                max-width: 400px;
+            `;
+            notificacao.innerHTML = mensagem;
+            document.body.appendChild(notificacao);
+            
+            setTimeout(() => {
+                if (notificacao.parentNode) {
+                    notificacao.remove();
+                }
+            }, 3000);
+        }
+
+        // Função para reaplicar efeitos hover
+        function aplicarEfeitosHover() {
+            const tableRows = document.querySelectorAll('.table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.001)';
+                    this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                    this.style.boxShadow = 'none';
+                });
+            });
+        }
+
+        // Função para excluir inscrição
+        function excluirInscricao(button) {
+            const row = button.closest('tr');
+            const nomeCompleto = row.querySelector('td:first-child').textContent;
+            const modalidadeElement = row.querySelector('.categoria-badge');
+            const statusElement = row.querySelector('.status-badge');
+            const modalidade = modalidadeElement.textContent.trim();
+            const status = statusElement.textContent.replace(/[✅⏳]/g, '').trim();
+            
+            // Confirmação dupla para evitar exclusões acidentais
+            if (confirm(`⚠️ Tem certeza que deseja excluir a inscrição de:\n\n"${nomeCompleto}"?\n\nEsta ação não pode ser desfeita.`)) {
+                if (confirm('🔴 CONFIRMAÇÃO FINAL\n\nClique em "OK" para confirmar a exclusão definitiva da inscrição.')) {
+                    // Animação de exclusão
+                    row.style.transition = 'all 0.5s ease-out';
+                    row.style.backgroundColor = '#ffebee';
+                    row.style.opacity = '0.5';
+                    row.style.transform = 'translateX(-20px)';
+                    
+                    // Iniciar processo de exclusão
+                    button.innerHTML = '⏳';
+                    button.disabled = true;
+                    button.style.background = '#6c757d';
+                    
+                    setTimeout(async () => {
+                        try {
+                            // Remover a linha com efeito de deslizamento
+                            row.style.height = row.offsetHeight + 'px';
+                            row.style.overflow = 'hidden';
+                            
+                            setTimeout(() => {
+                                row.style.height = '0px';
+                                row.style.padding = '0';
+                                row.style.margin = '0';
+                                row.style.borderWidth = '0';
+                                
+                                setTimeout(() => {
+                                    // Remover a inscrição do array global
+                                    const index = todasInscricoes.findIndex(inscricao => {
+                                        const data = inscricao.data || {};
+                                        return data.nome === nomeCompleto;
+                                    });
+                                    
+                                    if (index !== -1) {
+                                        todasInscricoes.splice(index, 1);
+                                    }
+
+                                    // Atualizar os cards de estatísticas
+                                    atualizarCards(todasInscricoes);
+                                    
+                                    // Remover a linha da tabela
+                                    row.remove();
+                                    
+                                    // Mostrar mensagem de sucesso
+                                    mostrarNotificacao(`✅ Inscrição de "${nomeCompleto}" excluída com sucesso!`, 'success');
+                                    
+                                }, 500);
+                            }, 100);
+                        } catch (error) {
+                            console.error('Erro ao excluir inscrição:', error);
+                            
+                            // Restaurar visual da linha
+                            row.style.backgroundColor = '';
+                            row.style.opacity = '1';
+                            row.style.transform = 'none';
+                            
+                            // Restaurar botão
+                            button.innerHTML = '🗑️';
+                            button.disabled = false;
+                            button.style.background = '#dc3545';
+                            
+                            // Mostrar erro
+                            mostrarNotificacao(`❌ Erro ao excluir inscrição: ${error.message}`, 'error');
+                        }
+                    }, 1000);
+                }
+            }
+        }
+
+        // Configurar eventos de filtro
+        document.getElementById('searchNome').addEventListener('input', filtrarInscricoes);
+        document.getElementById('filterModalidade').addEventListener('change', filtrarInscricoes);
+        document.getElementById('filterStatus').addEventListener('change', filtrarInscricoes);
+
+        // Função específica para atualizar a tabela com dados filtrados
+        function atualizarTabelaComDados(inscricoes) {
+            const tbody = document.querySelector('.table tbody');
+            tbody.innerHTML = '';
+
+            if (inscricoes.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="10" style="text-align: center; padding: 40px; color: #666;">
+                            🔍 Nenhuma inscrição encontrada com os filtros selecionados.<br>
+                            <small>Tente ajustar os critérios de busca.</small>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            inscricoes.forEach(inscricao => {
+                const data = inscricao.data || {};
+                
+                // Formatar data e horário
+                const dataInscricao = data['data-inscricao'] || new Date(inscricao.created_at).toLocaleDateString('pt-BR');
+                const horarioInscricao = data['horario-inscricao'] || new Date(inscricao.created_at).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'});
+                
+                // Status do pagamento
+                const statusPagamento = inscricao.statusPagamento || 'Pendente';
+                const statusClass = statusPagamento.toLowerCase() === 'pago' ? 'status-pago' : 'status-pendente';
+                const statusIcon = statusPagamento.toLowerCase() === 'pago' ? '✅' : '⏳';
+                
+                // Categoria
+                const categoria = (data.categoria || 'Não informado').toUpperCase();
+                let categoriaClass = 'categoria-iniciante';
+                if (categoria.includes('INTERMEDIÁRIO') || categoria.includes('INTERMEDIARIO')) {
+                    categoriaClass = 'categoria-intermediario';
+                } else if (categoria.includes('AVANÇADO') || categoria.includes('AVANCADO')) {
+                    categoriaClass = 'categoria-avancado';
+                }
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${data.nome || 'Nome não informado'}</td>
+                    <td>${data.telefone || 'Não informado'}</td>
+                    <td>${data.email || 'Não informado'}</td>
+                    <td>${data.idade || 'N/A'}</td>
+                    <td class="equipe-nome">${
+                        inscricao.modalidade === 'inscricoes-beachtenis' ? (data.nomeDupla || 'Parceiro não informado') :
+                        inscricao.modalidade === 'inscricoes-futebolareia' ? (data.nomeEquipe || 'Equipe não informada') :
+                        '-'
+                    }</td>
+                    <td><span class="categoria-badge ${categoriaClass}">${(() => {
+                        switch(inscricao.modalidade) {
+                            case 'inscricoes-futebolareia':
+                                return '⚽ Futebol de Areia';
+                            case 'inscricoes-beachtenis':
+                                return '🎾 Beach Tennis';
+                            default:
+                                return '⚽ Pênaltis';
+                        }
+                    })()}</span></td>
+                    <td class="data-hora">${dataInscricao}</td>
+                    <td class="data-hora">${horarioInscricao}</td>
+                    <td><span class="status-badge ${statusClass}">${statusIcon} ${statusPagamento}</span></td>
+                    <td><button class="btn-excluir" onclick="excluirInscricao(this)" title="Excluir inscrição">🗑️</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            // Reaplica os efeitos hover
+            aplicarEfeitosHover();
+        }
+
+        // Atualização automática a cada 2 minutos
+        let autoUpdateInterval;
+
+        function iniciarAtualizacaoAutomatica() {
+            // Limpar intervalo existente se houver
+            if (autoUpdateInterval) {
+                clearInterval(autoUpdateInterval);
+            }
+
+            // Configurar novo intervalo
+            autoUpdateInterval = setInterval(() => {
+                if (!carregandoAtualmente) {
+                    document.getElementById('btnAtualizar').click();
+                }
+            }, 120000); // 2 minutos
+        }
+
+        // Carregar inscrições ao carregar a página e configurar atualização automática
+        document.addEventListener('DOMContentLoaded', function() {
+            const tbody = document.querySelector('.table tbody');
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="10" style="text-align: center; padding: 40px; color: #666;">
+                        🔄 Carregando inscrições...<br>
+                        <small>Aguarde alguns segundos...</small>
+                    </td>
+                </tr>
+            `;
+            setTimeout(() => {
+                document.getElementById('btnAtualizar').click();
+            }, 1000);
+            iniciarAtualizacaoAutomatica();
+        });
+
+        // Limpar intervalo ao sair da página
+        window.addEventListener('beforeunload', () => {
+            if (autoUpdateInterval) {
+                clearInterval(autoUpdateInterval);
+            }
+        });
+
+        // Aplicar efeitos hover iniciais (se houver dados)
+        aplicarEfeitosHover();
+    </script>
+</body>
+</html>

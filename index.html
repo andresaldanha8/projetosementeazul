@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Projeto Semente Azul - Conscientização e Inclusão para o Autismo">
+    <title>Projeto Semente Azul</title>
+    <link rel="stylesheet" href="css/style.css?v=2.2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navegação -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="#inicio"><img src="img/logo.png" alt="Logo do Projeto Semente Azul" class="logo-img"></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#autismo">Autismo</a></li>
+                <li><a href="#galeria">Galeria</a></li>
+                <li><a href="#destaques">Destaques</a></li>
+                <li><a href="#depoimentos">Depoimentos</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+        </nav>
+    </header>
+
+
+    <!-- Ribbon Abril Azul -->
+    <div class="abril-ribbon">🔵 Abril Azul 2026</div>
+
+    <!-- Início -->
+    <section id="inicio" class="hero">
+
+      <!-- Fundo: peças de puzzle flutuantes -->
+      <div class="puzzle-bg" id="puzzleBg"></div>
+
+      <!-- Partículas de luz -->
+      <div class="hero-particles" id="heroParticles"></div>
+
+      <!-- Conteúdo -->
+      <div class="hero-content">
+
+        <!-- Badge -->
+        <div class="badge-abril">
+          <div class="badge-dot"></div>
+          <span>Mês de Conscientização do Autismo</span>
+        </div>
+
+        <!-- Logo com anéis -->
+        <div class="hero-logo">
+          <div class="logo-ring"></div>
+          <div class="logo-ring logo-ring-2"></div>
+          <img src="img/logo.png" alt="Logo do Projeto Semente Azul" class="logo-hero" />
+        </div>
+
+        <!-- Título -->
+        <h1>Projeto <span class="highlight">Semente Azul</span></h1>
+
+        <!-- Tema do mês -->
+        <p class="tema-mes">
+          🧩 Tema 2026: <em>"Autonomia se constrói com apoio"</em>
+        </p>
+
+        <!-- Subtítulo -->
+        <p class="hero-sub">
+          Conscientização, inclusão e acolhimento para pessoas com Transtorno do Espectro Autista.<br>
+          <span class="hashtag">#RESPECTRO</span> — Junte-se a nós neste abril azul.
+        </p>
+
+        <!-- Botões -->
+        <div class="hero-ctas">
+          <a href="#sobre" class="btn btn-primary">🌱 Saiba Mais</a>
+          <a href="#contato" class="btn btn-outline">🧩 Apoie o Projeto</a>
+        </div>
+
+        <!-- Peças decorativas -->
+        <div class="puzzle-row">
+          <div class="puzzle-chip" style="background:#e53935"></div>
+          <div class="puzzle-chip" style="background:#f9a825"></div>
+          <div class="puzzle-chip" style="background:#43a047"></div>
+          <div class="puzzle-chip" style="background:#1e88e5"></div>
+          <div class="puzzle-chip" style="background:#ffe600"></div>
+        </div>
+
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="scroll-hint">
+        <span>Projeto Semente Azul</span>
+        <div class="scroll-arrow"></div>
+      </div>
+
+    </section>
+
+    <!-- Faixa informativa -->
+    <div class="info-strip">
+      <div class="strip-item">
+        <span class="strip-icon">🔵</span>
+        <span>Abril Azul — Conscientização Mundial</span>
+      </div>
+      <div class="strip-item">
+        <span class="strip-icon">🧩</span>
+        <span>Autonomia se constrói com apoio</span>
+      </div>
+      <div class="strip-item">
+        <span class="strip-icon">💙</span>
+        <span>#RESPECTRO</span>
+      </div>
+    </div>
+
+    <!-- DESTAQUE 2º AUTISMO RUN -->
+    <section id="autismo-run" class="section autismo-run-section" style="background: linear-gradient(160deg, #f0f8ff 0%, #e8f4ff 60%, #f5fbff 100%); padding: 72px 0; position: relative; overflow: hidden;">
+      <!-- Background com foto do 1º Autismo Run (ofuscada) -->
+      <div style="
+        position: absolute;
+        inset: 0;
+        background: url('img/bg-autismorun.jpg') center center / cover no-repeat;
+        filter: blur(4px) brightness(0.95);
+        opacity: 0.13;
+        z-index: 0;
+        pointer-events: none;
+      "></div>
+      <div class="container" style="max-width: 900px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1;">
+
+        <!-- Cabeçalho com badge -->
+        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 40px;">
+          <div style="width: 4px; height: 52px; background: linear-gradient(180deg, #007BFF, #00CFFD); border-radius: 4px; flex-shrink: 0;"></div>
+          <div>
+            <span style="
+              display: inline-block;
+              background: #e6f1ff;
+              color: #007BFF;
+              font-family: 'Poppins', sans-serif;
+              font-weight: 700;
+              font-size: 0.7rem;
+              letter-spacing: 2.5px;
+              text-transform: uppercase;
+              padding: 4px 14px;
+              border-radius: 4px;
+              margin-bottom: 8px;
+            ">Próximo Evento</span>
+            <h2 style="
+              font-family: 'Poppins', sans-serif;
+              font-size: 2.2rem;
+              font-weight: 900;
+              color: #0a2a4a;
+              margin: 0;
+              line-height: 1.1;
+            ">2º Autismo Run</h2>
+          </div>
+        </div>
+
+        <!-- Layout principal: info + causa -->
+        <div class="ar-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch;">
+
+          <!-- Coluna esquerda: detalhes do evento -->
+          <div style="
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 32px;
+            border: 1px solid #daeeff;
+            box-shadow: 0 4px 32px rgba(0,123,255,0.07);
+          ">
+            <p style="font-family:'Poppins',sans-serif; font-size:0.75rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#00CFFD; margin:0 0 20px;">Detalhes</p>
+
+            <!-- Data -->
+            <div style="display:flex; align-items:flex-start; gap:16px; margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid #f0f6ff;">
+              <div style="width:40px; height:40px; background:#e6f1ff; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#007BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="3"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </div>
+              <div>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.7rem; color:#9bb8d4; font-weight:600; text-transform:uppercase; letter-spacing:1px; margin:0 0 2px;">Data</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:1rem; color:#0a2a4a; font-weight:700; margin:0;">21 de Junho de 2026</p>
+              </div>
+            </div>
+
+            <!-- Horário -->
+            <div style="display:flex; align-items:flex-start; gap:16px; margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid #f0f6ff;">
+              <div style="width:40px; height:40px; background:#e6f1ff; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#007BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.7rem; color:#9bb8d4; font-weight:600; text-transform:uppercase; letter-spacing:1px; margin:0 0 2px;">Horário</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:1rem; color:#0a2a4a; font-weight:700; margin:0;">7h00 da manhã</p>
+              </div>
+            </div>
+
+            <!-- Local -->
+            <div style="display:flex; align-items:flex-start; gap:16px;">
+              <div style="width:40px; height:40px; background:#e6f1ff; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#007BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.7rem; color:#9bb8d4; font-weight:600; text-transform:uppercase; letter-spacing:1px; margin:0 0 2px;">Local</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:1rem; color:#0a2a4a; font-weight:700; margin:0;">Vitória do Xingu, PA</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coluna direita: causa + inscrições -->
+          <div style="display:flex; flex-direction:column; gap:20px; height:100%;">
+
+            <!-- Card da causa -->
+            <div style="
+              background: linear-gradient(135deg, #007BFF 0%, #00CFFD 100%);
+              border-radius: 20px;
+              padding: 28px 32px;
+              color: #fff;
+              position: relative;
+              overflow: hidden;
+              flex: 1;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+            ">
+              <!-- Detalhe decorativo -->
+              <div style="position:absolute; top:-30px; right:-30px; width:120px; height:120px; background:rgba(255,255,255,0.08); border-radius:50%;"></div>
+              <div style="position:absolute; bottom:-20px; right:20px; width:70px; height:70px; background:rgba(255,255,255,0.05); border-radius:50%;"></div>
+
+              <p style="font-family:'Poppins',sans-serif; font-size:0.7rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.75); margin:0 0 10px; position:relative;">Em prol da</p>
+              <p style="font-family:'Poppins',sans-serif; font-size:1.4rem; font-weight:900; color:#fff; margin:0 0 12px; line-height:1.2; position:relative;">Casa do Autista</p>
+              <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:rgba(255,255,255,0.85); margin:0; line-height:1.6; position:relative;">
+                Um evento esportivo e inclusivo que une a comunidade em favor do acolhimento de crianças e famílias atípicas.
+              </p>
+            </div>
+
+            <!-- Card de inscrições -->
+            <div style="
+              background: #ffffff;
+              border-radius: 20px;
+              padding: 24px 32px;
+              border: 2px dashed #b3d7ff;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              text-align: center;
+              gap: 12px;
+              flex: 1;
+            ">
+              <div style="width:44px; height:44px; background:#e6f1ff; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#007BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+              </div>
+              <div>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.95rem; font-weight:700; color:#0a2a4a; margin:0 0 4px;">Inscrições em Breve</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.8rem; color:#9bb8d4; margin:0;">Acompanhe nossas redes sociais para não perder!</p>
+              </div>
+              <a href="https://www.instagram.com/projetosementeazulvtx/" target="_blank" rel="noopener" style="
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: linear-gradient(135deg, #007BFF, #00CFFD);
+                color: #fff;
+                font-family: 'Poppins', sans-serif;
+                font-weight: 700;
+                font-size: 0.85rem;
+                padding: 10px 24px;
+                border-radius: 50px;
+                text-decoration: none;
+                transition: opacity 0.2s;
+              " onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+                Seguir no Instagram
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Mini galeria: Fotos do 1º Autismo Run -->
+        <div style="margin-top: 48px; text-align: center;">
+          <p style="font-family:'Poppins',sans-serif; font-size:0.7rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:#9bb8d4; margin:0 0 18px;">📸 Relembre o 1º Autismo Run</p>
+
+          <div style="position:relative; display:flex; align-items:center; justify-content:center; gap:8px;">
+            <!-- Seta esquerda -->
+            <button id="runGalLeft" aria-label="Anterior" style="
+              background: #fff;
+              border: 1px solid #daeeff;
+              border-radius: 50%;
+              width: 36px; height: 36px;
+              display: flex; align-items: center; justify-content: center;
+              cursor: pointer;
+              box-shadow: 0 2px 8px rgba(0,123,255,0.10);
+              flex-shrink: 0;
+              transition: background 0.2s;
+            " onmouseover="this.style.background='#e6f1ff'" onmouseout="this.style.background='#fff'">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#007BFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+
+            <!-- Container das fotos -->
+            <div id="runGalTrack" style="
+              display: flex;
+              gap: 12px;
+              overflow: hidden;
+              max-width: 760px;
+              scroll-behavior: smooth;
+            ">
+              <img loading="lazy" src="img/AR01.jpg" alt="Foto 1 do 1º Autismo Run" style="width:144px; height:100px; object-fit:cover; object-position:top; border-radius:12px; border:2px solid #daeeff; flex-shrink:0; cursor:pointer; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''"/>
+              <img loading="lazy" src="img/AR02.jpg" alt="Foto 2 do 1º Autismo Run" style="width:144px; height:100px; object-fit:cover; border-radius:12px; border:2px solid #daeeff; flex-shrink:0; cursor:pointer; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''"/>
+              <img loading="lazy" src="img/AR03.jpg" alt="Foto 3 do 1º Autismo Run" style="width:144px; height:100px; object-fit:cover; border-radius:12px; border:2px solid #daeeff; flex-shrink:0; cursor:pointer; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''"/>
+              <img loading="lazy" src="img/AR04.jpg" alt="Foto 4 do 1º Autismo Run" style="width:144px; height:100px; object-fit:cover; border-radius:12px; border:2px solid #daeeff; flex-shrink:0; cursor:pointer; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''"/>
+              <img loading="lazy" src="img/AR05.jpg" alt="Foto 5 do 1º Autismo Run" style="width:144px; height:100px; object-fit:cover; border-radius:12px; border:2px solid #daeeff; flex-shrink:0; cursor:pointer; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''"/>
+              <img loading="lazy" src="img/AR06.jpg" alt="Foto 6 do 1º Autismo Run" style="width:144px; height:100px; object-fit:cover; border-radius:12px; border:2px solid #daeeff; flex-shrink:0; cursor:pointer; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''"/>
+              <img loading="lazy" src="img/AR07.jpg" alt="Foto 7 do 1º Autismo Run" style="width:144px; height:100px; object-fit:cover; object-position:center 20%; border-radius:12px; border:2px solid #daeeff; flex-shrink:0; cursor:pointer; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''"/>
+              <img loading="lazy" src="img/AR08.jpg" alt="Foto 8 do 1º Autismo Run" style="width:144px; height:100px; object-fit:cover; border-radius:12px; border:2px solid #daeeff; flex-shrink:0; cursor:pointer; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''"/>
+              <img loading="lazy" src="img/AR09.jpg" alt="Foto 9 do 1º Autismo Run" style="width:144px; height:100px; object-fit:cover; border-radius:12px; border:2px solid #daeeff; flex-shrink:0; cursor:pointer; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''"/>
+              <img loading="lazy" src="img/AR10.jpg" alt="Foto 10 do 1º Autismo Run" style="width:144px; height:100px; object-fit:cover; border-radius:12px; border:2px solid #daeeff; flex-shrink:0; cursor:pointer; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''"/>
+              <img loading="lazy" src="img/AR11.jpg" alt="Foto 11 do 1º Autismo Run" style="width:144px; height:100px; object-fit:cover; border-radius:12px; border:2px solid #daeeff; flex-shrink:0; cursor:pointer; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''"/>
+              <img loading="lazy" src="img/AR12.jpg" alt="Foto 12 do 1º Autismo Run" style="width:144px; height:100px; object-fit:cover; border-radius:12px; border:2px solid #daeeff; flex-shrink:0; cursor:pointer; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''"/>
+              <img loading="lazy" src="img/AR13.jpg" alt="Foto 13 do 1º Autismo Run" style="width:144px; height:100px; object-fit:cover; border-radius:12px; border:2px solid #daeeff; flex-shrink:0; cursor:pointer; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''"/>
+              <img loading="lazy" src="img/AR14.jpg" alt="Foto 14 do 1º Autismo Run" style="width:144px; height:100px; object-fit:cover; border-radius:12px; border:2px solid #daeeff; flex-shrink:0; cursor:pointer; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''"/>
+              <img loading="lazy" src="img/AR15.jpg" alt="Foto 15 do 1º Autismo Run" style="width:144px; height:100px; object-fit:cover; object-position:center 20%; border-radius:12px; border:2px solid #daeeff; flex-shrink:0; cursor:pointer; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''"/>
+              <img loading="lazy" src="img/AR16.jpg" alt="Foto 16 do 1º Autismo Run" style="width:144px; height:100px; object-fit:cover; border-radius:12px; border:2px solid #daeeff; flex-shrink:0; cursor:pointer; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''"/>
+              <img loading="lazy" src="img/AR17.jpg" alt="Foto 17 do 1º Autismo Run" style="width:144px; height:100px; object-fit:cover; border-radius:12px; border:2px solid #daeeff; flex-shrink:0; cursor:pointer; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''"/>
+              <img loading="lazy" src="img/AR18.jpg" alt="Foto 18 do 1º Autismo Run" style="width:144px; height:100px; object-fit:cover; border-radius:12px; border:2px solid #daeeff; flex-shrink:0; cursor:pointer; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''"/>
+              <img loading="lazy" src="img/AR19.jpg" alt="Foto 19 do 1º Autismo Run" style="width:144px; height:100px; object-fit:cover; object-position:center 30%; border-radius:12px; border:2px solid #daeeff; flex-shrink:0; cursor:pointer; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''"/>
+              <img loading="lazy" src="img/AR20.jpg" alt="Foto 20 do 1º Autismo Run" style="width:144px; height:100px; object-fit:cover; object-position:center 30%; border-radius:12px; border:2px solid #daeeff; flex-shrink:0; cursor:pointer; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''"/>
+              <img loading="lazy" src="img/AR21.jpg" alt="Foto 21 do 1º Autismo Run" style="width:144px; height:100px; object-fit:cover; object-position:center 30%; border-radius:12px; border:2px solid #daeeff; flex-shrink:0; cursor:pointer; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''"/>
+              <img loading="lazy" src="img/AR22.jpg" alt="Foto 22 do 1º Autismo Run" style="width:144px; height:100px; object-fit:cover; object-position:center 20%; border-radius:12px; border:2px solid #daeeff; flex-shrink:0; cursor:pointer; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''"/>
+            </div>
+
+            <!-- Seta direita -->
+            <button id="runGalRight" aria-label="Próximo" style="
+              background: #fff;
+              border: 1px solid #daeeff;
+              border-radius: 50%;
+              width: 36px; height: 36px;
+              display: flex; align-items: center; justify-content: center;
+              cursor: pointer;
+              box-shadow: 0 2px 8px rgba(0,123,255,0.10);
+              flex-shrink: 0;
+              transition: background 0.2s;
+            " onmouseover="this.style.background='#e6f1ff'" onmouseout="this.style.background='#fff'">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#007BFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+
+          <!-- Botão para galeria completa -->
+          <a href="https://drive.google.com/drive/folders/1q3tBgW6vCBu8id5UzC-MWa9gNrCH2NMd" target="_blank" rel="noopener" style="
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+            background: #ffffff;
+            color: #007BFF;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 10px 28px;
+            border-radius: 50px;
+            border: 2px solid #007BFF;
+            text-decoration: none;
+            transition: all 0.2s;
+          " onmouseover="this.style.background='#007BFF';this.style.color='#fff'" onmouseout="this.style.background='#ffffff';this.style.color='#007BFF'">
+            📷 Ver todas as fotos do 1º Autismo Run
+          </a>
+        </div>
+
+        <script>
+        (function(){
+          var track = document.getElementById('runGalTrack');
+          var scrollAmt = 156; // largura da foto + gap
+          document.getElementById('runGalLeft').addEventListener('click', function(){
+            track.scrollBy({left: -scrollAmt, behavior: 'smooth'});
+          });
+          document.getElementById('runGalRight').addEventListener('click', function(){
+            track.scrollBy({left: scrollAmt, behavior: 'smooth'});
+          });
+        })();
+        </script>
+
+      </div>
+    </section>
+    <!-- Sobre -->
+    <section id="sobre" class="section">
+        <div class="container">
+            <h2>Sobre o Projeto</h2>
+            <p>O Projeto Semente Azul nasceu com o propósito de promover a conscientização sobre o autismo e apoiar famílias e profissionais na construção de uma sociedade mais inclusiva. Realizamos palestras, eventos e ações sociais, levando informação e acolhimento a todos.</p>
+        </div>
+    </section>
+
+    <!-- Autismo -->
+    <section id="autismo" class="section bg-light">
+        <div class="container">
+            <h2>Entendendo o Autismo</h2>
+            <p>O Transtorno do Espectro Autista (TEA) é uma condição do neurodesenvolvimento que afeta a comunicação, o comportamento e a interação social. Cada pessoa no espectro é única, apresentando características e necessidades diferentes.</p>
+            <ul>
+                <li>Dificuldade de interação social</li>
+                <li>Comportamentos repetitivos</li>
+                <li>Interesses intensos em temas específicos</li>
+                <li>Hiper ou hipossensibilidade sensorial</li>
+            </ul>
+        </div>
+    </section>
+
+  <!-- Galeria -->
+  <section id="galeria" class="section">
+    <div class="container">
+      <h2>Galeria</h2>
+      <div class="gallery-carousel-wrapper">
+        <div class="gallery-carousel">
+          <img loading="lazy" src="img/galeria1.jpg" alt="Foto de atividade inclusiva com crianças brincando" />
+          <img loading="lazy" src="img/galeria2.jpg" alt="Palestra sobre autismo com público atento" />
+          <img loading="lazy" src="img/galeria3.jpg" alt="Oficina de artes para crianças com e sem autismo" />
+          <img loading="lazy" src="img/galeria4.png" alt="Oficina de artes para crianças com e sem autismo" />
+          <img loading="lazy" src="img/galeria5.png" alt="Oficina de artes para crianças com e sem autismo" />
+          <img loading="lazy" src="img/galeria6.png" alt="Oficina de artes para crianças com e sem autismo" />
+          <img loading="lazy" src="img/galeria7.png" alt="Oficina de artes para crianças com e sem autismo" />
+          <img loading="lazy" src="img/galeria8.png" alt="Oficina de artes para crianças com e sem autismo" />
+          <img loading="lazy" src="img/galeria9.png" alt="Oficina de artes para crianças com e sem autismo" />
+          <img loading="lazy" src="img/galeria10.jpg" alt="Oficina de artes para crianças com e sem autismo" />
+        </div>
+        <div class="gallery-overlay hidden" id="galleryOverlay">
+          <button class="close-btn" id="galleryOverlayClose" aria-label="Fechar">&times;</button>
+          <img src="" alt="Imagem ampliada da galeria" id="galleryOverlayImg" />
+        </div>
+        <div class="gallery-arrows-mobile">
+          <button class="gallery-arrow left" aria-label="Anterior">&#8592;</button>
+          <button class="gallery-arrow right" aria-label="Próximo">&#8594;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <!-- Depoimentos -->
+    <section id="depoimentos" class="section bg-light">
+        <div class="container">
+            <h2>Depoimentos</h2>
+            <div class="testimonials">
+                <div class="testimonial">
+                    <p>O Projeto Semente Azul foi fundamental para o desenvolvimento do meu filho. Acolhimento e informação fizeram toda a diferença!</p>
+                    <span>Maria Silva<br><small>mãe</small></span>
+                </div>
+                <div class="testimonial">
+                    <p>Participar das oficinas me ajudou a entender melhor o autismo e a importância da inclusão.</p>
+                    <span>João Souza<br><small>voluntário</small></span>
+                </div>
+                <div class="testimonial">
+                    <p>A equipe é muito dedicada e sempre pronta para ajudar. Recomendo a todos!</p>
+                    <span>Ana Paula<br><small>professora</small></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destaques -->
+    <section id="destaques" class="section bg-light">
+      <div class="container">
+        <h2>Destaques</h2>
+        <div class="destaques-lista">
+          <article class="destaque-noticia">
+            <h3>Projeto Semente Azul recebe apoio do Secretário Cássio Andrade</h3>
+            <p>O Projeto Semente Azul agradece ao Secretário de Esporte e Lazer do Pará e vice-prefeito de Belém, Cássio Andrade, pela parceria em prol das famílias atípicas.</p>
+            <p>Esse apoio fortalece a missão do projeto de promover acolhimento, inclusão e qualidade de vida para crianças autistas e suas famílias.</p>
+            <p><em>“Cada apoio recebido é um passo a mais na construção de uma rede de empatia e cuidado”, destacou a coordenação.</em></p>
+          </article>
+          <article class="destaque-video">
+            <h3>Assista ao vídeo</h3>
+            <div class="destaque-video-embed" style="width:100%;max-width:420px;">
+              <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DNq7QRCYuLU/?igsh=enhseWIydjE1a2dq" data-instgrm-version="14" style="background:#FFF; border:0; margin:0 auto; min-width:320px; max-width:540px; width:100%;"></blockquote>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+    <script>window.addEventListener('load',function(){var s=document.createElement('script');s.src='//www.instagram.com/embed.js';document.body.appendChild(s);});</script>
+
+    <!-- Contato -->
+    <section id="contato" class="section contato-section">
+      <div class="contato-container">
+        <div class="contato-info">
+          <h2>Entre em Contato</h2>
+          <p>Estamos aqui para ajudar. Entre em contato conosco para mais informações.</p>
+          <div class="contato-card">
+            <span class="contato-icon">
+              <!-- Email SVG -->
+              <svg width="28" height="28" fill="none" stroke="#00CFFD" stroke-width="2"><rect x="4" y="7" width="20" height="14" rx="4"/><path d="M4 7l10 8 10-8"/></svg>
+            </span>
+            <div>
+              <strong>Email</strong>
+              <div>projetosementeazul@gmail.com</div>
+            </div>
+          </div>
+          <div class="contato-card">
+            <span class="contato-icon">
+              <!-- Telefone SVG -->
+              <svg width="28" height="28" fill="none" stroke="#00CFFD" stroke-width="2"><path d="M6 4h4l2 7-3 2a16 16 0 007 7l2-3 7 2v4a2 2 0 01-2 2A18 18 0 014 6a2 2 0 012-2z"/></svg>
+            </span>
+            <div>
+              <strong>Telefone</strong>
+              <div>(93) 99179-9692</div>
+            </div>
+          </div>
+          <div class="contato-card">
+            <span class="contato-icon">
+              <!-- Endereço SVG -->
+              <svg width="28" height="28" fill="none" stroke="#00CFFD" stroke-width="2"><circle cx="14" cy="11" r="4"/><path d="M14 21c-5-5-8-8-8-11a8 8 0 1116 0c0 3-3 6-8 11z"/></svg>
+            </span>
+            <div>
+              <strong>Endereço</strong>
+              <div>Manoel Félix de Farias, 123 - Vitória do Xingu, PA</div>
+            </div>
+          </div>
+          <div class="contato-social">
+            <a href="#" aria-label="Facebook"><svg width="28" height="28" fill="none" stroke="#00CFFD" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+            <a href="https://www.instagram.com/projetosementeazulvtx/" target="_blank" rel="noopener" aria-label="Instagram"><svg width="28" height="28" fill="none" stroke="#00CFFD" stroke-width="2"><rect x="4" y="4" width="20" height="20" rx="6"/><circle cx="14" cy="14" r="5"/><circle cx="19" cy="9" r="1"/></svg></a>
+            <a href="#" aria-label="Twitter"><svg width="28" height="28" fill="none" stroke="#00CFFD" stroke-width="2"><path d="M23 6a10.9 10.9 0 01-3.14 1.53A4.48 4.48 0 0022.4 4.6a9.09 9.09 0 01-2.88 1.1A4.48 4.48 0 0012 8.09c0 .35.04.7.1 1.03A12.94 12.94 0 013 5.1a4.48 4.48 0 001.39 6A4.41 4.41 0 012 10.1v.05a4.48 4.48 0 003.6 4.4 4.52 4.52 0 01-2 .08 4.48 4.48 0 004.19 3.12A9 9 0 012 21.54a12.94 12.94 0 007 2.05c8.4 0 13-7 13-13v-.59A9.18 9.18 0 0025 4.5a9.05 9.05 0 01-2.6.71z"/></svg></a>
+          </div>
+        </div>
+          <form class="contato-form" id="whatsappForm" onsubmit="enviarWhatsApp(event)">
+            <h3>Envie uma Mensagem</h3>
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+            <label for="mensagem">Mensagem</label>
+            <textarea id="mensagem" name="mensagem" placeholder="Como podemos ajudar?" required></textarea>
+            <button type="submit" class="btn-contato">Enviar Mensagem</button>
+          </form>
+  <script>
+  function enviarWhatsApp(event) {
+    event.preventDefault();
+    var nome = document.getElementById('nome').value.trim();
+    var email = document.getElementById('email').value.trim();
+    var mensagem = document.getElementById('mensagem').value.trim();
+  var numero = '559384179663'; // Novo número do WhatsApp com DDI e DDD, só números
+    var texto = encodeURIComponent(
+      'Olá! Gostaria de entrar em contato pelo site Semente Azul.' + '\n' +
+      'Nome: ' + nome + '\n' +
+      'Email: ' + email + '\n' +
+      'Mensagem: ' + mensagem
+    );
+    var url = 'https://wa.me/' + numero + '?text=' + texto;
+    window.open(url, '_blank');
+  }
+  </script>
+      </div>
+    </section>
+
+    <!-- Rodapé -->
+  <footer>
+    <p>&copy; 2026 Projeto Semente Azul - Todos os direitos reservados.<br>
+    CNPJ: 62.090.680/0001-39</p>
+    <!-- Link Admin Oculto - Só você sabe que está aqui -->
+    <p style="text-align: center; margin-top: 10px;">
+  <a href="admin.html" style="color: #007BFF; text-decoration: none; font-size: 0.8rem; opacity: 0.7;" title="Área Administrativa">⚙️</a>
+    </p>
+  </footer>
+
+  <script src="js/main.js"></script>
+
+  <!-- Script: Puzzle flutuante + Partículas do Hero -->
+  <script>
+  (function(){
+    // Peças de puzzle SVG flutuantes
+    var puzzleBg = document.getElementById('puzzleBg');
+    if (puzzleBg) {
+      var colors = ['#e53935','#f9a825','#43a047','#1e88e5','#00b4d8','#ffd600'];
+      var puzzlePath = 'M 0 10 Q 0 0 10 0 L 30 0 Q 30 -8 38 -8 Q 46 -8 46 0 L 60 0 Q 70 0 70 10 L 70 30 Q 78 30 78 38 Q 78 46 70 46 L 70 60 Q 70 70 60 70 L 40 70 Q 40 78 32 78 Q 24 78 24 70 L 10 70 Q 0 70 0 60 Z';
+      for (var i = 0; i < 14; i++) {
+        var el = document.createElement('div');
+        el.className = 'puzzle-piece';
+        var size = 60 + Math.random() * 80;
+        var color = colors[i % colors.length];
+        el.style.cssText = 'left:' + (Math.random()*100) + '%;top:' + (Math.random()*100) + '%;animation-duration:' + (6+Math.random()*8) + 's;animation-delay:' + (-Math.random()*8) + 's;';
+        el.innerHTML = '<svg width="'+size+'" height="'+size+'" viewBox="0 0 80 80"><path d="'+puzzlePath+'" fill="'+color+'"/></svg>';
+        puzzleBg.appendChild(el);
+      }
+    }
+    // Partículas de luz
+    var particlesEl = document.getElementById('heroParticles');
+    if (particlesEl) {
+      for (var j = 0; j < 18; j++) {
+        var p = document.createElement('div');
+        p.className = 'hero-particle';
+        var s = 3 + Math.random() * 6;
+        var bg = Math.random() > 0.5 ? 'rgba(0,180,216,0.6)' : 'rgba(255,214,0,0.4)';
+        p.style.cssText = 'width:'+s+'px;height:'+s+'px;left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;animation-duration:'+(3+Math.random()*5)+'s;animation-delay:'+(-Math.random()*5)+'s;background:'+bg+';';
+        particlesEl.appendChild(p);
+      }
+    }
+  })();
+  </script>
+
+  <script>
+  // Aviso de funções em implementação
+  // Ícones de redes sociais
+  document.querySelectorAll('.contato-social a').forEach(link => {
+    // Só bloqueia se não for Instagram
+    if (link.getAttribute('aria-label') !== 'Instagram') {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        alert('Redirecionamento externo ainda está sendo implementado.');
+      });
+    }
+  });
+  // Carrossel simples para galeria
+  const carousel = document.querySelector('.gallery-carousel');
+  const galImages = document.querySelectorAll('.gallery-carousel img');
+  const galLeftBtn = document.querySelector('.gallery-arrow.left');
+  const galRightBtn = document.querySelector('.gallery-arrow.right');
+  let galCurrentIndex = 0;
+  function getVisibleCount() {
+    return window.innerWidth <= 600 ? 2 : 5;
+  }
+  function updateCarousel() {
+    const visible = getVisibleCount();
+    galImages.forEach((img, i) => {
+      img.style.display = (i >= galCurrentIndex && i < galCurrentIndex + visible) ? 'flex' : 'none';
+    });
+  }
+  updateCarousel();
+  window.addEventListener('resize', () => {
+    const visible = getVisibleCount();
+    if (galCurrentIndex > galImages.length - visible) {
+      galCurrentIndex = Math.max(0, galImages.length - visible);
+    }
+    updateCarousel();
+  });
+  galLeftBtn.addEventListener('click', () => {
+    const visible = getVisibleCount();
+    if (window.innerWidth <= 600) {
+      if (galCurrentIndex > 0) {
+        galCurrentIndex = Math.max(0, galCurrentIndex - 2);
+        updateCarousel();
+      }
+    } else {
+      if (galCurrentIndex > 0) {
+        galCurrentIndex--;
+        updateCarousel();
+      }
+    }
+  });
+  galRightBtn.addEventListener('click', () => {
+    const visible = getVisibleCount();
+    if (window.innerWidth <= 600) {
+      if (galCurrentIndex < galImages.length - visible) {
+        galCurrentIndex = Math.min(galImages.length - visible, galCurrentIndex + 2);
+        updateCarousel();
+      }
+    } else {
+      if (galCurrentIndex < galImages.length - visible) {
+        galCurrentIndex++;
+        updateCarousel();
+      }
+    }
+  });
+  // Efeito de ampliar imagem ao clicar e voltar ao normal ao tirar o mouse
+  galImages.forEach(img => {
+    img.addEventListener('click', function() {
+      galImages.forEach(i => i.classList.remove('enlarged'));
+      this.classList.add('enlarged');
+    });
+    img.addEventListener('mouseleave', function() {
+      this.classList.remove('enlarged');
+    });
+  });
+  // Funcionalidade de clique para ampliar imagem com overlay
+  const galleryOverlay = document.getElementById('galleryOverlay');
+  const galleryOverlayImg = document.getElementById('galleryOverlayImg');
+  const galleryOverlayClose = document.getElementById('galleryOverlayClose');
+
+  galImages.forEach(img => {
+    img.addEventListener('click', function() {
+      const src = this.getAttribute('src');
+      galleryOverlayImg.setAttribute('src', src);
+      galleryOverlay.classList.remove('hidden');
+    });
+  });
+
+  galleryOverlayClose.addEventListener('click', () => {
+    galleryOverlay.classList.add('hidden');
+  });
+
+  galleryOverlay.addEventListener('click', (e) => {
+    if (e.target === galleryOverlay) {
+      galleryOverlay.classList.add('hidden');
+    }
+  });
+  </script>
+</body>
+</html>

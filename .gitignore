@@ -1,0 +1,5 @@
+# Credenciais sensíveis
+.env.php
+
+# IDE
+.vscode/

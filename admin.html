@@ -1,0 +1,672 @@
+<html lang="pt-BR"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Semente Azul</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Tela de Login */
+        .login-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #00CFFD 0%, #0066CC 100%);
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            padding: 50px 40px;
+            max-width: 400px;
+            width: 100%;
+            margin: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header h1 {
+            color: #00CFFD;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #00CFFD;
+        }
+
+        .btn-login {
+            width: 100%;
+            background: #00CFFD;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-login:hover {
+            background: #0066CC;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .security-info {
+            background: #e8f4f8;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .security-info h4 {
+            color: #0c5460;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .security-info p {
+            color: #0c5460;
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: none;
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, #00CFFD 0%, #0066CC 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .session-info {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .btn-logout {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .admin-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .admin-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .instructions-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #00CFFD;
+        }
+
+        .instructions-card h2 {
+            color: #00CFFD;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .step {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 3px solid #28a745;
+        }
+
+        .step h3 {
+            color: #28a745;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .step p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .netlify-link {
+            display: inline-block;
+            background: #00CFFD;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin: 10px 5px;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .netlify-link:hover {
+            background: #0066CC;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 207, 253, 0.3);
+        }
+
+        .warning-card {
+            background: #fff3cd;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 5px solid #ffc107;
+        }
+
+        .warning-card h3 {
+            color: #856404;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .warning-card p {
+            color: #856404;
+            line-height: 1.6;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .feature-card .icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #00CFFD;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #0066CC;
+        }
+
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 10px;
+            }
+            
+            .admin-header {
+                padding: 20px;
+            }
+            
+            .admin-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .instructions-card {
+                padding: 20px;
+            }
+            
+            .netlify-link {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Tela de Login -->
+    <div class="login-screen" id="loginScreen" style="display: flex;">
+        <div class="login-container">
+            <div class="login-header">
+                <h1>🔐 Acesso Restrito</h1>
+                <p>Painel Administrativo do Torneio</p>
+            </div>
+
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="password">Senha de Administrador:</label>
+                    <input type="password" id="password" placeholder="Digite a senha..." required="">
+                </div>
+
+                <button type="submit" class="btn-login">
+                    🔑 Entrar no Painel
+                </button>
+
+                <div class="error-message" id="errorMessage">
+                    ❌ Senha incorreta. Tente novamente.
+                </div>
+            </form>
+
+            <div class="security-info">
+                <h4>🛡️ Informações de Segurança:</h4>
+                <p>• Sessão expira automaticamente em 30 minutos<br>
+                • Acesso registrado por questões de segurança<br>
+                • Em caso de esquecimento da senha, contate o desenvolvedor</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Painel Principal -->
+    <div class="admin-container" id="adminPanel" style="display: none;">
+        <div class="admin-header">
+            <button class="btn-logout">🚪 Sair</button>
+            <div class="session-info" id="sessionInfo">
+                ⏱️ Sessão expira em: <span id="timeRemaining">30:00</span>
+            </div>
+            
+            <h1>📊 Painel Administrativo</h1>
+            <p>Gerenciamento de Inscrições do Projeto Semente Azul</p>
+        </div>
+
+        <div class="instructions-card">
+            <h2>🎯 Acesso Rápido - Escolha sua Opção</h2>
+            
+            <div class="step">
+                <h3>📊 Gerenciar Inscrições (Recomendado)</h3>
+                <p>Veja todas as inscrições, confirme pagamentos e exporte relatórios diretamente na web</p>
+                <a class="admin-link" href="dashboard-inscricoes.html" style="margin-top: 10px;">
+                    📊 Abrir Painel Completo
+                </a>
+            </div>
+            
+            <div class="step">
+                <h3>💳 Confirmar Pagamentos</h3>
+                <p>Registre pagamentos recebidos via PIX, transferência ou dinheiro</p>
+                <a class="admin-link" href="confirmar-pagamento.html" style="margin-top: 10px;">
+                    💳 Confirmar Pagamento
+                </a>
+            </div>
+            
+            <div class="step">
+                <h3>📋 Relatórios Excel</h3>
+                <p>Baixe template formatado para importar dados e criar relatórios profissionais</p>
+                <a class="admin-link" href="template-excel.html" style="margin-top: 10px;">
+                    📋 Template Excel
+                </a>
+            </div>
+        </div>
+
+        <div class="instructions-card">
+            <h2>🔧 Configuração e Ajuda</h2>
+            <div class="step">
+                <h3>1. Acesse o Painel Administrativo</h3>
+                <p>Entre no painel administrativo do Projeto Semente Azul para gerenciar inscrições e pagamentos.</p>
+            </div>
+            <div class="step">
+                <h3>2. Gerencie Inscrições</h3>
+                <p>No menu lateral, clique em "Gerenciar Inscrições" para visualizar todas as inscrições recebidas.</p>
+            </div>
+            <div class="step">
+                <h3>3. Confirme Pagamentos</h3>
+                <p>Utilize a opção "Confirmar Pagamento" para registrar pagamentos recebidos.</p>
+            </div>
+            <div class="step">
+                <h3>4. Exporte os Dados</h3>
+                <p>Use a opção "Exportar Excel" para baixar uma planilha com todas as inscrições.</p>
+            </div>
+        </div>
+
+        <div class="instructions-card">
+            <h2>💳 Gerenciamento de Pagamentos</h2>
+            <div class="step">
+                <h3>Como Confirmar Pagamentos:</h3>
+                <p>1. <strong>Receba o comprovante</strong> via WhatsApp ou email</p>
+                <p>2. <strong>Clique em "Confirmar Pagamento"</strong> acima</p>
+                <p>3. <strong>Preencha os dados</strong> do participante e pagamento</p>
+                <p>4. <strong>Confirme</strong> - isso criará um registro no sistema do site</p>
+            </div>
+            <div class="step">
+                <h3>Acompanhar Status:</h3>
+                <p>• <strong>Inscrições:</strong> Acesse "Gerenciar Inscrições"</p>
+                <p>• <strong>Pagamentos:</strong> Acesse "Confirmar Pagamento"</p>
+                <p>• <strong>Compare os dois</strong> para ver quem pagou e quem não pagou</p>
+            </div>
+        </div>
+
+        <div class="warning-card">
+            <h3>⚠️ Importante</h3>
+            <p>As inscrições aparecem no painel administrativo assim que são realizadas pelos participantes. Certifique-se de que o site está publicado e funcionando corretamente.</p>
+        </div>
+
+        <div class="text-center">
+            <a class="admin-link" href="tutorial-pagamentos.html">
+                📖 Tutorial de Pagamentos
+            </a>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon">📈</div>
+                <h4>Dados Centralizados</h4>
+                <p>Todas as inscrições ficam no mesmo lugar, acessíveis de qualquer dispositivo</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon">🔒</div>
+                <h4>Segurança</h4>
+                <p>Dados protegidos pelo sistema do Projeto Semente Azul</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon">📧</div>
+                <h4>Notificações</h4>
+                <p>Receba email automático sempre que alguém se inscrever</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon">📊</div>
+                <h4>Exportação</h4>
+                <p>Exporte todos os dados para Excel/CSV quando precisar</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon">🚫</div>
+                <h4>Anti-Spam</h4>
+                <p>Proteção automática contra spam com reCAPTCHA integrado</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon">⚡</div>
+                <h4>Tempo Real</h4>
+                <p>Inscrições aparecem instantaneamente no seu painel</p>
+            </div>
+        </div>
+
+    <a class="back-link" href="https://projetosementeazul.com/index.html">← Voltar para o site principal</a>
+    </div>
+
+    <script>
+        class AdminAuth {
+            constructor() {
+                this.SESSION_DURATION = 30 * 60 * 1000; // 30 minutos (visual)
+                this.WARNING_TIME = 5 * 60 * 1000;
+                this.sessionTimer = null;
+                this.warningTimer = null;
+                this.countdownInterval = null;
+                this.loginTime = null;
+                this.expiresAt = null;
+
+                this.init();
+            }
+
+            init() {
+                // Verificar se há sessão local (servidor valida de verdade nos endpoints)
+                const session = sessionStorage.getItem('admin_session');
+                if (session) {
+                    try {
+                        const data = JSON.parse(session);
+                        if (data.expires > Date.now()) {
+                            this.loginTime = data.loginTime;
+                            this.expiresAt = data.expires;
+                            this.showAdminPanel();
+                            this.startSessionTimer();
+                        } else {
+                            this.logout('Sessão expirada');
+                        }
+                    } catch (e) {
+                        this.showLoginScreen();
+                    }
+                } else {
+                    this.showLoginScreen();
+                }
+
+                document.getElementById('loginForm').addEventListener('submit', (e) => {
+                    this.handleLogin(e);
+                });
+
+                document.querySelectorAll('.btn-logout').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        this.logout();
+                    });
+                });
+            }
+
+            async handleLogin(event) {
+                event.preventDefault();
+                const password = document.getElementById('password').value;
+                const btn = document.querySelector('.btn-login');
+                btn.disabled = true;
+                btn.textContent = 'Verificando...';
+
+                try {
+                    const formData = new FormData();
+                    formData.append('senha', password);
+
+                    const response = await fetch('login.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.json();
+
+                    if (result.sucesso) {
+                        const now = Date.now();
+                        this.loginTime = now;
+                        this.expiresAt = now + this.SESSION_DURATION;
+
+                        sessionStorage.setItem('admin_session', JSON.stringify({
+                            loginTime: this.loginTime,
+                            expires: this.expiresAt
+                        }));
+
+                        this.showAdminPanel();
+                        this.startSessionTimer();
+                        document.getElementById('password').value = '';
+                    } else {
+                        this.showError(result.mensagem || 'Senha incorreta!');
+                        document.getElementById('password').value = '';
+                        document.getElementById('password').focus();
+                    }
+                } catch (error) {
+                    this.showError('Erro de conexão com o servidor.');
+                } finally {
+                    btn.disabled = false;
+                    btn.textContent = '🔐 Entrar';
+                }
+            }
+
+            showLoginScreen() {
+                document.querySelector('.login-screen').style.display = 'flex';
+                document.querySelector('.admin-container').style.display = 'none';
+                document.getElementById('password').focus();
+            }
+
+            showAdminPanel() {
+                document.querySelector('.login-screen').style.display = 'none';
+                document.querySelector('.admin-container').style.display = 'block';
+                this.updateSessionInfo();
+            }
+
+            showError(message) {
+                const existingError = document.querySelector('.error-message');
+                if (existingError) existingError.remove();
+
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.style.cssText = 'color:#dc3545;text-align:center;margin:10px 0;padding:10px;background:#f8d7da;border:1px solid #f5c6cb;border-radius:5px;font-size:14px;';
+                errorDiv.textContent = message;
+
+                const form = document.getElementById('loginForm');
+                form.parentNode.insertBefore(errorDiv, form.nextSibling);
+
+                setTimeout(() => { if (errorDiv.parentNode) errorDiv.remove(); }, 5000);
+            }
+
+            startSessionTimer() {
+                this.clearTimers();
+                const timeLeft = this.expiresAt - Date.now();
+                const warningTime = timeLeft - this.WARNING_TIME;
+
+                if (warningTime > 0) {
+                    this.warningTimer = setTimeout(() => this.showSessionWarning(), warningTime);
+                }
+
+                this.sessionTimer = setTimeout(() => this.logout('Sessão expirada por inatividade'), timeLeft);
+                this.updateSessionInfo();
+                this.countdownInterval = setInterval(() => this.updateSessionInfo(), 1000);
+            }
+
+            updateSessionInfo() {
+                const timeLeft = this.expiresAt - Date.now();
+                if (timeLeft <= 0) { this.logout('Sessão expirada'); return; }
+
+                const minutes = Math.floor(timeLeft / 60000);
+                const seconds = Math.floor((timeLeft % 60000) / 1000);
+                const sessionInfo = document.querySelector('.session-info');
+                if (sessionInfo) {
+                    sessionInfo.textContent = `Sessão expira em: ${minutes > 0 ? minutes + 'm ' : ''}${seconds.toString().padStart(2, '0')}s`;
+                    sessionInfo.style.color = timeLeft < this.WARNING_TIME ? '#dc3545' : '#666';
+                    sessionInfo.style.fontWeight = timeLeft < this.WARNING_TIME ? 'bold' : 'normal';
+                }
+            }
+
+            showSessionWarning() {
+                const extend = confirm('⚠️ Sua sessão expirará em 5 minutos!\n\nOK para estender, Cancelar para logout.');
+                if (extend) {
+                    this.expiresAt = Date.now() + this.SESSION_DURATION;
+                    sessionStorage.setItem('admin_session', JSON.stringify({ loginTime: this.loginTime, expires: this.expiresAt }));
+                    this.startSessionTimer();
+                    alert('✅ Sessão estendida por mais 30 minutos!');
+                } else {
+                    this.logout();
+                }
+            }
+
+            clearTimers() {
+                if (this.sessionTimer) { clearTimeout(this.sessionTimer); this.sessionTimer = null; }
+                if (this.warningTimer) { clearTimeout(this.warningTimer); this.warningTimer = null; }
+                if (this.countdownInterval) { clearInterval(this.countdownInterval); this.countdownInterval = null; }
+            }
+
+            async logout(reason) {
+                sessionStorage.removeItem('admin_session');
+                this.clearTimers();
+                try { await fetch('logout.php'); } catch (e) {}
+                this.showLoginScreen();
+                if (reason && reason !== 'Logout realizado com sucesso') {
+                    alert('🔒 ' + reason);
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            new AdminAuth();
+        });
+    </script>
+
+</body></html>

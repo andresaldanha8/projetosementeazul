@@ -1,0 +1,9 @@
+# Negar acesso a arquivos sensíveis
+<FilesMatch "^\.env\.php$">
+    Require all denied
+</FilesMatch>
+
+# Negar acesso a arquivos de configuração
+<FilesMatch "^config\.php$">
+    Require all denied
+</FilesMatch>
