@@ -1,4 +1,34 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Navegação independente dos patrocinadores.
+    const sponsorsSection = document.getElementById('patrocinadores');
+    if (sponsorsSection) {
+        const track = sponsorsSection.querySelector('.sponsors-track');
+        const previous = sponsorsSection.querySelector('.sponsors-prev');
+        const next = sponsorsSection.querySelector('.sponsors-next');
+
+        if (track && previous && next) {
+            const updateSponsorsControls = () => {
+                previous.disabled = track.scrollLeft <= 1;
+                next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 1;
+            };
+            const scrollSponsors = (direction) => {
+                const card = track.querySelector('.sponsors-card');
+                if (!card) return;
+                const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+                track.scrollBy({
+                    left: direction * (card.getBoundingClientRect().width + gap),
+                    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+                });
+            };
+
+            previous.addEventListener('click', () => scrollSponsors(-1));
+            next.addEventListener('click', () => scrollSponsors(1));
+            track.addEventListener('scroll', updateSponsorsControls, { passive: true });
+            window.addEventListener('resize', updateSponsorsControls);
+            updateSponsorsControls();
+        }
+    }
+
     // Menu hambúrguer
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');

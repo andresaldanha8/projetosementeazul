@@ -212,6 +212,11 @@
     box-shadow: 0 8px 40px #00cffd55, 0 4px 16px #007BFF44;
     transition: transform 0.35s cubic-bezier(.4,2,.3,1), box-shadow 0.35s;
 }
+.gallery-arrows-mobile {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
 .gallery-carousel-wrapper {
     display: flex;
     flex-direction: column;
@@ -1004,3 +1009,108 @@ footer {
     color: #fff;
 }
 /* ==== FIM DO ESTILO DO BOTÃO DE INSCRIÇÃO DO FUTVOLEI ==== */
+
+/* Patrocinadores do Autismo Run */
+.sponsors-invite {
+    max-width: 600px;
+    margin: 28px auto 0;
+    text-align: center;
+}
+.sponsors-invite h3 {
+    color: #007BFF;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+.sponsors-invite p {
+    margin-bottom: 18px;
+}
+.sponsors-invite-button {
+    max-width: 100%;
+    justify-content: center;
+    background: #007BFF;
+    color: #fff;
+}
+.sponsors-invite-button:hover {
+    background: #0062cc;
+}
+.sponsors-invite-button:focus-visible {
+    outline: 2px solid #007BFF;
+    outline-offset: 3px;
+}
+.sponsors-event {
+    color: #007BFF;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+}
+.sponsors-carousel {
+    margin-top: 24px;
+}
+.sponsors-track {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    padding: 4px;
+    scroll-snap-type: x proximity;
+}
+.sponsors-card {
+    flex: 0 0 calc((100% - 54px) / 4);
+    min-width: 0;
+    aspect-ratio: 2 / 1;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.08), 0 1px 3px rgba(0,0,0,0.05);
+    overflow: hidden;
+    scroll-snap-align: start;
+}
+.sponsors-card:only-child {
+    margin-inline: auto;
+}
+.sponsors-card img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.sponsors-arrows {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 12px;
+}
+.sponsors-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    background: #00CFFD;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #00cffd33;
+    transition: background 0.2s;
+}
+.sponsors-arrow:hover:not(:disabled) {
+    background: #007BFF;
+}
+.sponsors-arrow:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+.sponsors-arrow:focus-visible,
+.sponsors-track:focus-visible {
+    outline: 2px solid #007BFF;
+    outline-offset: 3px;
+}
+@media (max-width: 900px) {
+    .sponsors-card {
+        flex-basis: calc((100% - 18px) / 2);
+    }
+}
+@media (max-width: 600px) {
+    .sponsors-card {
+        flex-basis: 100%;
+    }
+}

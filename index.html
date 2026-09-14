@@ -155,12 +155,12 @@
               color: #0a2a4a;
               margin: 0;
               line-height: 1.1;
-            ">2º Autismo Run</h2>
+            ">II Corrida Solidária Autismo Run</h2>
           </div>
         </div>
 
-        <!-- Layout principal: info + causa -->
-        <div class="ar-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch;">
+        <!-- Layout principal: info + causa (3 colunas: detalhes | cards | flyer) -->
+        <div class="ar-grid" style="display: grid; grid-template-columns: 1fr 1fr 320px; gap: 24px; align-items: stretch;">
 
           <!-- Coluna esquerda: detalhes do evento -->
           <div style="
@@ -179,7 +179,7 @@
               </div>
               <div>
                 <p style="font-family:'Poppins',sans-serif; font-size:0.7rem; color:#9bb8d4; font-weight:600; text-transform:uppercase; letter-spacing:1px; margin:0 0 2px;">Data</p>
-                <p style="font-family:'Poppins',sans-serif; font-size:1rem; color:#0a2a4a; font-weight:700; margin:0;">21 de Junho de 2026</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:1rem; color:#0a2a4a; font-weight:700; margin:0;">08 de Novembro de 2026</p>
               </div>
             </div>
 
@@ -190,7 +190,7 @@
               </div>
               <div>
                 <p style="font-family:'Poppins',sans-serif; font-size:0.7rem; color:#9bb8d4; font-weight:600; text-transform:uppercase; letter-spacing:1px; margin:0 0 2px;">Horário</p>
-                <p style="font-family:'Poppins',sans-serif; font-size:1rem; color:#0a2a4a; font-weight:700; margin:0;">7h00 da manhã</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:1rem; color:#0a2a4a; font-weight:700; margin:0;">Largada às 06h30</p>
               </div>
             </div>
 
@@ -201,13 +201,13 @@
               </div>
               <div>
                 <p style="font-family:'Poppins',sans-serif; font-size:0.7rem; color:#9bb8d4; font-weight:600; text-transform:uppercase; letter-spacing:1px; margin:0 0 2px;">Local</p>
-                <p style="font-family:'Poppins',sans-serif; font-size:1rem; color:#0a2a4a; font-weight:700; margin:0;">Vitória do Xingu, PA</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:1rem; color:#0a2a4a; font-weight:700; margin:0;">Prainha Ray Silva</p>
               </div>
             </div>
           </div>
 
-          <!-- Coluna direita: causa + inscrições -->
-          <div style="display:flex; flex-direction:column; gap:20px; height:100%;">
+          <!-- Coluna do meio: cards empilhados (centralizados verticalmente) -->
+          <div style="display:flex; flex-direction:column; gap:20px; justify-content:center;">
 
             <!-- Card da causa -->
             <div style="
@@ -217,7 +217,6 @@
               color: #fff;
               position: relative;
               overflow: hidden;
-              flex: 1;
               display: flex;
               flex-direction: column;
               justify-content: center;
@@ -245,16 +244,16 @@
               justify-content: center;
               text-align: center;
               gap: 12px;
-              flex: 1;
+              /* card sized to content, centered by parent */
             ">
               <div style="width:44px; height:44px; background:#e6f1ff; border-radius:50%; display:flex; align-items:center; justify-content:center;">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#007BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
               </div>
-              <div>
-                <p style="font-family:'Poppins',sans-serif; font-size:0.95rem; font-weight:700; color:#0a2a4a; margin:0 0 4px;">Inscrições em Breve</p>
-                <p style="font-family:'Poppins',sans-serif; font-size:0.8rem; color:#9bb8d4; margin:0;">Acompanhe nossas redes sociais para não perder!</p>
+                <div>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.95rem; font-weight:700; color:#0a2a4a; margin:0 0 4px;">Inscrições Abertas!</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.8rem; color:#9bb8d4; margin:0;">Inscreva-se pelo link oficial e garanta sua vaga.</p>
               </div>
-              <a href="https://www.instagram.com/projetosementeazulvtx/" target="_blank" rel="noopener" style="
+              <a href="https://www.cronosantarem.com.br/evento/ii-corrida-solidrio-autismo-run" target="_blank" rel="noopener" style="
                 display: inline-flex;
                 align-items: center;
                 gap: 8px;
@@ -268,11 +267,16 @@
                 text-decoration: none;
                 transition: opacity 0.2s;
               " onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
-                Seguir no Instagram
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                Inscreva-se
               </a>
             </div>
 
+          </div>
+
+          <!-- Coluna direita: flyer em retrato (mesma altura da coluna de detalhes) -->
+          <div style="width:320px; display:flex;">
+            <img id="flyerImg" src="img/flyercorrida2.jpeg" alt="Flyer II Corrida Solidária Autismo Run" style="width:100%; height:100%; object-fit:cover; border-radius:12px; box-shadow:0 8px 28px rgba(0,0,0,0.12); border:4px solid #fff; display:block; cursor:pointer;"/>
           </div>
         </div>
 
@@ -380,6 +384,30 @@
 
       </div>
     </section>
+    <!-- Patrocinadores do II Corrida Solidária Autismo Run -->
+    <section id="patrocinadores" class="section" aria-labelledby="sponsors-title">
+      <div class="container">
+        <p class="sponsors-event">II Corrida Solidária Autismo Run</p>
+        <h2 id="sponsors-title">Apoiadores</h2>
+        <div class="sponsors-carousel">
+          <div id="sponsors-track" class="sponsors-track" tabindex="0" role="region" aria-label="Patrocinadores do II Corrida Solidária Autismo Run">
+            <div class="sponsors-card">
+              <img loading="lazy" src="img/PATR.jpeg" alt="Arte do patrocinador do II Corrida Solidária Autismo Run" />
+            </div>
+          </div>
+          <div class="sponsors-arrows">
+            <button type="button" class="sponsors-arrow sponsors-prev" aria-label="Patrocinador anterior" aria-controls="sponsors-track" disabled>&#8592;</button>
+            <button type="button" class="sponsors-arrow sponsors-next" aria-label="Próximo patrocinador" aria-controls="sponsors-track" disabled>&#8594;</button>
+          </div>
+        </div>
+        <div class="sponsors-invite">
+          <h3>Quer fazer parte dessa corrida com a gente?</h3>
+          <p>Seja um apoiador da II Corrida Solidária Autismo Run e contribua para fortalecer essa iniciativa pela inclusão.</p>
+          <a class="btn sponsors-invite-button" href="https://wa.me/559384179663?text=Ol%C3%A1!%20Conheci%20o%20II%20Corrida%20Solid%C3%A1ria%20Autismo%20Run%20pelo%20site%20do%20Projeto%20Semente%20Azul%20e%20tenho%20interesse%20em%20ser%20um%20apoiador.%20Gostaria%20de%20receber%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener noreferrer">Quero ser um apoiador</a>
+        </div>
+      </div>
+    </section>
+
     <!-- Sobre -->
     <section id="sobre" class="section">
         <div class="container">
@@ -676,6 +704,16 @@
       galleryOverlay.classList.remove('hidden');
     });
   });
+
+  // Permite ampliar o flyer ao clicar, reutilizando o overlay da galeria
+  var flyerImgEl = document.getElementById('flyerImg');
+  if (flyerImgEl) {
+    flyerImgEl.addEventListener('click', function() {
+      var src = this.getAttribute('src');
+      galleryOverlayImg.setAttribute('src', src);
+      galleryOverlay.classList.remove('hidden');
+    });
+  }
 
   galleryOverlayClose.addEventListener('click', () => {
     galleryOverlay.classList.add('hidden');
