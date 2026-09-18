@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ficha de cadastro | Projeto Semente Azul</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/authService.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <main class="page">
+    <header class="institution">
+      <img src="../img/logo.png" width="88" height="88" alt="Logo do Projeto Semente Azul">
+      <div><p class="brand">PROJETO SEMENTE AZUL</p><h1>FICHA DE CADASTRO</h1><p class="subtitle">CRIANÇA E MEMBROS DA FAMÍLIA</p></div>
+    </header>
+    <noscript><p class="preview-note">Ative o JavaScript para preencher e navegar pelas etapas do formulário.</p></noscript>
+    <section id="login-panel" aria-labelledby="login-title">
+      <form id="login-form">
+        <header class="section-heading"><p class="eyebrow">Área de Cadastro</p><h2 id="login-title" tabindex="-1">Acesso do Cadastrador</h2><p>Entre para preencher uma ficha de cadastro.</p></header>
+        
+        <div class="login-fields">
+          <div class="field"><label for="login-name">Login</label><input id="login-name" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required aria-describedby="login-error"></div>
+          <div class="field"><label for="login-password">Senha</label><div class="password-control"><input id="login-password" name="password" type="password" autocomplete="current-password" required aria-describedby="login-error"><button id="toggle-password" class="secondary" type="button" aria-controls="login-password" aria-label="Mostrar senha" aria-pressed="false">Mostrar</button></div></div>
+        </div>
+        <p id="login-error" class="error" role="alert" hidden></p>
+        <p id="login-status" class="hint" role="status"></p>
+        <button id="login-submit" type="submit" disabled>Entrar</button>
+      </form>
+    </section>
+    <section id="password-change-panel" aria-labelledby="password-change-title" hidden>
+      <form id="password-change-form">
+        <header class="section-heading"><p class="eyebrow">Área de Cadastro</p><h2 id="password-change-title" tabindex="-1">Defina sua nova senha</h2><p>Por segurança, você precisa alterar sua senha antes de acessar o cadastro.</p></header>
+        <div class="login-fields password-change-fields">
+          <div class="field"><label for="current-password">Senha atual</label><input id="current-password" name="currentPassword" type="password" autocomplete="current-password" required aria-describedby="password-change-error"></div>
+          <div class="field"><label for="new-password">Nova senha</label><input id="new-password" name="newPassword" type="password" autocomplete="new-password" required minlength="10" aria-describedby="password-change-error"></div>
+          <div class="field"><label for="confirm-new-password">Confirmar nova senha</label><input id="confirm-new-password" name="confirmNewPassword" type="password" autocomplete="new-password" required minlength="10" aria-describedby="password-change-error"></div>
+        </div>
+        <p class="hint">A nova senha deve ter pelo menos 10 caracteres.</p>
+        <p id="password-change-error" class="error" role="alert" hidden aria-live="polite"></p>
+        <p id="password-change-status" class="hint" role="status" aria-live="polite"></p>
+        <button id="password-change-submit" type="submit">Alterar senha</button>
+      </form>
+    </section>
+    <aside id="current-user" class="current-user" aria-label="Cadastrador autenticado" hidden>
+      <dl><div><dt>Cadastrador</dt><dd id="current-user-name"></dd></div><div><dt>Perfil</dt><dd id="current-user-role"></dd></div></dl>
+      <button id="logout" type="button" class="secondary">Sair</button>
+      <p id="logout-error" class="error" role="alert" hidden></p>
+    </aside>
+    <div id="registration" hidden>
+      <dl class="record-meta">
+        <div><dt>Nº do cadastro</dt><dd>Gerado ao enviar</dd></div>
+        <div><dt>Data do cadastro</dt><dd>Definida ao enviar</dd></div>
+        <div id="record-child" hidden><dt>Cadastro de:</dt><dd id="record-child-name"></dd></div>
+      </dl>
+      <nav class="progress" aria-label="Progresso do preenchimento">
+        <p id="step-count" aria-live="polite">Etapa 1 de 4</p>
+        <ol><li aria-current="step"><span>1</span>Criança/Adolescente</li><li><span>2</span>Responsável</li><li><span>3</span>Necessidades e Interesses</li><li><span>4</span>Revisão e Autorização</li></ol>
+      </nav>
+      <form id="registration-form" novalidate>
+        <section class="step" aria-labelledby="title-1">
+          <header class="section-heading"><p class="eyebrow">ETAPA 1 DE 4</p><h2 id="title-1" tabindex="-1">Dados da Criança/Adolescente</h2><p>Os campos com * são obrigatórios.</p></header>
+          <div class="fields">
+            <div class="field full"><label for="child-name">Nome completo <span aria-hidden="true">*</span></label><input id="child-name" name="childName" autocomplete="section-child name" required aria-describedby="child-name-error"><p class="error" id="child-name-error" hidden></p></div>
+            <div class="field full"><label for="social-name">Nome social (se houver)</label><input id="social-name" name="socialName"></div>
+            <div class="field"><label for="child-birth">Data de nascimento <span aria-hidden="true">*</span></label><input id="child-birth" name="childBirth" type="date" autocomplete="section-child bday" required aria-describedby="child-birth-error"><p class="error" id="child-birth-error" hidden></p></div>
+            <div class="field"><label for="age">Idade</label><input id="age" name="age" readonly aria-describedby="age-help"><p class="hint" id="age-help">Calculada a partir da data de nascimento.</p></div>
+            <fieldset class="full"><legend>Sexo</legend><div class="choices"><label><input type="radio" name="sex" value="Feminino">Feminino</label><label><input type="radio" name="sex" value="Masculino">Masculino</label><label><input type="radio" name="sex" value="Outro">Outro</label></div></fieldset>
+            <div class="field"><label for="rg">RG</label><input id="rg" name="rg"></div>
+            <div class="field"><label for="cpf">CPF</label><input id="cpf" name="cpf" inputmode="numeric" maxlength="14" data-mask="cpf" aria-describedby="cpf-error"><p class="error" id="cpf-error" hidden></p></div>
+            <div class="field"><label for="neighborhood">Bairro</label><input id="neighborhood" name="neighborhood"></div>
+            <div class="field"><label for="child-phone">Telefone</label><input id="child-phone" name="childPhone" type="tel" autocomplete="section-child tel-national" data-mask="phone" maxlength="15" aria-describedby="child-phone-error"><p class="error" id="child-phone-error" hidden></p></div>
+            <div class="field full"><label for="school">Escola/Instituição de ensino</label><input id="school" name="school"></div>
+            <fieldset class="full"><legend>Possui diagnóstico?</legend><div class="choices"><label><input type="radio" name="diagnosis" value="Sim">Sim</label><label><input type="radio" name="diagnosis" value="Não">Não</label></div></fieldset>
+            <div class="field"><label for="year">Ano</label><input id="year" name="year"></div>
+            <div class="field"><label for="grade">Série</label><input id="grade" name="grade"></div>
+          </div>
+        </section>
+        <section class="step" aria-labelledby="title-2" hidden>
+          <header class="section-heading"><p class="eyebrow">ETAPA 2 DE 4</p><h2 id="title-2" tabindex="-1">Dados do Responsável</h2><p>Os campos com * são obrigatórios. Informe pelo menos um contato: Telefone ou WhatsApp.</p></header>
+          <div class="fields">
+            <div class="field full"><label for="guardian-name">Nome completo <span aria-hidden="true">*</span></label><input id="guardian-name" name="guardianName" autocomplete="section-guardian name" required aria-describedby="guardian-name-error"><p class="error" id="guardian-name-error" hidden></p></div>
+            <div class="field"><label for="relationship">Parentesco com a criança <span aria-hidden="true">*</span></label><input id="relationship" name="relationship" required aria-describedby="relationship-error"><p class="error" id="relationship-error" hidden></p></div>
+            <div class="field"><label for="guardian-birth">Data de nascimento</label><input id="guardian-birth" name="guardianBirth" type="date" autocomplete="section-guardian bday" aria-describedby="guardian-birth-error"><p class="error" id="guardian-birth-error" hidden></p></div>
+            <div class="field"><label for="guardian-phone">Telefone</label><input id="guardian-phone" name="guardianPhone" type="tel" autocomplete="section-guardian tel-national" maxlength="15" data-mask="phone" aria-describedby="contact-help guardian-phone-error"><p class="error" id="guardian-phone-error" hidden></p></div>
+            <div class="field"><label for="whatsapp">WhatsApp</label><input id="whatsapp" name="whatsapp" type="tel" maxlength="15" data-mask="phone" aria-describedby="contact-help whatsapp-error"><p class="error" id="whatsapp-error" hidden></p></div>
+            <p class="hint full" id="contact-help">Preencha Telefone ou WhatsApp, com DDD. Você também pode informar os dois.</p>
+            <div class="field full"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="section-guardian email" aria-describedby="email-error"><p class="error" id="email-error" hidden></p></div>
+          </div>
+        </section>
+        <section class="step" aria-labelledby="title-3" hidden>
+          <header class="section-heading"><p class="eyebrow">ETAPA 3 DE 4</p><h2 id="title-3" tabindex="-1">Necessidades e Interesses</h2><p>Você pode selecionar mais de uma atividade. O preenchimento desta etapa é opcional.</p></header>
+          <div class="fields">
+            <fieldset class="full"><legend>Quais atividades do Projeto Semente Azul são de interesse da criança/adolescente?</legend><div class="choices interests">
+              <label><input type="checkbox" name="interests" value="Atividades recreativas">Atividades recreativas</label>
+              <label><input type="checkbox" name="interests" value="Esporte">Esporte</label>
+              <label><input type="checkbox" name="interests" value="Cultura">Cultura</label>
+              <label><input type="checkbox" name="interests" value="Música">Música</label>
+              <label><input type="checkbox" name="interests" value="Dança">Dança</label>
+              <label><input type="checkbox" name="interests" value="Artes">Artes</label>
+              <label><input type="checkbox" name="interests" value="Oficinas">Oficinas</label>
+              <label><input type="checkbox" name="interests" value="Passeios/eventos">Passeios/eventos</label>
+              <label><input type="checkbox" name="interests" value="Apoio pedagógico">Apoio pedagógico</label>
+              <label><input id="other-interest" type="checkbox" name="interests" value="Outras">Outras</label>
+            </div></fieldset>
+            <div class="field full" id="other-field" hidden><label for="other-description">Outras — especificação</label><input id="other-description" name="otherDescription" disabled></div>
+            <div class="field full"><label for="needs">Existe alguma necessidade específica que a equipe do projeto deve conhecer?</label><textarea id="needs" name="needs" rows="5"></textarea></div>
+          </div>
+        </section>
+        <section class="step" aria-labelledby="title-4" hidden>
+          <header class="section-heading"><p class="eyebrow">ETAPA 4 DE 4</p><h2 id="title-4" tabindex="-1">Revisão e Autorização</h2><p>Confira as informações. Use Voltar para corrigir o preenchimento.</p></header>
+          <div id="review"></div>
+          <aside class="team-note"><h3>Uso exclusivo da equipe do Projeto Semente Azul</h3><p>Esta seção será preenchida internamente pela equipe após o recebimento do cadastro.</p><dl><div><dt>Data de ingresso</dt><dd>Preenchimento interno</dd></div><div><dt>Responsável pelo cadastro</dt><dd>Preenchimento interno</dd></div><div><dt>Observações</dt><dd>Preenchimento interno</dd></div><div><dt>Situação do cadastro</dt><dd>A definir pela equipe: Ativo, Aguardando documentação, Acompanhamento ou Encerrado.</dd></div></dl></aside>
+          <fieldset class="authorization"><legend>Autorização do responsável</legend><p class="hint">Nesta versão digital, a concordância abaixo corresponde à autorização do responsável.</p><label class="consent"><input id="consent" name="consent" type="checkbox" required aria-describedby="consent-error"><span>Declaro que as informações fornecidas nesta ficha são verdadeiras e autorizo a participação da criança/adolescente nas atividades do Projeto Semente Azul.</span></label><p class="error" id="consent-error" hidden></p><p class="authorization-date">Data: <time id="authorization-date"></time></p></fieldset>
+        </section>
+        <footer class="form-actions"><button id="back" type="button" class="secondary" hidden>Voltar</button><button id="next" type="submit">Continuar</button></footer>
+      </form>
+    </div>
+    <section id="success" class="success" aria-labelledby="success-title" hidden>
+      <span class="success-icon" aria-hidden="true">✓</span>
+      <p class="eyebrow">Cadastro enviado</p>
+      <h2 id="success-title" tabindex="-1">Cadastro enviado com sucesso!</h2>
+      <p id="psa-number" class="hint" aria-live="polite"></p>
+      <p class="hint">Obrigado. A confirmação do recebimento foi gerada pelo servidor.</p>
+      <button id="restart" type="button">Iniciar novo cadastro</button>
+    </section>
+    <footer class="page-footer">Projeto Semente Azul · Ficha de cadastro</footer>
+  </main>
+</body>
+</html>
