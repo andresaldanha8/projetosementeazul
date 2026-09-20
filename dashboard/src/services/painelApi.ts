@@ -585,7 +585,52 @@ export async function atualizarStatusUsuario(usuarioId: number, ativo: boolean, 
   return { sucesso: true, usuario: { id: usuarioId, ativo: data.usuario.ativo } };
 }
 
+export interface UsuarioResetSenhaInput {
+  usuarioId: number;
+  senhaTemporaria: string;
+}
+
+export interface UsuarioResetSenhaResponse {
+  sucesso: true;
+  usuario: { id: number; mustChangePassword: true };
+}
+
+export async function redefinirSenhaUsuario(usuarioId: number, senhaTemporaria: string, csrfToken: string | null): Promise<UsuarioResetSenhaResponse> {
+  if (!isPositiveId(usuarioId) || typeof senhaTemporaria !== 'string') throw administrativeError('ValidationError');
+  const bytes = new TextEncoder().encode(senhaTemporaria).length;
+  if (bytes < 10 || bytes > 1024) throw administrativeError('ValidationError');
+  if (!csrfToken?.trim()) throw administrativeError('ForbiddenError');
+  const payload: UsuarioResetSenhaInput = { usuarioId, senhaTemporaria };
+  const res = await fetch('/cadastro/api/painel/usuarios-reset-senha.php', {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+    body: JSON.stringify(payload),
+  });
+  if (res.status !== 200) {
+    switch (res.status) {
+      case 400: throw administrativeError('ValidationError');
+      case 401: throw administrativeError('SessionExpiredError');
+      case 403: throw administrativeError('ForbiddenError');
+      case 404: throw administrativeError('NotFoundError');
+      case 405: throw administrativeError('MethodNotAllowedError');
+      case 413: throw administrativeError('PayloadTooLargeError');
+      case 415: throw administrativeError('UnsupportedMediaTypeError');
+      default: throw administrativeError('ServerError');
+    }
+  }
+  let data: unknown;
+  try { data = await res.json(); }
+  catch { throw administrativeError('InvalidResponse'); }
+  if (!isRecord(data) || data.sucesso !== true || !isRecord(data.usuario)
+    || data.usuario.id !== usuarioId || data.usuario.mustChangePassword !== true) {
+    throw administrativeError('InvalidResponse');
+  }
+  return { sucesso: true, usuario: { id: usuarioId, mustChangePassword: true } };
+}
+
 export default {
+  redefinirSenhaUsuario,
   atualizarStatusUsuario,
   criarUsuario,
   getUsuarios,
