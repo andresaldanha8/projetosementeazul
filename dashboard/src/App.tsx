@@ -3,6 +3,7 @@ import { Topbar } from './components/Topbar';
 import { Sidebar } from './components/Sidebar';
 import { ModalConfirmaSaida } from './components/ModalConfirmaSaida';
 import { LoginPage } from './pages/LoginPage';
+import { ChangePasswordPage } from './pages/ChangePasswordPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { FichasPage } from './pages/FichasPage';
 import { FichaDetalhe } from './pages/FichaDetalhe';
@@ -134,6 +135,22 @@ export default function App() {
       <div className="min-h-screen bg-slate-100 flex items-center justify-center">
         <div className="text-rose-600">Erro ao verificar sessão.</div>
       </div>
+    );
+  }
+
+  if (mustChangePassword) {
+    return (
+      <ChangePasswordPage
+        csrfToken={csrfToken}
+        onPasswordChanged={(info: SessionInfo) => {
+          setCurrentUser(info.user);
+          setCsrfToken(info.csrfToken);
+          setPagina('dashboard');
+          setFichaAberta(null);
+          setSidebarMobile(false);
+          setMustChangePassword(info.mustChangePassword);
+        }}
+      />
     );
   }
 

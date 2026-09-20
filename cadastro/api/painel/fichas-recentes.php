@@ -44,6 +44,10 @@ try {
         respond_json(403, ['sucesso' => false, 'mensagem' => 'Perfil não autorizado.']);
     }
 
+    if (user_must_change_password($user)) {
+        respond_json(403, ['sucesso' => false, 'mensagem' => 'Troca de senha obrigatória.']);
+    }
+
     // Query determinística: created_at DESC, id DESC, limite 5
     $sql = 'SELECT id, crianca_nome, responsavel_nome, situacao, created_at, created_by_name_snapshot FROM cad_fichas ORDER BY created_at DESC, id DESC LIMIT 5';
     $stmt = $pdo->prepare($sql);

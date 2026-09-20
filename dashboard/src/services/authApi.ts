@@ -168,4 +168,56 @@ export async function logout(csrfToken?: string | null): Promise<void> {
   throw err;
 }
 
-export default { getCurrentUser, login, logout };
+export async function changePassword(
+  currentPassword: string,
+  newPassword: string,
+  csrfToken: string | null,
+): Promise<SessionInfo> {
+  if (!csrfToken) {
+    const err = new Error('Não foi possível validar a sessão. Recarregue a página e tente novamente.');
+    err.name = 'AuthError';
+    throw err;
+  }
+
+  const res = await fetch('/cadastro/api/auth/change_password.php', {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      'X-CSRF-Token': csrfToken,
+    },
+    body: JSON.stringify({ currentPassword, newPassword }),
+  });
+  const data = await safeParseJson(res);
+
+  if (res.status !== 200) {
+    const knownError = [400, 401, 403, 413].includes(res.status);
+    const message = knownError && typeof data?.mensagem === 'string'
+      ? data.mensagem
+      : 'Não foi possível alterar a senha. Tente novamente.';
+    const err = new Error(message);
+    err.name = knownError ? 'AuthError' : 'ServerError';
+    throw err;
+  }
+
+  const u = data?.usuario;
+  // Only a complete successful response may unlock the application.
+  if (data?.sucesso !== true || !u || typeof u.id !== 'number'
+    || typeof u.nome !== 'string'
+    || (u.perfil !== 'ADMINISTRADOR' && u.perfil !== 'CADASTRADOR')
+    || data.mustChangePassword !== false
+    || typeof data.csrfToken !== 'string' || !/^[a-f0-9]{64}$/i.test(data.csrfToken)) {
+    const err = new Error('Resposta inválida ao alterar a senha. Recarregue a página para verificar a sessão.');
+    err.name = 'InvalidResponse';
+    throw err;
+  }
+
+  return {
+    user: { id: u.id, nome: u.nome, perfil: u.perfil },
+    csrfToken: data.csrfToken,
+    mustChangePassword: data.mustChangePassword,
+  };
+}
+
+export default { getCurrentUser, login, logout, changePassword };

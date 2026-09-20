@@ -45,6 +45,10 @@ try {
         respond_json(403, ['sucesso' => false, 'mensagem' => 'Perfil não autorizado.']);
     }
 
+    if (user_must_change_password($user)) {
+        respond_json(403, ['sucesso' => false, 'mensagem' => 'Troca de senha obrigatória.']);
+    }
+
     // Consultas: calcular indicadores a partir de cad_fichas
     $sql = "SELECT
         COUNT(*) AS total,
