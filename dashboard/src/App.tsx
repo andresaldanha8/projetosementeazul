@@ -226,7 +226,7 @@ export default function App() {
           )}
 
           {pagina === 'usuarios' && (currentUser.perfil === 'ADMINISTRADOR'
-            ? <UsuariosPage />
+            ? <UsuariosPage csrfToken={csrfToken} />
             : <p role="alert" className="text-sm text-rose-600">Você não tem permissão para acessar esta página.</p>)}
         </main>
       </div>

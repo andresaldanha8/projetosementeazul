@@ -88,9 +88,6 @@ export function Sidebar({ paginaAtual, onNavegar, perfil, mobile, onClose }: Sid
             >
               <span className={isActive ? 'text-white' : 'text-slate-400'}>{item.icon}</span>
               {item.label}
-              {item.id === 'usuarios' && (
-                <span className="ml-auto text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded font-mono">Em breve</span>
-              )}
             </button>
           );
         })}

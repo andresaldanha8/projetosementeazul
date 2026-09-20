@@ -488,7 +488,64 @@ export async function getUsuarios(): Promise<UsuariosListResponse> {
   return { sucesso: true, usuarios };
 }
 
+export interface CriarUsuarioInput {
+  nome: string;
+  login: string;
+  senhaTemporaria: string;
+}
+
+export interface UsuarioCriadoApi {
+  id: number;
+  nome: string;
+  login: string;
+  perfil: 'CADASTRADOR';
+  ativo: true;
+  mustChangePassword: true;
+}
+
+export interface CriarUsuarioResponse {
+  sucesso: true;
+  usuario: UsuarioCriadoApi;
+}
+
+export async function criarUsuario(dados: CriarUsuarioInput, csrfToken: string | null): Promise<CriarUsuarioResponse> {
+  if (!csrfToken) throw administrativeError('ForbiddenError');
+  const res = await fetch('/cadastro/api/painel/usuarios-criar.php', {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+    body: JSON.stringify({ nome: dados.nome, login: dados.login, senhaTemporaria: dados.senhaTemporaria }),
+  });
+  if (res.status !== 201) {
+    switch (res.status) {
+      case 400: throw administrativeError('ValidationError');
+      case 401: throw administrativeError('SessionExpiredError');
+      case 403: throw administrativeError('ForbiddenError');
+      case 409: throw administrativeError('ConflictError');
+      case 413: throw administrativeError('PayloadTooLargeError');
+      case 415: throw administrativeError('UnsupportedMediaTypeError');
+      default: throw administrativeError('ServerError');
+    }
+  }
+  let data: unknown;
+  try { data = await res.json(); }
+  catch { throw administrativeError('InvalidResponse'); }
+  if (!isRecord(data) || data.sucesso !== true || !isRecord(data.usuario)) {
+    throw administrativeError('InvalidResponse');
+  }
+  const u = data.usuario;
+  if (!isPositiveId(u.id) || typeof u.nome !== 'string' || typeof u.login !== 'string'
+    || u.perfil !== 'CADASTRADOR' || u.ativo !== true || u.mustChangePassword !== true) {
+    throw administrativeError('InvalidResponse');
+  }
+  return { sucesso: true, usuario: {
+    id: u.id, nome: u.nome, login: u.login, perfil: u.perfil,
+    ativo: u.ativo, mustChangePassword: u.mustChangePassword,
+  } };
+}
+
 export default {
+  criarUsuario,
   getUsuarios,
   getIndicadores,
   getFichasRecentes,
