@@ -544,7 +544,49 @@ export async function criarUsuario(dados: CriarUsuarioInput, csrfToken: string |
   } };
 }
 
+export interface UsuarioStatusInput {
+  usuarioId: number;
+  ativo: boolean;
+}
+
+export interface UsuarioStatusResponse {
+  sucesso: true;
+  usuario: { id: number; ativo: boolean };
+}
+
+export async function atualizarStatusUsuario(usuarioId: number, ativo: boolean, csrfToken: string | null): Promise<UsuarioStatusResponse> {
+  if (!isPositiveId(usuarioId) || typeof ativo !== 'boolean') throw administrativeError('ValidationError');
+  if (!csrfToken?.trim()) throw administrativeError('ForbiddenError');
+  const payload: UsuarioStatusInput = { usuarioId, ativo };
+  const res = await fetch('/cadastro/api/painel/usuarios-status.php', {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+    body: JSON.stringify(payload),
+  });
+  if (res.status !== 200) {
+    switch (res.status) {
+      case 400: throw administrativeError('ValidationError');
+      case 401: throw administrativeError('SessionExpiredError');
+      case 403: throw administrativeError('ForbiddenError');
+      case 404: throw administrativeError('NotFoundError');
+      case 405: throw administrativeError('MethodNotAllowedError');
+      case 413: throw administrativeError('PayloadTooLargeError');
+      case 415: throw administrativeError('UnsupportedMediaTypeError');
+      default: throw administrativeError('ServerError');
+    }
+  }
+  let data: unknown;
+  try { data = await res.json(); }
+  catch { throw administrativeError('InvalidResponse'); }
+  if (!isRecord(data) || data.sucesso !== true || !isRecord(data.usuario)
+    || data.usuario.id !== usuarioId || typeof data.usuario.ativo !== 'boolean'
+    || data.usuario.ativo !== ativo) throw administrativeError('InvalidResponse');
+  return { sucesso: true, usuario: { id: usuarioId, ativo: data.usuario.ativo } };
+}
+
 export default {
+  atualizarStatusUsuario,
   criarUsuario,
   getUsuarios,
   getIndicadores,

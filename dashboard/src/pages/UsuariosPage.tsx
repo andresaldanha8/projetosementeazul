@@ -134,12 +134,87 @@ function NovoUsuarioModal({ csrfToken, onClose, onCreated }: {
   );
 }
 
+function erroStatus(err: unknown): string {
+  switch (err instanceof Error ? err.name : '') {
+    case 'ValidationError': return 'Dados inválidos para alterar o status.';
+    case 'SessionExpiredError': return 'Sessão inválida ou expirada. Recarregue a página para entrar novamente.';
+    case 'ForbiddenError': return 'Sem autorização ou sessão em condição incompatível. Recarregue a página.';
+    case 'NotFoundError': return 'Usuário não encontrado. Feche a confirmação e atualize a listagem.';
+    case 'MethodNotAllowedError': return 'Operação não aceita pelo servidor.';
+    case 'PayloadTooLargeError': return 'Os dados enviados excedem o tamanho permitido.';
+    case 'UnsupportedMediaTypeError': return 'Formato de envio não aceito pelo servidor.';
+    default: return 'Não foi possível confirmar a alteração. Tente novamente ou atualize a listagem para conferir o status.';
+  }
+}
+
+function StatusUsuarioModal({ usuario, csrfToken, onClose, onSuccess }: {
+  usuario: UsuarioListApi;
+  csrfToken: string | null;
+  onClose: () => void;
+  onSuccess: (ativo: boolean) => void;
+}) {
+  const dialog = useRef<HTMLDialogElement>(null);
+  const busy = useRef(false);
+  const mounted = useRef(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const ativoDesejado = !usuario.ativo;
+  const acao = ativoDesejado ? 'Ativar' : 'Desativar';
+
+  useEffect(() => {
+    mounted.current = true;
+    const element = dialog.current;
+    element?.showModal();
+    return () => { mounted.current = false; element?.close(); };
+  }, []);
+
+  const fechar = () => { if (!busy.current) onClose(); };
+  const confirmar = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (busy.current || usuario.perfil !== 'CADASTRADOR') return;
+    busy.current = true;
+    setSaving(true);
+    setError(null);
+    try {
+      const response = await painelApi.atualizarStatusUsuario(usuario.id, ativoDesejado, csrfToken);
+      if (mounted.current) onSuccess(response.usuario.ativo);
+    } catch (err: unknown) {
+      if (mounted.current) setError(erroStatus(err));
+    } finally {
+      busy.current = false;
+      if (mounted.current) setSaving(false);
+    }
+  };
+
+  return (
+    <dialog ref={dialog} aria-labelledby="status-usuario-titulo" aria-describedby="status-usuario-descricao"
+      onCancel={event => { event.preventDefault(); fechar(); }}
+      className="m-auto w-[calc(100%_-_2rem)] max-w-lg max-h-[90dvh] overflow-y-auto rounded-xl border border-slate-200 bg-white p-6 shadow-xl backdrop:bg-slate-900/40">
+      <h2 id="status-usuario-titulo" className="font-display text-xl font-bold text-slate-800 break-words [overflow-wrap:anywhere]">{acao} {usuario.nome}?</h2>
+      <p id="status-usuario-descricao" className="text-sm text-slate-500 mt-3">
+        {ativoDesejado
+          ? 'Este cadastrador poderá acessar o sistema novamente. Se houver troca de senha pendente, ela continuará obrigatória.'
+          : 'Este cadastrador perderá o acesso ao sistema. Você poderá reativá-lo posteriormente.'}
+      </p>
+      <form onSubmit={confirmar} aria-busy={saving} className="mt-5 space-y-4">
+        {error && <p role="alert" className="text-sm text-rose-600">{error}</p>}
+        <div className="flex flex-col-reverse sm:flex-row justify-end gap-3">
+          <button type="button" autoFocus onClick={fechar} disabled={saving} className="rounded-lg border border-slate-300 px-4 py-2 text-sm text-slate-600 focus-visible:ring-2 focus-visible:ring-blue-600 disabled:opacity-50">Cancelar</button>
+          <button type="submit" disabled={saving} className="rounded-lg bg-[#1a4b8c] px-4 py-2 text-sm font-semibold text-white hover:bg-[#123568] focus-visible:ring-2 focus-visible:ring-blue-600 disabled:opacity-50">{saving ? 'Processando...' : acao}</button>
+        </div>
+      </form>
+    </dialog>
+  );
+}
+
 export function UsuariosPage({ csrfToken }: { csrfToken: string | null }) {
   const [usuarios, setUsuarios] = useState<UsuarioListApi[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [modalAberto, setModalAberto] = useState(false);
   const [createdId, setCreatedId] = useState<number | null>(null);
+  const [statusTarget, setStatusTarget] = useState<UsuarioListApi | null>(null);
+  const [refreshVersion, setRefreshVersion] = useState(0);
   const [success, setSuccess] = useState<string | null>(null);
 
   useEffect(() => {
@@ -165,7 +240,7 @@ export function UsuariosPage({ csrfToken }: { csrfToken: string | null }) {
         if (!cancelled) setLoading(false);
       });
     return () => { cancelled = true; };
-  }, [createdId]);
+  }, [createdId, refreshVersion]);
 
   const badgeClass = 'inline-flex rounded-full px-2.5 py-1 text-xs font-medium whitespace-nowrap';
 
@@ -179,6 +254,14 @@ export function UsuariosPage({ csrfToken }: { csrfToken: string | null }) {
         <button type="button" onClick={() => { setSuccess(null); setModalAberto(true); }} className="rounded-lg bg-[#1a4b8c] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#123568] focus-visible:ring-2 focus-visible:ring-blue-600">Novo usuário</button>
       </div>
       {success && <p role="status" className="rounded-lg bg-emerald-50 p-3 text-sm text-emerald-700">{success}</p>}
+      {statusTarget && <StatusUsuarioModal usuario={statusTarget} csrfToken={csrfToken}
+        onClose={() => setStatusTarget(null)} onSuccess={ativo => {
+          setStatusTarget(null);
+          setCreatedId(null);
+          setSuccess(ativo ? 'Cadastrador ativado com sucesso.' : 'Cadastrador desativado com sucesso.');
+          setLoading(true);
+          setRefreshVersion(version => version + 1);
+        }} />}
       {modalAberto && <NovoUsuarioModal csrfToken={csrfToken} onClose={() => setModalAberto(false)} onCreated={id => {
         setModalAberto(false);
         setSuccess('Cadastrador criado com sucesso.');
@@ -197,7 +280,7 @@ export function UsuariosPage({ csrfToken }: { csrfToken: string | null }) {
             <table className="w-full min-w-[760px] text-sm">
               <thead>
                 <tr className="bg-slate-50 text-left border-b border-slate-200">
-                  {['Nome', 'Usuário', 'Perfil', 'Status', 'Troca de senha', 'Cadastro'].map(titulo => (
+                  {['Nome', 'Usuário', 'Perfil', 'Status', 'Troca de senha', 'Cadastro', 'Ações'].map(titulo => (
                     <th key={titulo} scope="col" className="px-4 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider whitespace-nowrap">{titulo}</th>
                   ))}
                 </tr>
@@ -223,6 +306,15 @@ export function UsuariosPage({ csrfToken }: { csrfToken: string | null }) {
                       </span>
                     </td>
                     <td className="px-4 py-4 text-slate-500 whitespace-nowrap">{formatarCadastro(usuario.createdAt)}</td>
+                    <td className="px-4 py-4 whitespace-nowrap">
+                      {usuario.perfil === 'CADASTRADOR' ? (
+                        <button type="button" aria-label={`${usuario.ativo ? 'Desativar' : 'Ativar'} ${usuario.nome}`}
+                          onClick={() => { setSuccess(null); setStatusTarget(usuario); }}
+                          className="rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-medium text-[#1a4b8c] hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-600">
+                          {usuario.ativo ? 'Desativar' : 'Ativar'}
+                        </button>
+                      ) : <span className="text-slate-400">—</span>}
+                    </td>
                   </tr>
                 ))}
               </tbody>
