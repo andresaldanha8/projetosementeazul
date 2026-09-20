@@ -225,7 +225,9 @@ export default function App() {
             <FichasPage onVerFicha={abrirFicha} />
           )}
 
-          {pagina === 'usuarios' && <UsuariosPage />}
+          {pagina === 'usuarios' && (currentUser.perfil === 'ADMINISTRADOR'
+            ? <UsuariosPage />
+            : <p role="alert" className="text-sm text-rose-600">Você não tem permissão para acessar esta página.</p>)}
         </main>
       </div>
     </div>

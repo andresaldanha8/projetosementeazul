@@ -450,7 +450,46 @@ export async function atualizarAdministrativo(
   return { sucesso: true, alterado: data.alterado, ficha: data.ficha };
 }
 
+export interface UsuarioListApi {
+  id: number;
+  nome: string;
+  login: string;
+  perfil: 'ADMINISTRADOR' | 'CADASTRADOR';
+  ativo: boolean;
+  mustChangePassword: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UsuariosListResponse {
+  sucesso: true;
+  usuarios: UsuarioListApi[];
+}
+
+export async function getUsuarios(): Promise<UsuariosListResponse> {
+  const data: unknown = await fetchJson('/cadastro/api/painel/usuarios.php');
+  if (!isRecord(data) || data.sucesso !== true || !Array.isArray(data.usuarios)) {
+    throw administrativeError('InvalidResponse');
+  }
+  const usuarios = data.usuarios.map((item: unknown): UsuarioListApi => {
+    if (!isRecord(item) || !isPositiveId(item.id)
+      || typeof item.nome !== 'string' || typeof item.login !== 'string'
+      || (item.perfil !== 'ADMINISTRADOR' && item.perfil !== 'CADASTRADOR')
+      || typeof item.ativo !== 'boolean' || typeof item.mustChangePassword !== 'boolean'
+      || typeof item.createdAt !== 'string' || typeof item.updatedAt !== 'string') {
+      throw administrativeError('InvalidResponse');
+    }
+    return {
+      id: item.id, nome: item.nome, login: item.login, perfil: item.perfil,
+      ativo: item.ativo, mustChangePassword: item.mustChangePassword,
+      createdAt: item.createdAt, updatedAt: item.updatedAt,
+    };
+  });
+  return { sucesso: true, usuarios };
+}
+
 export default {
+  getUsuarios,
   getIndicadores,
   getFichasRecentes,
   getFichas,
