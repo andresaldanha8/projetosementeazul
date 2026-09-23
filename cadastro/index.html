@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ficha de cadastro | Projeto Semente Azul</title>
+  <link rel="icon" href="/favicon.ico" sizes="64x64">
   <link rel="stylesheet" href="css/style.css">
   <script src="js/authService.js" defer></script>
   <script src="js/app.js" defer></script>
@@ -44,6 +45,7 @@
     </section>
     <aside id="current-user" class="current-user" aria-label="Cadastrador autenticado" hidden>
       <dl><div><dt>Cadastrador</dt><dd id="current-user-name"></dd></div><div><dt>Perfil</dt><dd id="current-user-role"></dd></div></dl>
+      <a id="panel-link" class="navigation-action secondary" href="/dashboard/" hidden>Painel</a>
       <button id="logout" type="button" class="secondary">Sair</button>
       <p id="logout-error" class="error" role="alert" hidden></p>
     </aside>
@@ -123,6 +125,7 @@
       <p id="psa-number" class="hint" aria-live="polite"></p>
       <p class="hint">Obrigado. A confirmação do recebimento foi gerada pelo servidor.</p>
       <button id="restart" type="button">Iniciar novo cadastro</button>
+      <a class="navigation-action secondary" href="/dashboard/">Ver no painel</a>
     </section>
     <footer class="page-footer">Projeto Semente Azul · Ficha de cadastro</footer>
   </main>

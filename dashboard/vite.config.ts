@@ -31,6 +31,14 @@ export default defineConfig(({ mode }) => {
           target: 'http://127.0.0.1:8000',
           changeOrigin: true,
         },
+        '/img/': {
+          target: 'http://127.0.0.1:8000',
+          changeOrigin: true,
+        },
+        '/favicon.ico': {
+          target: 'http://127.0.0.1:8000',
+          changeOrigin: true,
+        },
       },
     },
     preview: {

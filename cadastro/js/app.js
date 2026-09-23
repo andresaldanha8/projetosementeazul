@@ -16,6 +16,7 @@
   let submissionPayloadSnapshot = null;
 
   function showLogin() {
+    get('panel-link').hidden = true;
     authenticatedUser = null;
     get('registration').hidden = true;
     get('success').hidden = true;
@@ -30,6 +31,7 @@
   }
 
   function showUser(user) {
+    get('panel-link').hidden = false;
     authenticatedUser = user;
     get('current-user-name').textContent = user.nome;
     get('current-user-role').textContent = user.perfil === 'ADMINISTRADOR' ? 'Administrador' : 'Cadastrador';
@@ -41,6 +43,7 @@
   }
 
   function showPasswordChange(user) {
+    get('panel-link').hidden = true;
     authenticatedUser = user;
     // preencher current-user como showUser
     get('current-user-name').textContent = user.nome;

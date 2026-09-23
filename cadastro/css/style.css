@@ -47,6 +47,9 @@ h2:focus{outline:none}h2:focus-visible{outline:3px solid #1677bd;outline-offset:
 .form-actions{border-top:1px solid var(--line);margin-top:30px;padding-top:22px;display:flex;gap:12px;justify-content:flex-end}
 button{border:1px solid var(--blue);border-radius:10px;min-height:48px;padding:12px 18px;background:var(--blue);color:white;font:inherit;font-size:.94rem;font-weight:650;cursor:pointer;line-height:1.4}
 button:hover{background:#104d83}.secondary{background:white;color:var(--blue)}.secondary:hover{background:var(--pale)}
+.navigation-action{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--blue);border-radius:10px;min-height:48px;padding:12px 18px;font:inherit;font-size:.94rem;font-weight:650;line-height:1.4;text-decoration:none;vertical-align:middle}
+.success .navigation-action{margin:14px 6px 0}
+.current-user .navigation-action:not([hidden])+button{margin-left:0}
 #next{margin-left:auto}
 .review-section{border:1px solid var(--line);border-radius:12px;margin-bottom:18px;padding:18px}
 .review-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:8px 12px;flex-wrap:wrap;margin-bottom:14px}
