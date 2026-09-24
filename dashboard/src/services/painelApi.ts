@@ -450,6 +450,103 @@ export async function atualizarAdministrativo(
   return { sucesso: true, alterado: data.alterado, ficha: data.ficha };
 }
 
+export interface AtualizacaoDadosInput {
+  expectedUpdatedAt: string;
+  child: {
+    name: string; socialName: string | null; birthDate: string; sex: string | null;
+    rg: string | null; cpf: string | null; neighborhood: string | null;
+    phone: string | null; school: string | null; hasDiagnosis: boolean | null;
+  };
+  schooling: { year: string | null; grade: string | null };
+  guardian: {
+    name: string; relationship: string; birthDate: string | null;
+    phone: string | null; whatsapp: string | null; email: string | null;
+  };
+  interests: string[];
+  otherInterestDescription: string | null;
+  specificNeeds: string | null;
+}
+
+export interface AtualizacaoDadosResponse {
+  sucesso: true;
+  alterado: boolean;
+  ficha: FichaDetalheApi;
+}
+
+export async function getInteresses(): Promise<InteresseFichaApi[]> {
+  const data: unknown = await fetchJson('/cadastro/api/painel/interesses.php');
+  if (!isRecord(data) || data.sucesso !== true || !Array.isArray(data.interesses)) {
+    throw administrativeError('InvalidResponse');
+  }
+  const codes = new Set<string>();
+  return data.interesses.map((item: unknown) => {
+    if (!isRecord(item) || typeof item.codigo !== 'string' || !item.codigo.trim()
+      || typeof item.nome !== 'string' || !item.nome.trim() || codes.has(item.codigo)) {
+      throw administrativeError('InvalidResponse');
+    }
+    codes.add(item.codigo);
+    return { codigo: item.codigo, nome: item.nome };
+  });
+}
+
+export async function atualizarDados(
+  id: string, dados: AtualizacaoDadosInput, csrfToken: string,
+): Promise<AtualizacaoDadosResponse> {
+  if (!csrfToken?.trim()) throw administrativeError('AuthError');
+  if (!/^[0-9]+$/.test(id) || !isPositiveId(Number(id))
+    || !isAdministrativeTimestamp(dados.expectedUpdatedAt)) throw administrativeError('ValidationError');
+  // Construção explícita: não espalhar ficha/rascunho ou metadados no corpo.
+  const payload: AtualizacaoDadosInput = {
+    expectedUpdatedAt: dados.expectedUpdatedAt,
+    child: {
+      name: dados.child.name, socialName: dados.child.socialName, birthDate: dados.child.birthDate,
+      sex: dados.child.sex, rg: dados.child.rg, cpf: dados.child.cpf,
+      neighborhood: dados.child.neighborhood, phone: dados.child.phone,
+      school: dados.child.school, hasDiagnosis: dados.child.hasDiagnosis,
+    },
+    schooling: { year: dados.schooling.year, grade: dados.schooling.grade },
+    guardian: {
+      name: dados.guardian.name, relationship: dados.guardian.relationship,
+      birthDate: dados.guardian.birthDate, phone: dados.guardian.phone,
+      whatsapp: dados.guardian.whatsapp, email: dados.guardian.email,
+    },
+    interests: [...dados.interests], otherInterestDescription: dados.otherInterestDescription,
+    specificNeeds: dados.specificNeeds,
+  };
+  const res = await fetch('/cadastro/api/painel/ficha-dados.php?id=' + encodeURIComponent(id), {
+    method: 'POST', credentials: 'same-origin',
+    headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+    body: JSON.stringify(payload),
+  });
+  if (res.status !== 200) {
+    switch (res.status) {
+      case 400: {
+        let detail: unknown;
+        try { detail = await res.json(); } catch { /* Mensagem genérica abaixo. */ }
+        const error = administrativeError('ValidationError');
+        if (isRecord(detail)) {
+          const errors = Array.isArray(detail.erros) ? detail.erros.filter((e): e is string => typeof e === 'string') : [];
+          error.message = errors.length ? errors.join(' ') : typeof detail.mensagem === 'string'
+            ? detail.mensagem : 'Verifique os dados informados.';
+        }
+        throw error;
+      }
+      case 401:
+      case 403: throw administrativeError('AuthError');
+      case 404: throw administrativeError('NotFoundError');
+      case 409: throw administrativeError('ConflictError');
+      case 413: throw administrativeError('PayloadTooLargeError');
+      case 415: throw administrativeError('UnsupportedMediaTypeError');
+      default: throw administrativeError('ServerError');
+    }
+  }
+  let data: unknown;
+  try { data = await res.json(); } catch { throw administrativeError('InvalidJSON'); }
+  if (!isRecord(data) || data.sucesso !== true || typeof data.alterado !== 'boolean'
+    || !isFichaDetalhe(data.ficha) || data.ficha.id !== Number(id)) throw administrativeError('InvalidResponse');
+  return { sucesso: true, alterado: data.alterado, ficha: data.ficha };
+}
+
 export interface UsuarioListApi {
   id: number;
   nome: string;
@@ -630,6 +727,8 @@ export async function redefinirSenhaUsuario(usuarioId: number, senhaTemporaria: 
 }
 
 export default {
+  getInteresses,
+  atualizarDados,
   redefinirSenhaUsuario,
   atualizarStatusUsuario,
   criarUsuario,

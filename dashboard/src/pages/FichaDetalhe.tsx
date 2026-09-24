@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import painelApi, { mapSituacao, type FichaDetalheApi, type SituacaoApi } from '../services/painelApi';
+import painelApi, { mapSituacao, type FichaDetalheApi, type SituacaoApi, type AtualizacaoDadosInput, type InteresseFichaApi } from '../services/painelApi';
 import { BadgeSituacao } from '../components/BadgeSituacao';
+import { FichaDadosEditor, criarRascunhoDados, prepararDados, validarRascunhoDados } from '../components/FichaDadosEditor';
 
 interface FichaDetalheProps {
   fichaId: string;
@@ -158,6 +159,13 @@ export function FichaDetalhe({ fichaId, csrfToken, onVoltar }: FichaDetalheProps
   const [ficha, setFicha] = useState<FichaDetalheApi | null>(null);
   const [requestId, setRequestId] = useState(fichaId);
   const [draft, setDraft] = useState<AdministrativoDraft | null>(null);
+  const [dadosDraft, setDadosDraft] = useState<AtualizacaoDadosInput | null>(null);
+  const [catalogo, setCatalogo] = useState<InteresseFichaApi[] | null>(null);
+  const [catalogoLoading, setCatalogoLoading] = useState(false);
+  const [catalogoError, setCatalogoError] = useState<string | null>(null);
+  const [dadosErrors, setDadosErrors] = useState<string[]>([]);
+  const [dadosFeedback, setDadosFeedback] = useState<string | null>(null);
+  const dadosScope = useRef({ editing: false, request: 0 });
   const [isSaving, setIsSaving] = useState(false);
   const [isReloading, setIsReloading] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
@@ -169,7 +177,9 @@ export function FichaDetalhe({ fichaId, csrfToken, onVoltar }: FichaDetalheProps
   useLayoutEffect(() => {
     const scope = { id: fichaId, active: true, busy: false, conflict: false };
     operationScope.current = scope;
-    return () => { scope.active = false; };
+    dadosScope.current.editing = false;
+    dadosScope.current.request++;
+    return () => { scope.active = false; dadosScope.current.request++; };
   }, [fichaId]);
 
   useEffect(() => {
@@ -179,6 +189,12 @@ export function FichaDetalhe({ fichaId, csrfToken, onVoltar }: FichaDetalheProps
     setError(null);
     setLoading(true);
     setDraft(null);
+    setDadosDraft(null);
+    setCatalogo(null);
+    setCatalogoLoading(false);
+    setCatalogoError(null);
+    setDadosErrors([]);
+    setDadosFeedback(null);
     setSaveError(null);
     setReloadError(null);
     setHasConflict(false);
@@ -201,7 +217,9 @@ export function FichaDetalhe({ fichaId, csrfToken, onVoltar }: FichaDetalheProps
 
   function iniciarEdicao() {
     const scope = operationScope.current;
-    if (!ficha || loading || requestId !== fichaId || !scope.active || scope.busy || scope.id !== fichaId) return;
+    if (!ficha || loading || requestId !== fichaId || !scope.active || scope.busy || scope.conflict
+      || dadosScope.current.editing || scope.id !== fichaId) return;
+    setDadosFeedback(null);
     scope.conflict = false;
     setHasConflict(false);
     setSaveError(null);
@@ -226,7 +244,7 @@ export function FichaDetalhe({ fichaId, csrfToken, onVoltar }: FichaDetalheProps
 
   async function salvar() {
     const scope = operationScope.current;
-    if (!draft || !ficha || !scope.active || scope.busy || scope.conflict
+    if (!draft || !ficha || !scope.active || scope.busy || scope.conflict || dadosScope.current.editing
       || scope.id !== fichaId || requestId !== fichaId || draft.fichaId !== String(ficha.id)
       || Number(draft.fichaId) !== Number(fichaId)) return;
     if (!csrfToken || csrfToken.trim() === '') {
@@ -266,6 +284,93 @@ export function FichaDetalhe({ fichaId, csrfToken, onVoltar }: FichaDetalheProps
     }
   }
 
+  async function carregarCatalogo() {
+    const scope = operationScope.current;
+    if (!scope.active || !dadosScope.current.editing || scope.busy || scope.conflict) return;
+    const request = ++dadosScope.current.request;
+    setCatalogoLoading(true);
+    setCatalogoError(null);
+    const current = () => scope.active && operationScope.current === scope
+      && dadosScope.current.editing && dadosScope.current.request === request;
+    try {
+      const options = await painelApi.getInteresses();
+      if (current()) setCatalogo(options);
+    } catch (err: unknown) {
+      if (current()) setCatalogoError(err instanceof Error && err.name === 'AuthError'
+        ? 'Sessão inválida/expirada ou acesso não autorizado.'
+        : 'Não foi possível carregar o catálogo. Tente novamente antes de salvar.');
+    } finally {
+      if (current()) setCatalogoLoading(false);
+    }
+  }
+
+  function iniciarEdicaoDados() {
+    const scope = operationScope.current;
+    if (!ficha || loading || requestId !== fichaId || !scope.active || scope.busy || scope.conflict
+      || scope.id !== fichaId || dadosScope.current.editing) return;
+    dadosScope.current.editing = true;
+    setDraft(null); // Descartar edição administrativa, sem POST.
+    setSaveError(null);
+    setReloadError(null);
+    setDadosErrors([]);
+    setDadosFeedback(null);
+    setCatalogo(null);
+    setDadosDraft(criarRascunhoDados(ficha));
+    setSecaoAtiva('crianca');
+    void carregarCatalogo();
+  }
+
+  function cancelarEdicaoDados() {
+    if (operationScope.current.busy) return;
+    dadosScope.current.editing = false;
+    dadosScope.current.request++; // Ignorar respostas de catálogo desta edição.
+    setDadosDraft(null);
+    setDadosErrors([]);
+    setCatalogo(null);
+    setCatalogoLoading(false);
+    setCatalogoError(null);
+    // Um conflito só é liberado após recarregar a ficha.
+  }
+
+  async function salvarDados() {
+    const scope = operationScope.current;
+    if (!dadosDraft || !ficha || !dadosScope.current.editing || !scope.active || scope.busy
+      || scope.conflict || scope.id !== fichaId || requestId !== fichaId
+      || String(ficha.id) !== String(Number(fichaId)) || catalogo === null || catalogoLoading) return;
+    const errors = validarRascunhoDados(dadosDraft);
+    if (errors.length) { setDadosErrors(errors); return; }
+    if (!csrfToken?.trim()) { setDadosErrors(['Sessão inválida/expirada ou acesso não autorizado.']); return; }
+    scope.busy = true;
+    setIsSaving(true);
+    setDadosErrors([]);
+    const current = () => scope.active && operationScope.current === scope;
+    try {
+      const response = await painelApi.atualizarDados(String(ficha.id), prepararDados(dadosDraft), csrfToken);
+      if (!current()) return;
+      setFicha(response.ficha);
+      setDadosDraft(null);
+      dadosScope.current.editing = false;
+      dadosScope.current.request++;
+      setCatalogo(null);
+      setDadosFeedback(response.alterado ? 'Alterações da ficha salvas.' : 'Nenhuma alteração foi necessária.');
+    } catch (err: unknown) {
+      if (!current()) return;
+      if (err instanceof Error && err.name === 'ConflictError') {
+        scope.conflict = true;
+        setHasConflict(true);
+      } else if (err instanceof Error && err.name === 'ValidationError') {
+        let message = err.message === 'ValidationError' ? 'Verifique os dados informados.' : err.message;
+        for (const [field, label] of camposLabels) message = message.split(field).join(label);
+        setDadosErrors([message]);
+      } else {
+        setDadosErrors([err instanceof Error && err.name === 'PayloadTooLargeError'
+          ? 'Os dados da ficha excedem o tamanho permitido.' : saveErrorMessage(err)]);
+      }
+    } finally {
+      if (current()) { scope.busy = false; setIsSaving(false); }
+    }
+  }
+
   async function recarregarFicha() {
     const scope = operationScope.current;
     if (!scope.active || scope.busy || !scope.conflict || scope.id !== fichaId) return;
@@ -278,6 +383,13 @@ export function FichaDetalhe({ fichaId, csrfToken, onVoltar }: FichaDetalheProps
       if (!current()) return;
       setFicha(atual);
       setDraft(null);
+      setDadosDraft(null);
+      dadosScope.current.editing = false;
+      dadosScope.current.request++;
+      setDadosErrors([]);
+      setCatalogo(null);
+      setCatalogoError(null);
+      setCatalogoLoading(false);
       setSaveError(null);
       setHasConflict(false);
       scope.conflict = false;
@@ -295,7 +407,7 @@ export function FichaDetalhe({ fichaId, csrfToken, onVoltar }: FichaDetalheProps
   }
 
   const voltar = (
-    <button onClick={onVoltar}
+    <button onClick={onVoltar} disabled={isSaving || isReloading}
       className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-[#1a4b8c] transition-colors mb-4 font-medium">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
         <polyline points="15 18 9 12 15 6"/>
@@ -352,6 +464,41 @@ export function FichaDetalhe({ fichaId, csrfToken, onVoltar }: FichaDetalheProps
       </div>
 
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="p-4 border-b border-slate-200 space-y-3">
+          {dadosDraft === null ? <button type="button" onClick={iniciarEdicaoDados}
+            disabled={isSaving || isReloading || hasConflict}
+            className="rounded-lg bg-[#1a4b8c] text-white px-4 py-2 text-sm font-medium disabled:opacity-50">Editar ficha</button>
+            : <>
+              <p className="text-sm font-medium text-slate-700">Editando dados cadastrais — campos com * são obrigatórios.</p>
+              <div className="flex flex-wrap gap-3">
+                <button type="button" onClick={() => void salvarDados()}
+                  disabled={isSaving || isReloading || hasConflict || catalogo === null || catalogoLoading}
+                  className="rounded-lg bg-[#1a4b8c] text-white px-4 py-2 text-sm font-medium disabled:opacity-50">
+                  {isSaving ? 'Salvando...' : 'Salvar alterações'}
+                </button>
+                <button type="button" onClick={cancelarEdicaoDados} disabled={isSaving || isReloading}
+                  className="rounded-lg border border-slate-300 px-4 py-2 text-sm text-slate-600 disabled:opacity-50">Cancelar</button>
+              </div>
+              {catalogoLoading && <p role="status" className="text-sm text-slate-500">Carregando catálogo de interesses...</p>}
+              {catalogoError && <div className="space-y-2">
+                <p role="alert" className="text-sm text-red-600">{catalogoError}</p>
+                <button type="button" disabled={catalogoLoading || isSaving || isReloading || hasConflict}
+                  onClick={() => void carregarCatalogo()} className="text-sm text-[#1a4b8c] disabled:opacity-50">Tentar carregar catálogo novamente</button>
+              </div>}
+              {dadosErrors.length > 0 && <div role="alert" className="text-sm text-red-600">
+                <p>Revise os campos nas abas:</p>
+                <ul className="list-disc pl-5">{dadosErrors.map((message, index) => <li key={index}>{message}</li>)}</ul>
+              </div>}
+            </>}
+          {dadosFeedback && <p role="status" className="text-sm text-emerald-700">{dadosFeedback}</p>}
+          {hasConflict && secaoAtiva !== 'administrativo' && <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 space-y-2">
+            <p role="alert" className="text-sm text-amber-800">A ficha foi alterada desde o início da edição. Recarregue os dados antes de salvar novamente.</p>
+            <p className="text-xs text-slate-600">Recarregar descarta o rascunho. Nenhuma alteração será reenviada automaticamente.</p>
+            <button type="button" disabled={isSaving || isReloading} onClick={() => void recarregarFicha()}
+              className="text-sm text-[#1a4b8c] disabled:opacity-50">{isReloading ? 'Recarregando...' : 'Recarregar ficha'}</button>
+            {reloadError && <p role="alert" className="text-sm text-red-600">{reloadError}</p>}
+          </div>}
+        </div>
         <div className="overflow-x-auto border-b border-slate-200">
           <div className="flex px-4 min-w-max">
             {([
@@ -364,7 +511,11 @@ export function FichaDetalhe({ fichaId, csrfToken, onVoltar }: FichaDetalheProps
           </div>
         </div>
         <div className="p-6">
-          {secaoAtiva === 'crianca' && (
+          {dadosDraft !== null && ['crianca', 'responsavel', 'necessidades'].includes(secaoAtiva) && (
+            <FichaDadosEditor secao={secaoAtiva} draft={dadosDraft} onChange={setDadosDraft}
+              catalogo={catalogo} associados={ficha.necessidades.interesses} disabled={isSaving || isReloading || hasConflict} />
+          )}
+          {secaoAtiva === 'crianca' && dadosDraft === null && (
             <dl className="space-y-4">
               <InfoRow label="Nome completo" value={texto(ficha.crianca.nome)} />
               <InfoRow label="Nome social" value={texto(ficha.crianca.nomeSocial)} />
@@ -380,7 +531,7 @@ export function FichaDetalhe({ fichaId, csrfToken, onVoltar }: FichaDetalheProps
               <InfoRow label="Série escolar" value={texto(ficha.crianca.serieEscolar)} />
             </dl>
           )}
-          {secaoAtiva === 'responsavel' && (
+          {secaoAtiva === 'responsavel' && dadosDraft === null && (
             <dl className="space-y-4">
               <InfoRow label="Nome" value={texto(ficha.responsavel.nome)} />
               <InfoRow label="Parentesco" value={texto(ficha.responsavel.parentesco)} />
@@ -390,7 +541,7 @@ export function FichaDetalhe({ fichaId, csrfToken, onVoltar }: FichaDetalheProps
               <InfoRow label="E-mail" value={texto(ficha.responsavel.email)} />
             </dl>
           )}
-          {secaoAtiva === 'necessidades' && (
+          {secaoAtiva === 'necessidades' && dadosDraft === null && (
             <dl className="space-y-4">
               <InfoRow label="Possui diagnóstico?" value={ficha.necessidades.possuiDiagnostico === null ? 'Não informado' : ficha.necessidades.possuiDiagnostico ? 'Sim' : 'Não'} />
               <InfoRow label="Necessidades específicas" value={texto(ficha.necessidades.necessidadesEspecificas)} />
@@ -404,6 +555,9 @@ export function FichaDetalhe({ fichaId, csrfToken, onVoltar }: FichaDetalheProps
               <InfoRow label="Outro interesse" value={texto(ficha.necessidades.outroInteresseDescricao)} />
             </dl>
           )}
+          {secaoAtiva === 'autorizacao' && dadosDraft !== null && <p className="text-sm text-amber-800 bg-amber-50 rounded-lg p-3 mb-4">
+            A autorização registrada é histórica e não será alterada por esta edição.
+          </p>}
           {secaoAtiva === 'autorizacao' && (ficha.autorizacao === null
             ? <p className="text-sm text-slate-500">Nenhuma autorização registrada.</p>
             : (
@@ -418,7 +572,8 @@ export function FichaDetalhe({ fichaId, csrfToken, onVoltar }: FichaDetalheProps
           )}
           {secaoAtiva === 'administrativo' && (
             <div className="space-y-6">
-              {draft === null && !hasConflict && (
+              {dadosDraft !== null && <p className="text-sm text-slate-500">Conclua ou cancele a edição cadastral para editar as informações de uso da equipe.</p>}
+              {draft === null && dadosDraft === null && !hasConflict && (
                 <button type="button" onClick={iniciarEdicao} className="text-sm font-medium text-[#1a4b8c] border border-slate-200 rounded-lg px-4 py-2 hover:bg-blue-50">
                   Editar informações
                 </button>
