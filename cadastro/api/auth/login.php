@@ -71,38 +71,12 @@ $normalizedLogin = mb_strtolower($login);
 // Load config, session, helpers
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../config/session.php';
-require_once __DIR__ . '/helpers.php';
-
-// Dummy hash for timing mitigation (constant)
-// Generated locally from the string "PSA_DUMMY_PASSWORD_NEVER_USED_FOR_LOGIN" using
-// password_hash(..., PASSWORD_BCRYPT). Used only to mitigate timing for non-existent users.
-const DUMMY_PASSWORD_HASH = '$2y$10$TxigpevQUR49e8owlMkiW.yB.Yl6eZipJ/SsfHbiKYnlAyOc1pGtq';
+require_once __DIR__ . '/credentials.php';
 
 try {
-    // Attempt to retrieve user (may throw PDOException)
-    $user = get_user_by_login($pdo, $normalizedLogin);
-
-    $passwordHash = null;
-    if ($user === null) {
-        // Use dummy hash to mitigate timing differences
-        $passwordHash = DUMMY_PASSWORD_HASH;
-    } else {
-        // Ensure required fields
-        if (!isset($user['password_hash']) || !is_string($user['password_hash'])) {
-            // Treat as invalid credentials but verify against dummy to equalize timing
-            $passwordHash = DUMMY_PASSWORD_HASH;
-        } else {
-            $passwordHash = $user['password_hash'];
-        }
-    }
-
-    $verified = password_verify($password, $passwordHash);
-
-    // If user not found or not verified, return generic 401
-    if ($user === null || !$verified) {
-        // delay further by calling password_verify on dummy if needed (already done)
-        send_json(401, ['sucesso' => false, 'mensagem' => 'Login ou senha inválidos.']);
-    }
+    $user = verify_user_credentials($pdo, $normalizedLogin, $password);
+    if ($user === null) send_json(401, ['sucesso' => false, 'mensagem' => 'Login ou senha inválidos.']);
+    $passwordHash = $user['password_hash'];
 
     // At this point password verified. Validate active and profile
     $allowedProfiles = ['ADMINISTRADOR', 'CADASTRADOR'];

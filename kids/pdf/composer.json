@@ -1,0 +1,12 @@
+{
+  "name": "semente-azul/kids-pdf",
+  "description": "Private server-side KIDS administrative report dependencies",
+  "type": "project",
+  "require": {
+    "php": "^8.2",
+    "ext-dom": "*",
+    "ext-mbstring": "*",
+    "dompdf/dompdf": "^3.1.6"
+  },
+  "config": { "sort-packages": true, "allow-plugins": false }
+}

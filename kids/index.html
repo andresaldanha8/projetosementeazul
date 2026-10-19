@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>Inscrições KIDS · Projeto Semente Azul</title>
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="./kids.css">
+  <script src="./kids.js?v=20261018-imagem1" defer></script>
+  <script src="./lookup.js" defer></script>
+</head>
+<body class="kids-page">
+  <header class="kids-header"><a href="/" aria-label="Projeto Semente Azul — voltar ao site"><img src="/img/logo.png" alt="Projeto Semente Azul" width="156" height="72"></a><a href="/">← Voltar ao site</a></header>
+  <main class="kids-main">
+    <section class="kids-intro" aria-labelledby="page-title">
+      <p class="kids-eyebrow" id="event-name">II CORRIDA SOLIDÁRIA AUTISMO RUN</p>
+      <h1 id="page-title">Autismo Run <span>KIDS</span></h1>
+      <p class="kids-subtitle">Pequenos passos. Uma grande causa.</p>
+      <p class="kids-lead">Para crianças de 4 a 14 anos</p>
+      <div class="kids-event-summary" id="event-summary" hidden><span>Inscrição: <strong id="event-price"></strong></span><span id="event-shirt"></span><span id="event-deadline" title="Horário de Brasília"></span></div>
+    </section>
+    <div class="kids-status" id="availability-panel" data-kind="loading"><div id="availability" role="status">Consultando inscrições…</div><button id="retry" class="kids-text-button" type="button" hidden>Tentar novamente</button></div>
+    <noscript><p class="kids-notice">Ative o JavaScript para consultar suas inscrições e preencher este formulário.</p></noscript>
+    <div id="message" class="kids-message" role="status" aria-live="polite" tabindex="-1" hidden></div>
+    <section id="confirmations-section" class="kids-confirmations" aria-labelledby="confirmations-title" hidden>
+      <div class="kids-section-heading"><div><p class="kids-eyebrow">NESTE NAVEGADOR</p><h2 id="confirmations-title" tabindex="-1">Suas inscrições</h2></div><button id="another" type="button" class="kids-secondary">Inscrever outra criança</button></div>
+      <p id="recovery-message" class="kids-recovery-message" role="status" hidden></p>
+      <div id="cards"></div>
+      <p class="kids-return-note">Ao retornar, suas confirmações são recuperadas neste navegador enquanto a sessão estiver válida, por até 8 horas. Se a sessão expirar, fale com a organização antes de repetir a inscrição.</p>
+    </section>
+    <section id="form-panel" class="kids-form-panel" aria-labelledby="form-title">
+      <div class="kids-section-heading"><h2 id="form-title">Inscrição KIDS</h2><span class="kids-shirt" id="form-shirt" hidden></span><button id="back-to-confirmations" class="kids-text-button" type="button" hidden>Voltar às minhas inscrições</button></div>
+      <p>Todos os campos são obrigatórios. Preencha uma inscrição por criança.</p>
+      <form id="kids-form" novalidate>
+        <fieldset><legend>Dados da criança</legend><div class="kids-fields">
+          <div class="kids-field kids-wide"><label for="child_name">Nome completo da criança</label><input id="child_name" name="child_name" maxlength="200" required autocomplete="off" aria-describedby="child_name-error"><span id="child_name-error" class="kids-error"></span></div>
+          <div class="kids-field"><label for="birth_date">Data de nascimento</label><input id="birth_date" name="birth_date" type="date" required aria-describedby="birth_date-error age-hint"><span id="birth_date-error" class="kids-error"></span><p id="age-hint" class="kids-age" aria-live="polite">Idade e faixa calculadas ao preencher.</p></div>
+          <div class="kids-field"><label for="division">Categoria</label><select id="division" name="division" required aria-describedby="division-error"><option value="">Selecione</option><option value="M">Masculino</option><option value="F">Feminino</option></select><span id="division-error" class="kids-error"></span></div>
+        </div></fieldset>
+        <fieldset><legend>Dados do responsável</legend><div class="kids-fields">
+          <div class="kids-field kids-wide"><label for="guardian_name">Nome completo do responsável</label><input id="guardian_name" name="guardian_name" maxlength="200" required autocomplete="name" aria-describedby="guardian_name-error"><span id="guardian_name-error" class="kids-error"></span></div>
+          <div class="kids-field"><label for="relationship">Vínculo com a criança</label><input id="relationship" name="relationship" maxlength="100" required placeholder="Ex.: mãe, pai, responsável legal" aria-describedby="relationship-error"><span id="relationship-error" class="kids-error"></span></div>
+          <div class="kids-field"><label for="phone">Telefone / WhatsApp com DDD</label><input id="phone" name="phone" type="tel" inputmode="tel" maxlength="30" required autocomplete="tel" placeholder="(00) 90000-0000" aria-describedby="phone-error"><span id="phone-error" class="kids-error"></span></div>
+        </div></fieldset>
+        <fieldset class="kids-declaration"><legend>Declaração e confirmação</legend><p id="declaration-text">Texto em preparação — ainda não aprovado pela organização. O aceite permanece indisponível.</p><label class="kids-check" for="accepted"><input id="accepted" name="accepted" type="checkbox" required disabled aria-describedby="accepted-error"><span>Li e aceito a declaração apresentada.</span></label><span id="accepted-error" class="kids-error"></span></fieldset>
+        <fieldset class="kids-declaration"><legend>Autorização de imagem (opcional)</legend><label class="kids-check" for="image_authorized"><input id="image_authorized" name="image_authorized" type="checkbox" disabled aria-describedby="image-authorization-note"><span id="image-authorization-text"></span></label><small id="image-authorization-note">Opcional. A recusa não impede a inscrição.</small></fieldset>
+        <div class="kids-submit-row"><div><p>Após a inscrição, você receberá o número da criança e as orientações para pagar por PIX.</p><strong>O registro não confirma o pagamento.</strong></div><button id="submit" type="submit" disabled>Concluir inscrição</button></div>
+      </form>
+    </section>
+    <aside class="kids-session-note">Já se inscreveu? <button type="button" id="lookup-open" class="kids-text-button">Consultar inscrição</button><a id="support" hidden>Falar com a organização</a></aside>
+  </main>
+  <dialog id="lookup-dialog" class="kids-lookup-dialog" aria-labelledby="lookup-title" aria-describedby="lookup-description">
+    <div class="kids-lookup-heading"><h2 id="lookup-title">Consultar inscrição</h2><button id="lookup-close" type="button" aria-label="Fechar consulta">Fechar</button></div>
+    <p id="lookup-description">Use o nome da criança e o telefone informados na inscrição.</p>
+    <form id="lookup-form" novalidate>
+      <div class="kids-field"><label for="lookup-name">Nome completo da criança</label><input id="lookup-name" name="child_name" maxlength="200" autocomplete="off" required aria-describedby="lookup-name-error"><span id="lookup-name-error" class="kids-error"></span></div>
+      <div class="kids-field"><label for="lookup-phone">Telefone do responsável usado na inscrição</label><input id="lookup-phone" name="phone" type="tel" inputmode="tel" maxlength="30" autocomplete="off" required aria-describedby="lookup-phone-error"><span id="lookup-phone-error" class="kids-error"></span></div>
+      <button id="lookup-submit" class="kids-lookup-submit" type="submit">Consultar situação</button>
+    </form>
+    <p id="lookup-message" class="kids-lookup-message" role="status" aria-live="polite" hidden></p>
+    <section id="lookup-result" class="kids-lookup-result" aria-labelledby="lookup-result-title" tabindex="-1" hidden>
+      <h3 id="lookup-result-title">Situação da inscrição</h3><dl><div><dt>Número da inscrição</dt><dd id="lookup-number"></dd></div><div><dt>Inscrição</dt><dd id="lookup-status"></dd></div><div><dt>Pagamento</dt><dd id="lookup-payment"></dd></div></dl>
+    </section>
+    <a id="lookup-support" href="/#contato" target="_blank" rel="noopener noreferrer">Falar com a organização</a>
+  </dialog>
+  <footer class="kids-footer">Projeto Semente Azul <span>Inclusão em cada passo.</span></footer>
+</body>
+</html>

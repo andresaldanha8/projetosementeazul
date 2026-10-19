@@ -1,0 +1,4 @@
+Options -Indexes
+<FilesMatch "^(config|database|domain|records|http|admin|admin-auth|admin-session|registration-query)\.php$">
+ Require all denied
+</FilesMatch>

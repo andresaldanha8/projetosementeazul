@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --color-brand-50: #eff6ff;
+  --color-brand-100: #dbeafe;
+  --color-brand-200: #bfdbfe;
+  --color-brand-300: #93c5fd;
+  --color-brand-400: #60a5fa;
+  --color-brand-500: #3b82f6;
+  --color-brand-600: #1d4ed8;
+  --color-brand-700: #1e3a8a;
+  --color-brand-800: #1e3a8a;
+  --color-brand-900: #172554;
+
+  --color-seed-blue: #1a4b8c;
+  --color-seed-blue-dark: #123568;
+  --color-seed-blue-light: #2563eb;
+  --color-seed-teal: #0d9488;
+  --color-seed-green: #16a34a;
+  --color-seed-amber: #d97706;
+  --color-seed-red: #dc2626;
+
+  --font-display: 'Nunito', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #1e293b;
+  background: #f1f5f9;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.font-display {
+  font-family: 'Nunito', sans-serif;
+}
+.font-mono-data {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

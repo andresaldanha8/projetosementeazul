@@ -1,0 +1,10 @@
+const fs=require('fs');
+if(fs.existsSync('kids/tests/image-contract-baseline.json'))throw Error('Baseline already captured before the fix; preserve this evidence.');
+const cases=[1,'1',true,0,'0',false,null,undefined,'invalid','true','',2].map(value=>({input:value,type:typeof value,before:value===null?'not_informed':Number(value)===1?'authorized':'not_authorized'}));
+const html=fs.readFileSync('kids/admin/dist/index.html','utf8');
+const asset=html.match(/src="([^"]+\.js)"/)[1];
+const bundle=fs.readFileSync('.'+asset,'utf8');
+const index=bundle.indexOf('Autorizado');
+const result={cases,asset,bundle_condition:bundle.slice(index-75,index+80)};
+fs.writeFileSync('kids/tests/image-contract-baseline.json',JSON.stringify(result,null,2));
+console.log(JSON.stringify(result,null,2));

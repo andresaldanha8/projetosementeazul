@@ -973,12 +973,206 @@ footer {
         display: flex;
     }
 }
-/* Autismo Run grid responsivo */
-@media (max-width: 768px) {
-    .ar-grid {
-        grid-template-columns: 1fr !important;
-        gap: 16px !important;
+/* Informações adicionais restritas ao cartão Detalhes do evento. */
+#autismo-run .ar-details {
+    padding: 16px !important;
+}
+#autismo-run .ar-details > p {
+    margin-bottom: 12px !important;
+}
+#autismo-run .ar-details > div:not(.ar-details-inclusion) {
+    gap: 12px !important;
+    margin-bottom: 8px !important;
+    padding-bottom: 8px !important;
+    border-bottom: 1px solid #f0f6ff;
+}
+#autismo-run .ar-details-route {
+    display: flex;
+    align-items: flex-start;
+}
+#autismo-run .ar-details-route-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e6f1ff;
+    border-radius: 10px;
+}
+#autismo-run .ar-details-route-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.7rem;
+    color: #9bb8d4;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 2px;
+}
+#autismo-run .ar-details-route-value {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: #0a2a4a;
+    font-weight: 700;
+    margin: 0;
+}
+#autismo-run .ar-details-inclusion {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 12px;
+    border: 1px solid #c3e6f7;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #eaf4ff, #dcf9fc);
+    color: #0a2a4a;
+    font-family: 'Poppins', sans-serif;
+    cursor: default;
+    transition: box-shadow 0.25s ease;
+}
+#autismo-run .ar-details-inclusion::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    width: 70px;
+    height: 70px;
+    right: -28px;
+    top: -28px;
+    border-radius: 50%;
+    background: rgba(0, 174, 230, 0.09);
+    pointer-events: none;
+}
+#autismo-run .ar-details-inclusion:hover {
+    box-shadow: 0 3px 12px rgba(0, 123, 255, 0.1);
+}
+#autismo-run .ar-details-inclusion-title {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin: 0 0 5px;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    font-weight: 700;
+}
+#autismo-run .ar-details-inclusion-text {
+    margin: 0;
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+#autismo-run .ar-details-heart {
+    display: inline-block;
+    flex-shrink: 0;
+    color: #007baf;
+    animation: ar-details-heart-pulse 3.2s ease-in-out infinite;
+}
+@keyframes ar-details-heart-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+}
+@media (prefers-reduced-motion: reduce) {
+    #autismo-run .ar-details-heart {
+        animation: none;
     }
+    #autismo-run .ar-details-inclusion {
+        transition: none;
+    }
+}
+
+/* Autismo Run: quatro blocos, com espaço para leitura e flyers integrais. */
+#autismo-run .ar-container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+}
+#autismo-run .ar-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+    align-items: start;
+}
+#autismo-run .ar-grid > * { min-width: 0; }
+#autismo-run .ar-cards {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 16px;
+}
+#autismo-run .ar-cards > div {
+    padding: 18px !important;
+    min-height: 0;
+    flex: 0 0 auto;
+}
+#autismo-run .ar-cards > div:last-child { gap: 10px !important; }
+#autismo-run .ar-cards > div:first-child > p:last-child,
+#autismo-run .ar-cards > div:last-child p,
+#autismo-run .ar-cards a,
+#autismo-run .ar-details-inclusion-title,
+#autismo-run .ar-details-inclusion-text {
+    font-size: 1rem !important;
+}
+#autismo-run .ar-cards a { max-width: 100%; }
+#autismo-run .ar-registration-card > a {
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 16px !important;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+#autismo-run .ar-kids-link {
+    background: #e6f1ff;
+    border: 1px solid #b3d7ff;
+    border-radius: 50px;
+    color: #135b9a;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    line-height: 1.4;
+    text-decoration: none;
+}
+#autismo-run .ar-kids-link:hover { background: #d4e7ff; }
+#autismo-run .ar-registration-card > a:focus-visible {
+    outline: 3px solid #b56b00;
+    outline-offset: 4px;
+}
+#autismo-run .ar-flyer {
+    width: 100%;
+    align-self: start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+    background: #fff;
+    overflow: hidden;
+}
+#autismo-run .ar-flyer-img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    cursor: pointer;
+}
+@media (min-width: 1320px) {
+    #autismo-run .ar-grid { align-items: stretch; }
+    #autismo-run .ar-cards { justify-content: space-between; }
+    #autismo-run .ar-flyer { align-self: stretch; }
+}
+@media (max-width: 1319px) {
+    #autismo-run .ar-container { max-width: 1100px; }
+    #autismo-run .ar-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 699px) {
+    #autismo-run .ar-container { padding: 0 16px; }
+    #autismo-run .ar-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+    #autismo-run .ar-cards { gap: 16px; }
 }
 
 /* Carrossel AR overflow mobile */
@@ -1043,34 +1237,41 @@ footer {
     font-size: 0.85rem;
     margin-bottom: 8px;
 }
-.sponsors-carousel {
-    margin-top: 24px;
+#patrocinadores .sponsors-carousel {
+    width: 100%;
+    margin: 24px auto 0;
 }
-.sponsors-track {
+#patrocinadores .sponsors-track {
     display: flex;
+    align-items: flex-start;
     gap: 18px;
     overflow-x: auto;
     padding: 4px;
     scroll-snap-type: x proximity;
 }
-.sponsors-card {
-    flex: 0 0 calc((100% - 54px) / 4);
+#patrocinadores .sponsors-card {
+    flex: 0 0 220px;
+    max-width: 100%;
     min-width: 0;
-    aspect-ratio: 2 / 1;
     background: #fff;
     border-radius: 14px;
     box-shadow: 0 2px 8px rgba(0, 123, 255, 0.08), 0 1px 3px rgba(0,0,0,0.05);
-    overflow: hidden;
     scroll-snap-align: start;
 }
-.sponsors-card:only-child {
+#patrocinadores .sponsors-card:only-child {
     margin-inline: auto;
 }
-.sponsors-card img {
+#patrocinadores .sponsors-card img {
     display: block;
     width: 100%;
-    height: 100%;
+    height: auto;
     object-fit: contain;
+    border-radius: 14px;
+}
+@media (max-width: 600px) {
+    #patrocinadores .sponsors-card {
+        flex-basis: min(220px, 50vw);
+    }
 }
 .sponsors-arrows {
     display: flex;
@@ -1104,16 +1305,6 @@ footer {
 .sponsors-track:focus-visible {
     outline: 2px solid #007BFF;
     outline-offset: 3px;
-}
-@media (max-width: 900px) {
-    .sponsors-card {
-        flex-basis: calc((100% - 18px) / 2);
-    }
-}
-@media (max-width: 600px) {
-    .sponsors-card {
-        flex-basis: 100%;
-    }
 }
 
 /* Projeto: bloco discreto de acesso ao novo sistema no rodapé */

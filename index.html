@@ -6,7 +6,7 @@
     <meta name="description" content="Projeto Semente Azul - Conscientização e Inclusão para o Autismo">
     <title>Projeto Semente Azul</title>
     <link rel="icon" href="/favicon.ico" sizes="64x64">
-    <link rel="stylesheet" href="css/style.css?v=2.2">
+    <link rel="stylesheet" href="css/style.css?v=2.6">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -130,7 +130,7 @@
         z-index: 0;
         pointer-events: none;
       "></div>
-      <div class="container" style="max-width: 900px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1;">
+      <div class="container ar-container">
 
         <!-- Cabeçalho com badge -->
         <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 40px;">
@@ -160,11 +160,11 @@
           </div>
         </div>
 
-        <!-- Layout principal: info + causa (3 colunas: detalhes | cards | flyer) -->
-        <div class="ar-grid" style="display: grid; grid-template-columns: 1fr 1fr 320px; gap: 24px; align-items: stretch;">
+        <!-- Layout principal: detalhes | causa e inscrições | flyer 1 | flyer 2 -->
+        <div class="ar-grid">
 
           <!-- Coluna esquerda: detalhes do evento -->
-          <div style="
+          <div class="ar-details" style="
             background: #ffffff;
             border-radius: 20px;
             padding: 32px;
@@ -180,7 +180,7 @@
               </div>
               <div>
                 <p style="font-family:'Poppins',sans-serif; font-size:0.7rem; color:#9bb8d4; font-weight:600; text-transform:uppercase; letter-spacing:1px; margin:0 0 2px;">Data</p>
-                <p style="font-family:'Poppins',sans-serif; font-size:1rem; color:#0a2a4a; font-weight:700; margin:0;">08 de Novembro de 2026</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:1rem; color:#0a2a4a; font-weight:700; margin:0;">22 de Novembro de 2026</p>
               </div>
             </div>
 
@@ -205,10 +205,23 @@
                 <p style="font-family:'Poppins',sans-serif; font-size:1rem; color:#0a2a4a; font-weight:700; margin:0;">Prainha Ray Silva</p>
               </div>
             </div>
+            <div class="ar-details-route">
+              <div class="ar-details-route-icon">
+                <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#007BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V3m0 1c5-4 11 4 16 0v11c-5 4-11-4-16 0"/></svg>
+              </div>
+              <div>
+                <p class="ar-details-route-label">Percurso</p>
+                <p class="ar-details-route-value">5 km</p>
+              </div>
+            </div>
+            <div class="ar-details-inclusion">
+              <p class="ar-details-inclusion-title"><span class="ar-details-heart" aria-hidden="true">♥</span><span>Cada passo por mais inclusão!</span></p>
+              <p class="ar-details-inclusion-text">Corra em apoio à Casa do Autista.</p>
+            </div>
           </div>
 
           <!-- Coluna do meio: cards empilhados (centralizados verticalmente) -->
-          <div style="display:flex; flex-direction:column; gap:20px; justify-content:center;">
+          <div class="ar-cards">
 
             <!-- Card da causa -->
             <div style="
@@ -234,7 +247,7 @@
             </div>
 
             <!-- Card de inscrições -->
-            <div style="
+            <div class="ar-registration-card" style="
               background: #ffffff;
               border-radius: 20px;
               padding: 24px 32px;
@@ -252,7 +265,7 @@
               </div>
                 <div>
                 <p style="font-family:'Poppins',sans-serif; font-size:0.95rem; font-weight:700; color:#0a2a4a; margin:0 0 4px;">Inscrições Abertas!</p>
-                <p style="font-family:'Poppins',sans-serif; font-size:0.8rem; color:#9bb8d4; margin:0;">Inscreva-se pelo link oficial e garanta sua vaga.</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.8rem; color:#9bb8d4; margin:0;">Escolha a modalidade para consultar as inscrições.</p>
               </div>
               <a href="https://www.cronosantarem.com.br/evento/ii-corrida-solidrio-autismo-run" target="_blank" rel="noopener" style="
                 display: inline-flex;
@@ -269,15 +282,19 @@
                 transition: opacity 0.2s;
               " onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                Inscreva-se
+                Inscrição geral
               </a>
+              <a class="ar-kids-link" href="/kids/?nova=1">Inscrever criança — KIDS</a>
             </div>
 
           </div>
 
-          <!-- Coluna direita: flyer em retrato (mesma altura da coluna de detalhes) -->
-          <div style="width:320px; display:flex;">
-            <img id="flyerImg" src="img/flyercorrida2.jpeg" alt="Flyer II Corrida Solidária Autismo Run" style="width:100%; height:100%; object-fit:cover; border-radius:12px; box-shadow:0 8px 28px rgba(0,0,0,0.12); border:4px solid #fff; display:block; cursor:pointer;"/>
+          <!-- Flyers completos, com suas proporções originais -->
+          <div class="ar-flyer">
+            <img class="ar-flyer-img" src="img/flyercorrida1.jpeg" width="1024" height="1536" alt="Novo flyer II Corrida Solidária Autismo Run" />
+          </div>
+          <div class="ar-flyer">
+            <img class="ar-flyer-img" src="img/flyercorrida2.jpeg" width="1054" height="1492" alt="Flyer II Corrida Solidária Autismo Run" />
           </div>
         </div>
 
@@ -393,7 +410,16 @@
         <div class="sponsors-carousel">
           <div id="sponsors-track" class="sponsors-track" tabindex="0" role="region" aria-label="Patrocinadores do II Corrida Solidária Autismo Run">
             <div class="sponsors-card">
-              <img loading="lazy" src="img/PATR.jpeg" alt="Arte do patrocinador do II Corrida Solidária Autismo Run" />
+              <img loading="lazy" src="img/patr01.jpeg" alt="Arte do patrocinador do II Corrida Solidária Autismo Run" />
+            </div>
+            <div class="sponsors-card">
+              <img loading="lazy" src="img/patr02.jpeg" alt="Arte do patrocinador do II Corrida Solidária Autismo Run" />
+            </div>
+            <div class="sponsors-card">
+              <img loading="lazy" src="img/patr03.jpeg" alt="Arte do patrocinador do II Corrida Solidária Autismo Run" />
+            </div>
+            <div class="sponsors-card">
+              <img loading="lazy" src="img/patr04.jpeg" alt="Arte do patrocinador do II Corrida Solidária Autismo Run" />
             </div>
           </div>
           <div class="sponsors-arrows">
@@ -584,6 +610,7 @@
       <div class="project-area-title">Área do Projeto</div>
       <div class="project-area-links">
         <a href="/dashboard/" class="project-area-link">Entrar no Sistema</a>
+        <a href="/kids/admin/" class="project-area-link">Área administrativa KIDS</a>
         <a href="/cadastro/" class="project-area-link">Realizar Cadastro</a>
       </div>
     </div>
@@ -706,19 +733,20 @@
     img.addEventListener('click', function() {
       const src = this.getAttribute('src');
       galleryOverlayImg.setAttribute('src', src);
+      galleryOverlayImg.setAttribute('alt', this.alt);
       galleryOverlay.classList.remove('hidden');
     });
   });
 
   // Permite ampliar o flyer ao clicar, reutilizando o overlay da galeria
-  var flyerImgEl = document.getElementById('flyerImg');
-  if (flyerImgEl) {
+  document.querySelectorAll('.ar-flyer-img').forEach(function(flyerImgEl) {
     flyerImgEl.addEventListener('click', function() {
       var src = this.getAttribute('src');
       galleryOverlayImg.setAttribute('src', src);
+      galleryOverlayImg.setAttribute('alt', this.alt);
       galleryOverlay.classList.remove('hidden');
     });
-  }
+  });
 
   galleryOverlayClose.addEventListener('click', () => {
     galleryOverlay.classList.add('hidden');

@@ -3,3 +3,63 @@
 
 # IDE
 .vscode/
+
+# Private configuration (keep templates versioned).
+.env
+.env.*
+!.env.example
+!.env.php.example
+!.env.*.example
+database.local.php
+/kids/api/config.php
+
+# Local artifacts, dependencies and session stores.
+/tmp/
+/output/
+**/node_modules/
+**/vendor/
+**/__pycache__/
+*.pyc
+**/sessions/
+sess_*
+*.cookies
+*.cookie
+*.log
+**/logs/
+**/backups/
+**/backup/
+**/dumps/
+**/private/
+**/secrets/
+*.bak
+*.backup
+*.dump
+*-dump.sql
+dump-*.sql
+backup-*.sql
+*-backup.sql
+*.sql.gz
+*.sql.zip
+*.pem
+*.key
+*.p12
+*.pfx
+.htpasswd
+
+# Generated administrator credentials, never schema/migration SQL.
+primeiro-admin*.sql
+*admin-privado*.sql
+*admin-private*.sql
+first-admin*.sql
+
+# Local preview state and test evidence (test source remains versioned).
+*-preview.json
+preview.json
+**/tests/*-results.json
+**/tests/*-failure.json
+**/tests/*-expected.json
+/kids/tests/*.json
+**/tests/screenshots/
+**/tests/pdf-pages/
+**/tests/filtered-pdf-cases/
+/kids/docs/history/
