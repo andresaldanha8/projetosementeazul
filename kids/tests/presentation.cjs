@@ -41,7 +41,9 @@ async function fill(page, name = 'Criança Fictícia Ana') {
     await page.locator('.kids-card').waitFor(); await ready(page);
     assert.equal(creates,1); assert.equal(await page.locator('#child_name').inputValue(),'');
     assert.match(await page.locator('.kids-payment-status').innerText(),/Pagamento pendente/);
-    await page.locator('button',{hasText:'Copiar chave PIX'}).click(); assert.equal(await page.evaluate(() => navigator.clipboard.readText()),eventConfig.pix);
+    const pixPayload=(await(await page.request.get(new URL('/kids/api/confirmations.php',page.url()).href)).json()).registrations[0].pix_payload;
+    assert.ok(pixPayload);
+    await page.locator('button',{hasText:'Copiar PIX de'}).click(); assert.equal(await page.evaluate(() => navigator.clipboard.readText()),pixPayload);
     const url = new URL(await page.locator('.kids-payment-link').getAttribute('href')); assert.equal(url.hostname,'wa.me'); assert.match(url.searchParams.get('text'),/Criança Fictícia Ana/);
     await page.locator('#confirmations-section').screenshot({path:path.join(out,'visual-confirmacao-desktop.png')});
     pass('one POST on double click, confirmation, pending payment, PIX and WhatsApp unchanged');

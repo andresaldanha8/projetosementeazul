@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/http.php';
+require_once __DIR__ . '/lookup-record.php';
 
 function kids_lookup_missing(int $status = 404): void
 {
@@ -50,17 +51,14 @@ try {
     } catch (JsonException $e) { kids_lookup_missing(400); }
     // Comparação exata após normalização, com collation binária para não ignorar acentos.
     // REGEXP_REPLACE disponível no MariaDB testado; validar versão do destino antes de publicar.
-    $stmt = $pdo->prepare("SELECT i.numero_peito, i.situacao, i.pagamento FROM kids_inscricoes i
+    $stmt = $pdo->prepare("SELECT i.numero_peito, i.situacao, i.pagamento, i.valor_centavos, i.crianca_nome FROM kids_inscricoes i
         JOIN kids_eventos e ON e.id=i.evento_id WHERE e.codigo=? AND i.telefone=?
         AND LOWER(TRIM(REGEXP_REPLACE(i.crianca_nome, ?, ' '))) COLLATE utf8mb4_bin = CONVERT(? USING utf8mb4) COLLATE utf8mb4_bin LIMIT 2");
     $stmt->execute([$config['edition'], $phone, '[\\p{Z}\\s]+', $name]);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if (!$rows) kids_lookup_missing();
     if (count($rows) !== 1) kids_reply(409, ['ok' => false, 'message' => 'Não foi possível identificar uma única inscrição. Fale com a organização para consultar.']);
-    kids_reply(200, ['ok' => true, 'registration' => [
-        'number' => str_pad((string)$rows[0]['numero_peito'], 3, '0', STR_PAD_LEFT),
-        'registration_status' => $rows[0]['situacao'], 'payment_status' => $rows[0]['pagamento'],
-    ]]);
+    kids_reply(200, ['ok' => true, 'registration' => kids_lookup_record($rows[0], $config)]);
 } catch (Throwable $e) {
     if ($pdo->inTransaction()) $pdo->rollBack();
     error_log('kids/lookup: falha interna na consulta');

@@ -44,11 +44,13 @@ async function fill(page,name){await page.locator('#child_name').fill(name);awai
   const admin=await context.newPage();await admin.goto(config.base+'/kids/admin/');await admin.getByLabel('Usuário',{exact:true}).fill('admin.isolado');await admin.getByLabel('Senha',{exact:true}).fill(config.password);await admin.getByRole('button',{name:'Entrar',exact:true}).click();
   await admin.getByRole('heading',{name:'Inscrições KIDS',exact:true}).waitFor();await admin.waitForFunction(()=>document.querySelector('#kids-results')?.getAttribute('aria-busy')==='false');
   assert.equal(await admin.getByRole('columnheader',{name:'Imagem',exact:true}).count(),1);
-  for(const [name,status] of [['Imagem API sim','Autorizado'],['Imagem API nao','Não autorizado'],['Imagem legado','Não informado'],['Imagem Browser recuperada','Autorizado'],['Imagem Browser repetir','Autorizado']]){
+  for(const [name,status] of [['Imagem API sim','AUTORIZADO'],['Imagem API nao','NÃO AUTORIZADO'],['Imagem legado','Não informado'],['Imagem Browser recuperada','AUTORIZADO'],['Imagem Browser repetir','AUTORIZADO']]){
    const row=admin.getByRole('row').filter({hasText:name});await row.waitFor();assert.ok((await row.textContent()).includes(status));
   }
-  await admin.getByRole('row').filter({hasText:'Imagem API sim'}).getByText('Registro da escolha',{exact:true}).click();await admin.screenshot({path:path.join(output,'image-authorization-admin.png'),fullPage:true});
-  pass('administration shows authorized, refused and not informed with version/text/timestamp');
+  // Current presentation shows the authoritative status only; provenance is verified by API cases.
+  assert.equal(await admin.getByText('Registro da escolha',{exact:true}).count(),0);
+  await admin.screenshot({path:path.join(output,'image-authorization-admin.png'),fullPage:true});
+  pass('administration shows authorized, refused and not informed without the retired detail control');
   assert.deepEqual(errors,[]);fs.writeFileSync(path.join(__dirname,'image-authorization-browser-results.json'),JSON.stringify({checks:results.length,passed:results,no_page_errors:true},null,2));
  }finally{await browser.close();}
 })().catch(error=>{console.error(error.message);process.exitCode=1});

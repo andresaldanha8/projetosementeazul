@@ -7,9 +7,9 @@
   <meta name="referrer" content="no-referrer">
   <title>Inscrições KIDS · Projeto Semente Azul</title>
   <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="./kids.css">
-  <script src="./kids.js?v=20261018-imagem1" defer></script>
-  <script src="./lookup.js" defer></script>
+  <link rel="stylesheet" href="./kids.css?v=20261019-lookup-name1">
+  <script src="./kids.js?v=20261019-pix2" defer></script>
+  <script src="./lookup.js?v=20261019-name1" defer></script>
 </head>
 <body class="kids-page">
   <header class="kids-header"><a href="/" aria-label="Projeto Semente Azul — voltar ao site"><img src="/img/logo.png" alt="Projeto Semente Azul" width="156" height="72"></a><a href="/">← Voltar ao site</a></header>
@@ -61,7 +61,9 @@
     </form>
     <p id="lookup-message" class="kids-lookup-message" role="status" aria-live="polite" hidden></p>
     <section id="lookup-result" class="kids-lookup-result" aria-labelledby="lookup-result-title" tabindex="-1" hidden>
-      <h3 id="lookup-result-title">Situação da inscrição</h3><dl><div><dt>Número da inscrição</dt><dd id="lookup-number"></dd></div><div><dt>Inscrição</dt><dd id="lookup-status"></dd></div><div><dt>Pagamento</dt><dd id="lookup-payment"></dd></div></dl>
+      <h3 id="lookup-result-title">Situação da inscrição</h3><dl><div><dt>Número da inscrição</dt><dd id="lookup-number"></dd></div><div><dt>Criança</dt><dd id="lookup-child-name"></dd></div><div><dt>Inscrição</dt><dd id="lookup-status"></dd></div><div><dt>Pagamento</dt><dd id="lookup-payment"></dd></div></dl>
+      <div id="lookup-payment-options"></div>
+      <button id="lookup-new" type="button" class="kids-secondary" hidden>Nova consulta</button>
     </section>
     <a id="lookup-support" href="/#contato" target="_blank" rel="noopener noreferrer">Falar com a organização</a>
   </dialog>

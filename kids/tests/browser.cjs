@@ -41,11 +41,13 @@ async function cards(page, count) { await page.waitForFunction(n => document.que
     assert.equal(creates, 1); assert.equal(await page.locator('#child_name').inputValue(), '');
     assert.match(await page.locator('.kids-card').innerText(), /Inscrição registrada/i);
     assert.match(await page.locator('.kids-card').innerText(), /Pagamento pendente/); pass('complete registration, double-click sends once, fields cleared, pending payment');
-    await page.locator('button', { hasText: 'Copiar chave PIX' }).click();
-    assert.equal(await page.evaluate(() => navigator.clipboard.readText()), eventConfig.pix); pass('PIX copied exactly');
+    const pixPayload = (await (await page.request.get(new URL('/kids/api/confirmations.php', page.url()).href)).json()).registrations[0].pix_payload;
+    assert.ok(pixPayload);
+    await page.locator('button', { hasText: 'Copiar PIX de' }).click();
+    assert.equal(await page.evaluate(() => navigator.clipboard.readText()), pixPayload); pass('PIX copied exactly');
     await page.evaluate(() => { Object.defineProperty(navigator, 'clipboard', { configurable: true, value: undefined }); });
-    await page.locator('button', { hasText: 'Copiar chave PIX' }).click();
-    assert.equal(await page.locator('.kids-manual').inputValue(), eventConfig.pix); assert.equal(await page.locator('.kids-manual').isVisible(), true); pass('manual PIX fallback');
+    await page.locator('button', { hasText: 'Copiar PIX de' }).click();
+    assert.equal(await page.locator('.kids-manual').inputValue(), pixPayload); assert.equal(await page.locator('.kids-manual').isVisible(), true); pass('manual PIX fallback');
     const href = new URL(await page.locator('.kids-payment-link').getAttribute('href'));
     assert.equal(href.hostname, 'wa.me'); assert.equal(href.pathname, '/' + eventConfig.whatsapp);
     assert.equal(href.searchParams.get('text'), 'Olá! Fiz a inscrição de Criança Fictícia Ana na corrida KIDS do Projeto Semente Azul. Número da inscrição: 1007. Vou enviar o comprovante do pagamento de R$ 60,00 para conferência.'.replace('1007', await page.locator('.kids-bib>span').innerText()));

@@ -8,33 +8,44 @@
 @media(max-width:650px){.kids-header{padding:8px 18px}.kids-main{margin-top:8px;padding:0 18px}.kids-event-summary{padding:4px 14px;display:grid;gap:0}.kids-event-summary>span{padding:8px 0;border-right:0;border-bottom:1px solid #d5e5ef}.kids-form-panel{padding:22px}.kids-page h1{font-size:34px}.kids-submit-row{flex-direction:column;align-items:stretch;gap:16px}.kids-submit-row button{width:100%}.kids-fields{grid-template-columns:1fr;gap:16px}.kids-card-top{padding:18px}.kids-card-body{padding:18px}.kids-card h3{font-size:21px}.kids-bib{font-size:36px}.kids-section-heading{align-items:flex-start;flex-wrap:wrap}.kids-payment-actions>*{width:100%;justify-content:center}.kids-payment{padding:14px}.kids-status{align-items:flex-start}.kids-session-note{display:block}.kids-session-note button{margin-right:12px}}
 @media(max-width:360px){.kids-main{padding:0 12px}.kids-header{padding:8px 12px}.kids-header img{width:110px;height:54px}.kids-header>a:last-child{font-size:12px}.kids-form-panel{padding:18px 16px}.kids-page h1{font-size:30px;letter-spacing:-1px}.kids-subtitle{font-size:17px}.kids-card-top{padding:16px 12px;gap:10px}.kids-card h3{font-size:19px}.kids-bib{font-size:32px}.kids-card-body{padding:16px 12px}.kids-footer{flex-direction:column;gap:4px}.kids-status{flex-wrap:wrap}}
 /* Consulta de situação: modal independente dos cartões autorizados da sessão. */
-.kids-lookup-dialog{width:min(500px,calc(100% - 24px));max-height:calc(100dvh - 24px);overflow:auto;overscroll-behavior:contain;border:1px solid #d1e2ec;border-radius:14px;padding:22px;color:#15364f;background:#fff;box-shadow:0 18px 70px #12345130;font:16px/1.4 'Segoe UI',Arial,sans-serif}
+.kids-lookup-dialog{width:min(500px,calc(100% - 24px));max-height:calc(100dvh - 24px);overflow:auto;overscroll-behavior:contain;border:1px solid #d1e2ec;border-radius:14px;padding:14px;color:#15364f;background:#fff;box-shadow:0 18px 70px #12345130;font:16px/1.4 'Segoe UI',Arial,sans-serif}
 .kids-lookup-dialog::backdrop{background:#102c48a8}
 .kids-lookup-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.kids-lookup-heading h2{font-size:22px}
+.kids-lookup-heading h2{font-size:20px;margin:0}
 .kids-lookup-dialog button{min-height:44px;padding:9px 14px}
 .kids-lookup-heading button{background:#f1f6fa;border:1px solid #d4e2ec;color:#185b90;font-size:13px}
-.kids-lookup-dialog>p{font-size:13px;color:#53687a;margin:12px 0}
-.kids-lookup-dialog form{display:grid;gap:12px}
+.kids-lookup-dialog>p{font-size:13px;color:#53687a;margin:8px 0}
+.kids-lookup-dialog form{display:grid;gap:8px}
 .kids-lookup-dialog .kids-field label{margin-bottom:4px}
 .kids-lookup-dialog .kids-field input{height:46px;min-height:46px;padding:9px 12px;font-size:16px}
 .kids-lookup-submit{background:#1263ad;color:white;border:1px solid #1263ad;width:100%}
 .kids-lookup-dialog .kids-lookup-message{padding:12px;background:#fff3e6;color:#7b4626;border-radius:8px;margin:12px 0;font-size:14px}
 .kids-lookup-message[data-kind=loading]{background:#edf6fc;color:#275c82}
-.kids-lookup-result{background:#f1f7fc;border:1px solid #d3e6f3;border-radius:10px;padding:12px 14px;margin:12px 0 0}
-.kids-lookup-result h3{font-size:15px;margin:0 0 8px}
-.kids-lookup-result dl{margin:0;display:grid;grid-template-columns:1fr 1fr;gap:8px 12px}
-.kids-lookup-result dl>div:first-child{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.kids-lookup-result{background:#f1f7fc;border:1px solid #d3e6f3;border-radius:10px;padding:10px;margin:8px 0 0}
+.kids-lookup-result h3{font-size:15px;margin:0 0 4px}
+.kids-lookup-result dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:2px 10px}
+.kids-lookup-result dl>div{display:contents}
+.kids-lookup-result dl>div:first-child{grid-column:auto;display:contents}
 .kids-lookup-result dt{font-size:12px;color:#53687a;margin-bottom:2px}
 .kids-lookup-result dd{margin:0;font-size:14px;font-weight:700;overflow-wrap:anywhere}
-.kids-lookup-result #lookup-number{font-size:30px;line-height:1.1;color:#125b98}
+.kids-lookup-result #lookup-child-name{min-width:0;white-space:normal}
+.kids-lookup-result #lookup-number{font-size:20px;line-height:1.2;color:#125b98}
 .kids-lookup-result #lookup-payment[data-status=PENDENTE]{color:#805715}
 .kids-lookup-result #lookup-payment[data-status=CONFIRMADO]{color:#176343}
 .kids-lookup-result #lookup-status[data-status=CANCELADA]{color:#a32d24}
 #lookup-support{display:inline-flex;align-items:center;min-height:44px;font-size:13px;margin-top:8px}
+.kids-lookup-result .kids-payment{padding:8px;margin-top:8px;overflow-wrap:anywhere;min-width:0}
+.kids-lookup-result .kids-payment p{margin:2px 0}
+.kids-lookup-result .kids-pix{font-size:18px!important;letter-spacing:0}
+.kids-lookup-result .kids-payment-actions{margin:8px 0 4px;gap:6px}
+.kids-lookup-result .kids-payment-note{line-height:1.4}
+.kids-lookup-result .kids-payment-actions .kids-payment-link{min-height:44px;padding:9px 12px;justify-content:center}
+#lookup-new{margin-top:8px}
+.kids-lookup-result .kids-payment-actions>*{max-width:100%;min-width:0}
+.kids-lookup-result .kids-manual{font:16px/1.4 monospace;max-width:100%;resize:vertical}
 .kids-payment-status[data-status=CONFIRMADO]{background:#e4f5e9;color:#176343}
 .kids-payment-status[data-status=PENDENTE]{background:#fff3d8;color:#775317}
-@media(max-width:360px){.kids-lookup-dialog{padding:20px}.kids-lookup-heading h2{font-size:20px}.kids-lookup-result{padding:12px}.kids-lookup-result dl{gap:8px}}
+@media(max-width:360px){.kids-lookup-dialog{padding:12px}.kids-lookup-heading{gap:8px}.kids-lookup-heading h2{font-size:18px}.kids-lookup-result{padding:8px}.kids-lookup-result dl{gap:2px 8px}}
 .kids-card[data-cancelled="true"] { border: 3px solid #991b1b; }
 .kids-card[data-cancelled="true"] .kids-card-label { color: #991b1b; font-weight: 800; }
 .kids-receipt { margin-top: 1rem; }

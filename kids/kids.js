@@ -155,13 +155,15 @@
       body.append(details, statusLabel);
       if (row.payment_status === 'PENDENTE' && row.registration_status !== 'CANCELADA') {
         const payment = node('div', undefined, 'kids-payment'); const event = state.info.event;
+        const pixPayload = row.pix_payload;
         payment.append(node('p', `Pague ${money(row.amount_cents)} via PIX`), node('p', event.pix, 'kids-pix'), node('p', `Favorecido: ${event.payee}`));
-        const actions = node('div', undefined, 'kids-payment-actions'); const copy = node('button', 'Copiar chave PIX'); copy.type = 'button';
+        const actions = node('div', undefined, 'kids-payment-actions'); const copy = node('button', `Copiar PIX de ${money(row.amount_cents)}`); copy.type = 'button';
+        copy.disabled = !pixPayload;
         const feedback = node('div', '', 'kids-copy-feedback'); feedback.setAttribute('role', 'status');
-        const manual = node('input', undefined, 'kids-manual'); manual.readOnly = true; manual.value = event.pix; manual.hidden = true; manual.setAttribute('aria-label', 'Chave PIX para copiar manualmente');
+        const manual = node('textarea', undefined, 'kids-manual'); manual.readOnly = true; manual.value = pixPayload || ''; manual.rows = 4; manual.hidden = true; manual.setAttribute('aria-label', 'PIX Copia e Cola para copiar manualmente');
         copy.addEventListener('click', async () => {
-          try { if (!navigator.clipboard?.writeText) throw new Error(); await navigator.clipboard.writeText(event.pix); feedback.textContent = 'Chave PIX copiada.'; }
-          catch { manual.hidden = false; manual.focus(); manual.select(); feedback.textContent = 'Selecione a chave abaixo e use Copiar no seu dispositivo.'; }
+          try { if (!navigator.clipboard?.writeText) throw new Error(); await navigator.clipboard.writeText(pixPayload); feedback.textContent = 'PIX Copia e Cola copiado. O pagamento continua sujeito à conferência da organização.'; }
+          catch { manual.hidden = false; manual.focus(); manual.select(); feedback.textContent = 'Selecione o código abaixo e use Copiar no seu dispositivo.'; }
         });
         const whatsapp = node('a', 'ENVIAR COMPROVANTE', 'kids-payment-link');
         const text = `Olá! Fiz a inscrição de ${row.child_name} na corrida KIDS do Projeto Semente Azul. Número da inscrição: ${row.number}. Vou enviar o comprovante do pagamento de ${money(row.amount_cents).replace(/\u00a0/g, ' ')} para conferência.`;
