@@ -24,7 +24,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
-      host: process.env.DEV_SERVER_HOST || '0.0.0.0',
+      host: '127.0.0.1',
       port: parseInt(process.env.PORT || '8443'),
       strictPort: true,
       proxy: {
@@ -43,7 +43,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     preview: {
-      host: process.env.DEV_SERVER_HOST || '0.0.0.0',
+      host: '127.0.0.1',
       port: parseInt(process.env.PORT || '8443'),
     },
   }
